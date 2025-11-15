@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Signup - Cohabisafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header role="banner">
+        <h1>Elite Membership Signup</h1>
+        <p class="progress">Step 5 of 6: Secure Verification</p>
+        <div class="progress-bar" role="progressbar" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100" aria-label="Elite signup progress">
+            <div class="progress-fill" style="width: 83%;"></div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <section aria-label="Secure form - All data encrypted">
+            <p>Complete your Elite signup with secure background and credit checks. Your information is protected under FCRA guidelines.</p>
+            <div class="security-note" role="note">
+                <img src="/icons/lock.png" alt="" aria-hidden="true"> All data is encrypted and handled securely.
+            </div>
+
+            <form action="/elite-signup" method="POST" novalidate id="eliteForm">
+                <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                    <ul role="alert" class="error-list">
+                        <% errors.forEach(error => { %>
+                            <li><%= error.msg %></li>
+                        <% }); %>
+                    </ul>
+                <% } %>
+
+                <fieldset>
+                    <legend>Personal Information</legend>
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" name="fullName" value="<%= typeof body !== 'undefined' ? body.fullName : '' %>" required aria-required="true">
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="<%= typeof body !== 'undefined' ? body.email : '' %>" required aria-required="true">
+
+                    <label for="ssn">Social Security Number (for verification):</label>
+                    <input type="text" id="ssn" name="ssn" placeholder="XXX-XX-XXXX" value="<%= typeof body !== 'undefined' ? body.ssn : '' %>" maxlength="11" required aria-required="true" aria-describedby="ssn-help">
+                    <small id="ssn-help">Required for credit/background check. Masked and encrypted.</small>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Consent</legend>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="consent" name="consent" value="true" <%= typeof body !== 'undefined' && body.consent === 'true' ? 'checked' : '' %> required aria-required="true">
+                        I consent to background and credit checks per FCRA. I agree to Cohabisafe terms.
+                    </label>
+                    <div role="alert" id="consent-error" class="error" style="display:none;">Please check to agree.</div>
+                </fieldset>
+
+                <button type="submit" class="btn-primary">Proceed to Payment ($89)</button>
+                <a href="/profile" class="btn-secondary">Back to Profile</a>
+            </form>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p><a href="/terms">Terms</a> | <a href="/privacy">Privacy</a> | <a href="/fcra">FCRA Notice</a></p>
+    </footer>
+
+    <script>
+        // SSN Masking
+        document.getElementById('ssn').addEventListener('input', function(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length >= 3) val = val.slice(0,3) + '-' + val.slice(3);
+            if (val.length >= 6) val = val.slice(0,6) + '-' + val.slice(6);
+            e.target.value = val.slice(0,11);
+        });
+
+        // Validation
+        const form = document.getElementById('eliteForm');
+        form.addEventListener('submit', function(e) {
+            const ssn = document.getElementById('ssn').value.replace(/-/g, '');
+            if (ssn.length !== 9) {
+                e.preventDefault();
+                document.getElementById('ssn').setAttribute('aria-invalid', 'true');
+                alert('SSN must be 9 digits.');
+                return;
+            }
+            if (!document.getElementById('consent').checked) {
+                e.preventDefault();
+                document.getElementById('consent-error').style.display = 'block';
+                document.getElementById('consent').focus();
+            }
+        });
+
+        // WCAG: Focus first field
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('fullName').focus();
+        });
+    </script>
+</body>
+</html>

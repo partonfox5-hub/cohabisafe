@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - Cohabisafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header role="banner">
+        <h1>Payment Successful!</h1>
+        <p class="progress">Step 5 of 6: Verification Processing</p>
+        <div class="progress-bar" role="progressbar" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100" aria-label="Payment success progress">
+            <div class="progress-fill" style="width: 83%;"></div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <section aria-label="Success confirmation">
+            <div class="success-message" role="alert">
+                <h2>Thank you for your $89 Elite payment!</h2>
+                <p>Your background and credit checks are now processing. This typically takes 3-7 business days. You'll receive an email update soon.</p>
+                <p>Email sent to: <%= email %></p>
+            </div>
+
+            <div class="next-steps">
+                <h3>Next Steps</h3>
+                <ol>
+                    <li>Wait for verification email (1 week).</li>
+                    <li>Access your dashboard for matches.</li>
+                    <li>Update preferences anytime.</li>
+                </ol>
+            </div>
+
+            <a href="/wait-screen" class="btn-primary">Go to Wait Screen</a>
+            <a href="/profile" class="btn-secondary">View Profile</a>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p><a href="/terms">Terms</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+
+    <script>
+        // WCAG: Announce success
+        window.addEventListener('load', () => {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'assertive');
+            announcement.textContent = 'Payment successful! Your Elite membership is activating.';
+            document.body.insertBefore(announcement, document.body.firstChild);
+        });
+    </script>
+</body>
+</html>

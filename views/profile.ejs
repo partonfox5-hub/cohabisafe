@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your CohabiCard - Cohabisafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header role="banner">
+        <h1>Your CohabiCard Profile</h1>
+        <p class="progress">Step 4 of 6: Profile Generated</p>
+        <div class="progress-bar" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" aria-label="Profile progress">
+            <div class="progress-fill" style="width: 67%;"></div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <section class="profile-card" aria-label="Your personality profile">
+            <h2>Personality Type: <%= profile.type %></h2>
+            <p>Based on your OCEAN scores, you're a <%= profile.type %>. This helps match you with compatible roommates and landlords.</p>
+
+            <!-- Trait Bars -->
+            <div class="trait-bars" aria-label="OCEAN trait scores">
+                <div class="trait">
+                    <label>Openness to Experience: <%= Math.round(profile.openness * 10) %>/10</label>
+                    <div class="trait-bar">
+                        <div class="trait-fill" style="width: <%= profile.openness * 100 %>%"></div>
+                    </div>
+                </div>
+                <div class="trait">
+                    <label>Conscientiousness: <%= Math.round(profile.conscientiousness * 10) %>/10</label>
+                    <div class="trait-bar">
+                        <div class="trait-fill" style="width: <%= profile.conscientiousness * 100 %>%"></div>
+                    </div>
+                </div>
+                <div class="trait">
+                    <label>Extraversion: <%= Math.round(profile.extraversion * 10) %>/10</label>
+                    <div class="trait-bar">
+                        <div class="trait-fill" style="width: <%= profile.extraversion * 100 %>%"></div>
+                    </div>
+                </div>
+                <div class="trait">
+                    <label>Agreeableness: <%= Math.round(profile.agreeableness * 10) %>/10</label>
+                    <div class="trait-bar">
+                        <div class="trait-fill" style="width: <%= profile.agreeableness * 100 %>%"></div>
+                    </div>
+                </div>
+                <div class="trait">
+                    <label>Neuroticism: <%= Math.round(profile.neuroticism * 10) %>/10</label>
+                    <div class="trait-bar">
+                        <div class="trait-fill" style="width: <%= profile.neuroticism * 100 %>%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p>Preview matches based on your profile. For full verified matching, upgrade to Elite.</p>
+        </section>
+
+        <% if (tier === 'basic') { %>
+            <section aria-labelledby="basic-actions">
+                <h2 id="basic-actions">Basic Plan Actions</h2>
+                <a href="/dashboard" class="btn-primary">View Basic Matches</a>
+                <a href="/elite-signup" class="btn-secondary">Upgrade to Elite for Verified Matches</a>
+            </section>
+        <% } else { %>
+            <section aria-labelledby="elite-actions">
+                <h2 id="elite-actions">Elite Plan</h2>
+                <p>Proceed to complete your signup.</p>
+                <a href="/elite-signup" class="btn-primary">Complete Elite Signup</a>
+            </section>
+        <% } %>
+    </main>
+
+    <footer role="contentinfo">
+        <p><a href="/terms">Terms</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+
+    <script>
+        // WCAG: Announce profile load
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.textContent = 'Your profile has been generated. Scroll to view details.';
+        document.body.insertBefore(announcement, document.body.firstChild);
+
+        // Focus first button
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstBtn = document.querySelector('.btn-primary');
+            if (firstBtn) firstBtn.focus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Canceled - Cohabisafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header role="banner">
+        <h1>Payment Canceled</h1>
+        <p class="progress">Step 5 of 6: Back to Profile</p>
+        <div class="progress-bar" role="progressbar" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100" aria-label="Canceled progress">
+            <div class="progress-fill" style="width: 83%;"></div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <section aria-label="Cancellation notice">
+            <div class="error-message" role="alert">
+                <h2>No worries! Your payment was canceled.</h2>
+                <p>You can upgrade to Elite anytime from your profile. No charges were made.</p>
+            </div>
+
+            <a href="/profile" class="btn-primary">Back to Profile</a>
+            <a href="/tiers" class="btn-secondary">Try Tiers Again</a>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p><a href="/terms">Terms</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+
+    <script>
+        // WCAG: Announce cancellation
+        window.addEventListener('load', () => {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'assertive');
+            announcement.textContent = 'Payment canceled. Returning to profile.';
+            document.body.insertBefore(announcement, document.body.firstChild);
+        });
+    </script>
+</body>
+</html>

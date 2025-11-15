@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Tier - Cohabisafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header role="banner">
+        <h1>Choose Your Cohabisafe Tier</h1>
+        <p class="progress">Step 2 of 6: Select Plan</p>
+        <div class="progress-bar" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" aria-label="Tier selection progress">
+            <div class="progress-fill" style="width: 33%;"></div>
+        </div>
+    </header>
+
+    <main role="main">
+        <section class="tier-cards" aria-label="Membership options">
+            <article class="card basic-tier" tabindex="0">
+                <header>
+                    <h2>Basic</h2>
+                    <p class="price">Free</p>
+                </header>
+                <ul>
+                    <li>Complete Personality Quiz</li>
+                    <li>Generate CohabiCard Profile</li>
+                    <li>Basic Matching Suggestions</li>
+                    <li>View Roommate/Landlord Profiles</li>
+                </ul>
+                <footer>
+                    <form action="/tiers" method="POST" style="display: inline;">
+                        <input type="hidden" name="tier" value="basic">
+                        <button type="submit" class="btn-primary" aria-label="Start Basic plan">Start Free Quiz</button>
+                    </form>
+                </footer>
+            </article>
+
+            <article class="card elite-tier recommended" tabindex="0">
+                <header>
+                    <h2>Elite <span class="badge">Recommended</span></h2>
+                    <p class="price">$89 one-time</p>
+                </header>
+                <ul>
+                    <li>All Basic features</li>
+                    <li>Background & Credit Checks</li>
+                    <li>Priority Matching with Verified Users</li>
+                    <li>AI-Powered Compatibility Scores</li>
+                    <li>Direct Messaging & Landlord Connections</li>
+                    <li>FCRA-Compliant Screening</li>
+                </ul>
+                <footer>
+                    <form action="/tiers" method="POST" style="display: inline;">
+                        <input type="hidden" name="tier" value="elite">
+                        <button type="submit" class="btn-primary" aria-label="Upgrade to Elite plan">Upgrade to Elite</button>
+                    </form>
+                </footer>
+            </article>
+        </section>
+
+        <p class="note" role="note">Basic is great to start! Upgrade to Elite anytime for verified matches.</p>
+    </main>
+
+    <footer role="contentinfo">
+        <p><a href="/terms">Terms</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+
+    <script>
+        // WCAG: Keyboard navigation for cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.querySelector('button').click();
+                }
+            });
+        });
+
+        // Focus styles
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('focus', () => card.classList.add('focus'));
+            card.addEventListener('blur', () => card.classList.remove('focus'));
+        });
+    </script>
+</body>
+</html>
