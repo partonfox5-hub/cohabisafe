@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CohabiSafe - Safe Roommate & Landlord Matching</title>
+    <style>
+        :root {
+            --trust-blue: #4A90E2;
+            --safety-green: #7ED321;
+            --neutral-gray: #F5F5F5;
+            --text-dark: #333;
+            --accent-orange: #FF9500;
+            --font-primary: 'Inter', sans-serif;
+        }
+        body { font-family: var(--font-primary); margin: 0; padding: 0; background: var(--neutral-gray); color: var(--text-dark); line-height: 1.6; }
+        header { background: white; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 10; }
+        nav ul { list-style: none; display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 0; }
+        nav li { margin: 0 1rem; }
+        nav a { text-decoration: none; color: var(--trust-blue); font-weight: 500; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--safety-green); } /* Placeholder for vector logo */
+        .hero { background: linear-gradient(to right, var(--trust-blue), var(--safety-green)); color: white; text-align: center; padding: 4rem 2rem; }
+        .hero h1 { font-size: 3rem; margin: 0; }
+        .hero p { font-size: 1.2rem; margin: 1rem 0; }
+        .cta { background: var(--accent-orange); color: white; padding: 1rem 2rem; border: none; border-radius: 5px; font-size: 1.1rem; margin: 0.5rem; cursor: pointer; text-decoration: none; display: inline-block; }
+        .section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .feature { text-align: center; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: white; }
+        .feature-icon { font-size: 3rem; color: var(--safety-green); } /* Use SVG icons here */
+        .testimonials { background: white; }
+        .testimonial { margin: 1rem 0; font-style: italic; }
+        footer { background: var(--text-dark); color: white; text-align: center; padding: 2rem; }
+        footer ul { list-style: none; display: flex; justify-content: center; gap: 2rem; padding: 0; }
+        footer a { color: white; text-decoration: none; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } nav ul { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="logo">CohabiSafe</li> <!-- Insert vector logo SVG here -->
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about-us">About Us</a></li>
+                <li><a href="#our-mission">Our Mission</a></li>
+                <li><a href="#why-cohabisafe">Why CohabiSafe?</a></li>
+                <li><a href="#renters-start-here">Renters Start Here</a></li>
+                <li><a href="#landlords-start-here">Landlords Start Here</a></li>
+                <li><a href="#contact-support">Contact Support</a></li>
+                <li><a href="#login" onclick="alert('Redirect to My Account')">My Account</a></li> <!-- Placeholder for auth -->
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Find Your Safe Space with CohabiSafe</h1>
+        <p>Match with verified roommates and landlords based on personality, preferences, and lifestyle. Trust starts here—no more mismatched vibes or hidden fees.</p>
+        <a href="#renters-start-here" class="cta">Start as Renter</a>
+        <a href="#landlords-start-here" class="cta">List as Landlord</a>
+    </section>
+
+    <section class="section features">
+        <h2 style="text-align: center; grid-column: 1/-1;">Why Choose CohabiSafe?</h2>
+        <div class="feature">
+            <div class="feature-icon">🔒</div> <!-- Vector key icon -->
+            <h3>Safety First</h3>
+            <p>Human-reviewed ID checks and badges ensure verified matches. 95% users feel secure from day one.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">❤️</div> <!-- Vector heart/handshake -->
+            <h3>Personality Matching</h3>
+            <p>Our quiz reveals compatibility beyond budgets—update results anytime for better fits.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">🏠</div> <!-- Vector house -->
+            <h3>Easy Preferences</h3>
+            <p>Filter by location, pets, habits. Seamless updates to your profile keep things fresh.</p>
+        </div>
+    </section>
+
+    <section class="section testimonials">
+        <h2>User Stories</h2>
+        <div class="testimonial">"CohabiSafe saved me from another bad roommate drama—real compatibility testing works!" – Alex, NYC</div>
+        <div class="testimonial">"As a landlord, verified renters mean peace of mind. Matches in days, not weeks." – Jordan, LA</div>
+        <!-- Add more from blog/success stories -->
+        <a href="#success-stories" class="cta" style="display: block; text-align: center; max-width: 200px; margin: 2rem auto;">Read More Stories</a>
+    </section>
+
+    <footer>
+        <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#privacy-policy">Privacy Policy</a></li>
+            <li><a href="#terms">Terms of Service</a></li>
+            <li><a href="#community-guidelines">Community Guidelines</a></li>
+        </ul>
+        <p>&copy; 2025 CohabiSafe. All rights reserved. | Follow us: <a href="#social">X | Instagram</a></p>
+    </footer>
+</body>
+</html>
