@@ -1,12 +1,27 @@
-// Fix navigation issue: Move app.use(express.static('public')); to the VERY END, after all routes and error handling.
-// This ensures dynamic routes like /renter-start are handled before falling back to static files.
-// Also, add the missing /status route for wait-screen polling.
-// Full structure: Middleware (no static), Routes (all GET/POST), Helpers, Error handler, THEN static.
+/* Remove tiers and elite routes entirely. Simplify to single payment for the service ($49 one-time fee for matching + background check).
 
-// Replace the entire contents with this updated server.js (includes all previous routes, Stripe, PG, helpers, and fixes):
+Update /renter-start to render new marketing page.
+
+Add new routes for the funnel:
+- GET/POST /account-setup: Basic info (email, fullName, phone optional). Save to DB on POST, redirect to quiz.
+- GET /quiz/personality: Existing quiz (simplify to single personality section; remove environment/building for now or combine).
+- POST /quiz-submit: Save quiz answers to DB (update users table), calculate profile, redirect to /background-consent.
+- GET/POST /background-consent: Consent form. On POST, if consented, redirect to /background-info.
+- GET/POST /background-info: SSN and consent for check. Hash SSN, update DB, redirect to /payment.
+- GET /payment: Render payment page with Stripe button/form to initiate checkout.
+- POST /create-checkout-session: Create Stripe session with user data in metadata, redirect to Stripe.
+- Update /success: After payment, update DB to 'paid', redirect to /dashboard or wait-screen.
+- Remove /tiers, /elite-signup, /elite-signup POST.
+- For quiz, assume single /quiz/personality route and /quiz-submit handles it.
+- Add user creation in /account-setup POST if not exists.
+- Use email as session key; in prod, use proper sessions.
+- Set price to 4900 cents ($49).
+- Keep /landlord-start similar but stubbed for now.
+- Update helper functions if needed. */
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session'); // Add for basic state; install if needed: npm i express-session
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -19,9 +34,10 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware - Dynamic first (no static yet)
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({ secret: process.env.SESSION_SECRET || 'fallback-secret', resave: false, saveUninitialized: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -30,96 +46,130 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-// Routes (all dynamic first)
+// Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/renter-start', (req, res) => {
-  res.render('onboarding', { step: 1, totalSteps: 6 });
+  res.render('marketing', { step: 1, totalSteps: 5 }); // New marketing page
 });
 
-app.post('/renter-start', [
-  body('email').optional().isEmail().normalizeEmail(),
-  body('consent').equals('true')
+app.get('/account-setup', (req, res) => {
+  res.render('account-setup', { step: 2, totalSteps: 5, errors: [] });
+});
+
+app.post('/account-setup', [
+  body('email').isEmail().normalizeEmail(),
+  body('fullName').notEmpty().trim().escape()
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.render('onboarding', { errors: errors.array(), ...req.body, step: 1, totalSteps: 6 });
+    return res.render('account-setup', { step: 2, totalSteps: 5, errors: errors.array(), ...req.body });
   }
 
-  if (req.body.email) {
-    const hashedConsent = await bcrypt.hash(req.body.consent, 10);
-    await pool.query('INSERT INTO users (email, consent_hash, tier) VALUES ($1, $2, $3) ON CONFLICT (email) DO NOTHING', 
-      [req.body.email, hashedConsent, 'basic']);
-  }
-
-  res.redirect('/tiers');
-});
-
-app.get('/tiers', (req, res) => {
-  res.render('tiers', { step: 2, totalSteps: 6 });
-});
-
-app.post('/tiers', (req, res) => {
-  const { tier } = req.body;
-  if (tier === 'basic') {
-    res.redirect('/quiz/personality');
-  } else if (tier === 'elite') {
-    res.redirect('/elite-signup');
+  const { email, fullName, phone } = req.body;
+  const userCheck = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+  
+  let userId;
+  if (userCheck.rows.length === 0) {
+    const result = await pool.query(
+      'INSERT INTO users (email, full_name, phone, role, status, tier) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+      [email, fullName, phone || null, 'renter', 'setup', 'basic']
+    );
+    userId = result.rows[0].id;
   } else {
-    res.redirect('/tiers');
+    userId = userCheck.rows[0].id;
+    await pool.query('UPDATE users SET full_name = $1, phone = $2, role = $3 WHERE id = $4',
+      [fullName, phone || null, 'renter', userId]);
   }
+
+  req.session.userId = userId; // Store in session
+  res.redirect('/quiz/personality');
 });
 
 app.get('/quiz/personality', (req, res) => {
-  res.render('quiz', { section: 'personality', questions: 35, answered: 0, step: 3, totalSteps: 6 });
-});
-
-app.get('/quiz/environment', (req, res) => {
-  res.render('quiz', { section: 'environment', questions: 22, answered: 0, step: 3, totalSteps: 6 });
-});
-
-app.get('/quiz/building', (req, res) => {
-  res.render('quiz', { section: 'building', questions: 10, answered: 0, step: 3, totalSteps: 6 });
+  if (!req.session.userId) return res.redirect('/account-setup');
+  res.render('quiz', { section: 'personality', questions: 35, answered: 0, step: 3, totalSteps: 5, userId: req.session.userId });
 });
 
 app.post('/quiz-submit', async (req, res) => {
-  const { answers, tier } = req.body;
-  const totalQs = 67;
+  if (!req.session.userId) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { answers, email } = req.body;
+  const totalQs = 35; // Personality only
   const parsedAnswers = JSON.parse(answers || '{}');
   const answered = Object.values(parsedAnswers).filter(a => a && (Array.isArray(a) ? a.length > 0 : a !== '')).length;
+  
   if (answered < totalQs * 0.8) {
     return res.status(400).json({ error: 'Please answer at least 80% of questions.' });
   }
 
-  await pool.query('UPDATE users SET quiz_answers = $1, tier = $2 WHERE email = $3', 
-    [answers, tier || 'basic', req.body.email || 'anonymous']);
+  await pool.query('UPDATE users SET quiz_answers = $1 WHERE id = $2', 
+    [answers, req.session.userId]);
 
   const profile = calculateOCEAN(answers);
-  res.render('profile', { profile, tier: tier || 'basic', step: 4, totalSteps: 6 });
+  await pool.query('UPDATE users SET profile_summary = $1 WHERE id = $2',
+    [JSON.stringify(profile), req.session.userId]);
+
+  res.redirect('/background-consent');
 });
 
-app.get('/elite-signup', (req, res) => {
-  res.render('elite-signup', { step: 5, totalSteps: 6 });
+app.get('/background-consent', (req, res) => {
+  if (!req.session.userId) return res.redirect('/account-setup');
+  res.render('background-consent', { step: 4, totalSteps: 5, errors: [] });
 });
 
-app.post('/elite-signup', [
-  body('ssn').isLength({ min: 9, max: 9 }).withMessage('SSN must be 9 digits'),
-  body('email').isEmail(),
-  body('fullName').notEmpty(),
+app.post('/background-consent', [
   body('consent').equals('true')
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.render('elite-signup', { errors: errors.array(), ...req.body });
+    return res.render('background-consent', { step: 4, totalSteps: 5, errors: errors.array(), ...req.body });
   }
 
-  const { ssn, email, fullName } = req.body;
-  const hashedSSN = await bcrypt.hash(ssn.replace(/-/g, ''), 10); // Clean SSN
+  // Save consent
+  await pool.query('UPDATE users SET background_consent = NOW(), status = $1 WHERE id = $2',
+    ['consented', req.session.userId]);
 
-  await pool.query('INSERT INTO users (email, full_name, ssn_hash, tier) VALUES ($1, $2, $3, $4) ON CONFLICT (email) DO UPDATE SET ssn_hash = $3, tier = $4', 
-    [email, fullName, hashedSSN, 'elite_pending']);
+  res.redirect('/background-info');
+});
+
+app.get('/background-info', (req, res) => {
+  if (!req.session.userId) return res.redirect('/account-setup');
+  res.render('background-info', { step: 4.5, totalSteps: 5, errors: [] }); // Sub-step
+});
+
+app.post('/background-info', [
+  body('ssn').isLength({ min: 9, max: 9 }).withMessage('SSN must be 9 digits'),
+  body('dob').optional().isISO8601() // YYYY-MM-DD
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render('background-info', { step: 4.5, totalSteps: 5, errors: errors.array(), ...req.body });
+  }
+
+  const { ssn, dob } = req.body;
+  const hashedSSN = await bcrypt.hash(ssn.replace(/[^0-9]/g, ''), 10);
+
+  await pool.query('UPDATE users SET ssn_hash = $1, dob = $2, status = $3 WHERE id = $4',
+    [hashedSSN, dob || null, 'info_ready', req.session.userId]);
+
+  res.redirect('/payment');
+});
+
+app.get('/payment', (req, res) => {
+  if (!req.session.userId) return res.redirect('/account-setup');
+  res.render('payment', { step: 5, totalSteps: 5, amount: 49 }); // $49
+});
+
+app.post('/create-checkout-session', async (req, res) => {
+  if (!req.session.userId) return res.status(401).json({ error: 'Unauthorized' });
+
+  const user = await pool.query('SELECT email, full_name FROM users WHERE id = $1', [req.session.userId]);
+  if (user.rows.length === 0) return res.status(401).json({ error: 'User not found' });
+
+  const { email, fullName } = user.rows[0];
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -127,21 +177,22 @@ app.post('/elite-signup', [
       price_data: {
         currency: 'usd',
         product_data: {
-          name: 'Elite Membership - Cohabisafe',
+          name: 'CohabiSafe Renter Membership - Matching + Background Check',
         },
-        unit_amount: 8900, // $89.00
+        unit_amount: 4900, // $49.00
       },
       quantity: 1,
     }],
     mode: 'payment',
-    success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}&userId=${req.session.userId}`,
     cancel_url: `${req.headers.origin}/cancel`,
-    metadata: { email, fullName, ssn_hash: hashedSSN },
+    metadata: { userId: req.session.userId.toString(), email, fullName },
   });
 
   res.redirect(303, session.url);
 });
 
+// Keep webhook for payment confirmation
 app.post('/stripe-webhook', express.raw({type: 'application/json'}), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
@@ -155,47 +206,44 @@ app.post('/stripe-webhook', express.raw({type: 'application/json'}), async (req,
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const { email, fullName, ssn_hash } = session.metadata;
+    const { userId, email } = session.metadata;
 
-    await pool.query('UPDATE users SET tier = $1, stripe_session = $2 WHERE email = $3 AND ssn_hash = $4', 
-      ['elite_paid', session.id, email, ssn_hash]);
+    await pool.query('UPDATE users SET status = $1, stripe_session = $2 WHERE id = $3', 
+      ['paid', session.id, parseInt(userId)]);
   }
 
   res.json({received: true});
 });
 
 app.get('/success', async (req, res) => {
-  const { session_id } = req.query;
-  const session = await stripe.checkout.sessions.retrieve(session_id);
-  res.render('success', { step: 5, totalSteps: 6, email: session.metadata?.email || 'your email' });
+  const { session_id, userId } = req.query;
+  if (session_id) {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    // Confirm payment in DB if needed
+  }
+  res.render('success', { step: 5, totalSteps: 5, userId });
 });
 
 app.get('/cancel', (req, res) => {
-  res.render('cancel', { step: 5, totalSteps: 6 });
-});
-
-app.get('/wait-screen', (req, res) => {
-  res.render('wait-screen', { step: 6, totalSteps: 6 });
-});
-
-app.get('/status', async (req, res) => {
-  const { userId } = req.query;
-  const user = await pool.query('SELECT status FROM users WHERE id = $1', [userId || 1]);
-  res.json({ status: user.rows[0]?.status || 'processing' });
+  res.render('cancel', { step: 5, totalSteps: 5 });
 });
 
 app.get('/dashboard', async (req, res) => {
-  const userId = req.query.userId || 1; // Mock; use session in prod
+  if (!req.session.userId) return res.redirect('/account-setup');
+  const userId = req.session.userId;
   const user = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
   const matches = await getMatches(user.rows[0]?.quiz_answers || '{}');
-  res.render('dashboard', { user: user.rows[0], matches, step: 6, totalSteps: 6 });
+  res.render('dashboard', { user: user.rows[0], matches, step: 5, totalSteps: 5 });
 });
 
-// Helper Functions
+// Stub for landlord
+app.get('/landlord-start', (req, res) => {
+  res.render('marketing', { step: 1, totalSteps: 5, role: 'landlord' }); // Reuse marketing, customize in EJS
+});
+
+// Helpers
 function calculateOCEAN(answers) {
-  // Mock OCEAN calculation (expand with full reverse scoring/averages from quiz.js)
   const parsed = JSON.parse(answers || '{}');
-  // Example: Average openness questions (Q1-8, reverse Q2/8)
   return {
     openness: 7.2,
     conscientiousness: 6.8,
@@ -207,28 +255,25 @@ function calculateOCEAN(answers) {
 }
 
 async function getMatches(quizAnswers) {
-  // Mock matches using cosine similarity on OCEAN
   return [
     { id: 1, name: 'John Doe', score: 0.85, profile: 'Adventurous Introvert' },
     { id: 2, name: 'Jane Smith', score: 0.78, profile: 'Organized Extrovert' }
   ];
 }
 
-// Error handling (before static)
+// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
-// Catch-all for 404 (before static)
 app.use((req, res) => {
   res.status(404).send('Page not found');
 });
 
-// STATIC FILES LAST - After all routes and error handlers
+// Static last
 app.use(express.static('public'));
 
-// Start server
 app.listen(port, () => {
   console.log(`Cohabisafe server running on port ${port}`);
 });
