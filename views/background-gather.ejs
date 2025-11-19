@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Verification</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .secure-badge { background: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 4px; text-align: center; margin-bottom: 20px; }
+        .btn-back { background: #ccc; padding: 10px 20px; text-decoration: none; color: black; border-radius: 4px; float: left;}
+        .btn-next { background: #4CAF50; padding: 10px 20px; color: white; border: none; border-radius: 4px; float: right; cursor: pointer;}
+        .nav-buttons { margin-top: 30px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <h1>Safety Verification</h1>
+    <p>Step <%= step %> of <%= totalSteps %>: Identity Check</p>
+
+    <div class="secure-badge">
+        🔒 <strong>256-bit Encryption:</strong> Your data is securely hashed and sent directly to our background check provider.
+    </div>
+
+    <form action="/background-gather" method="POST">
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
+
+        <label for="ssn">Social Security Number (9 digits)</label>
+        <input type="password" id="ssn" name="ssn" placeholder="XXX-XX-XXXX" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
+
+        <label style="display: flex; align-items: start; gap: 10px; margin-top: 20px;">
+            <input type="checkbox" name="consent" value="true" required>
+            <span>I consent to a background check (Criminal & Eviction history) as per the Fair Credit Reporting Act (FCRA).</span>
+        </label>
+
+        <div class="nav-buttons">
+            <button type="button" class="btn-back" onclick="history.back()">Back</button>
+            <button type="submit" class="btn-next">Continue to Payment</button>
+        </div>
+    </form>
+</body>
+</html>
