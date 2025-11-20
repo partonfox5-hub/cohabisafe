@@ -5,474 +5,633 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personality Assessment - CohabiSafe</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header role="banner">
-        <h1>Personality Compatibility</h1>
-        <p class="progress-text">Step 3 of 6: Analyzing 5 Dimensions of Personality</p>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    
+    <!-- Sticky Header -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <img src="/images/logo.png" alt="CohabiSafe Logo" class="logo">
+            <div class="progress-wrapper">
+                <div class="progress-label">
+                    <span id="step-indicator">Part 1 of 5</span>
+                    <span id="percent-indicator">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+            </div>
         </div>
-        <p id="progress-count" aria-live="polite">0 of 42 Answered</p>
-    </header>
+    </nav>
 
-    <main id="main-content" role="main">
+    <main class="container">
         <form id="quizForm" action="/quiz-submit" method="POST">
             
-            <section class="quiz-section" aria-labelledby="openness-heading">
-                <h2 id="openness-heading">Part 1: Openness</h2>
-                <p class="section-desc">How you approach new ideas and experiences.</p>
+            <!-- ==========================
+                 PART 1: OPENNESS 
+            =========================== -->
+            <div class="quiz-step active-step" id="step-1">
+                <div class="step-header">
+                    <h2>Part 1: Openness</h2>
+                    <p>How you approach new ideas and experiences.</p>
+                </div>
 
-                <div class="question-card" data-qid="o1" data-weight="1.0">
+                <!-- Q1 -->
+                <div class="question-card">
+                    <span class="q-num">1</span>
                     <label class="q-label">I enjoy exploring new ideas and concepts, even if they're unconventional.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="o1" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="o1" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="o1" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="o1" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="o1" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="o1" value="1" id="o1-1"><label for="o1-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o1" value="2" id="o1-2"><label for="o1-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o1" value="3" id="o1-3"><label for="o1-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="o1" value="4" id="o1-4"><label for="o1-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o1" value="5" id="o1-5"><label for="o1-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="o2" data-reverse="true" data-weight="1.2">
+                <!-- Q2 (Reverse) -->
+                <div class="question-card">
+                    <span class="q-num">2</span>
                     <label class="q-label">I prefer routine tasks over trying something new and different.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="o2" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="o2" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="o2" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="o2" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="o2" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="o2" value="1" id="o2-1"><label for="o2-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o2" value="2" id="o2-2"><label for="o2-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o2" value="3" id="o2-3"><label for="o2-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="o2" value="4" id="o2-4"><label for="o2-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o2" value="5" id="o2-5"><label for="o2-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="o3" data-weight="1.0">
-                    <label class="q-label" for="o3-range">I have a vivid imagination and often daydream about possibilities.</label>
-                    <div class="range-container">
-                        <span class="range-label">Low Imagination</span>
-                        <input type="range" id="o3-range" name="o3" min="1" max="10" value="5" oninput="updateOutput('o3-out', this.value)">
-                        <span class="range-label">High Imagination</span>
+                <!-- Q3 Slider -->
+                <div class="question-card">
+                    <span class="q-num">3</span>
+                    <label class="q-label">I have a vivid imagination and often daydream about possibilities.</label>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Low Imagination</span>
+                        <input type="range" class="styled-slider" name="o3" min="1" max="10" value="5" oninput="updateOutput('o3-out', this.value)">
+                        <span class="slider-label right">High Imagination</span>
                     </div>
-                    <output id="o3-out">5</output>
+                    <div class="slider-value">Selected: <span id="o3-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="o4" data-weight="1.0">
+                <!-- Q4 Toggle + Text -->
+                <div class="question-card">
+                    <span class="q-num">4</span>
                     <label class="q-label">Art and aesthetics matter a lot to me; I seek beauty in my surroundings.</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="o4-no" name="o4" value="1" onclick="toggleText('o4-text', false)">
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="o4" value="1" id="o4-no" onclick="toggleText('o4-text', false)">
                         <label for="o4-no" class="toggle-btn">No</label>
                         
-                        <input type="radio" id="o4-yes" name="o4" value="5" onclick="toggleText('o4-text', true)">
+                        <input type="radio" name="o4" value="5" id="o4-yes" onclick="toggleText('o4-text', true)">
                         <label for="o4-yes" class="toggle-btn">Yes</label>
                     </div>
-                    <textarea id="o4-text" name="o4_notes" class="conditional-text" placeholder="Explain why aesthetics matter to you..." style="display:none"></textarea>
+                    <textarea id="o4-text" name="o4_notes" class="conditional-text" placeholder="Tell us why aesthetics matter to you..." style="display:none"></textarea>
                 </div>
 
-                <div class="question-card" data-qid="o5" data-weight="1.5"> <label class="q-label">I'm comfortable with ambiguity and change in my daily life.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="o5" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="o5" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="o5" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="o5" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="o5" value="5"><span>Strongly Agree</span></label>
+                <!-- Q5 -->
+                <div class="question-card">
+                    <span class="q-num">5</span>
+                    <label class="q-label">I'm comfortable with ambiguity and change in my daily life.</label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="o5" value="1" id="o5-1"><label for="o5-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o5" value="2" id="o5-2"><label for="o5-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o5" value="3" id="o5-3"><label for="o5-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="o5" value="4" id="o5-4"><label for="o5-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o5" value="5" id="o5-5"><label for="o5-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="o6" data-weight="1.0">
+                <!-- Q6 -->
+                <div class="question-card">
+                    <span class="q-num">6</span>
                     <label class="q-label">I like to explore abstract ideas that challenge my beliefs.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="o6" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="o6" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="o6" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="o6" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="o6" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="o6" value="1" id="o6-1"><label for="o6-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o6" value="2" id="o6-2"><label for="o6-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o6" value="3" id="o6-3"><label for="o6-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="o6" value="4" id="o6-4"><label for="o6-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="o6" value="5" id="o6-5"><label for="o6-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="o7" data-weight="1.1">
-                    <label class="q-label" for="o7-range">I find it exciting to learn about cultures different from my own.</label>
-                    <div class="range-container">
-                        <span class="range-label">Uninterested</span>
-                        <input type="range" id="o7-range" name="o7" min="1" max="10" value="5" oninput="updateOutput('o7-out', this.value)">
-                        <span class="range-label">Highly Excited</span>
+                <!-- Q7 Slider -->
+                <div class="question-card">
+                    <span class="q-num">7</span>
+                    <label class="q-label">I find it exciting to learn about cultures different from my own.</label>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Uninterested</span>
+                        <input type="range" class="styled-slider" name="o7" min="1" max="10" value="5" oninput="updateOutput('o7-out', this.value)">
+                        <span class="slider-label right">Highly Excited</span>
                     </div>
-                    <output id="o7-out">5</output>
+                    <div class="slider-value">Selected: <span id="o7-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="o8" data-reverse="true" data-weight="1.0">
+                <!-- Q8 Toggle -->
+                <div class="question-card">
+                    <span class="q-num">8</span>
                     <label class="q-label">Which approach do you prefer?</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="o8-prac" name="o8" value="5"> <label for="o8-prac" class="toggle-btn">Practical Solutions</label>
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="o8" value="5" id="o8-prac">
+                        <label for="o8-prac" class="toggle-btn">Practical Solutions</label>
                         
-                        <input type="radio" id="o8-theo" name="o8" value="1"> <label for="o8-theo" class="toggle-btn">Theoretical Discussions</label>
+                        <input type="radio" name="o8" value="1" id="o8-theo">
+                        <label for="o8-theo" class="toggle-btn">Theoretical Discussions</label>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="quiz-section" aria-labelledby="consc-heading">
-                <h2 id="consc-heading">Part 2: Conscientiousness</h2>
-                <p class="section-desc">Organization, reliability, and habits.</p>
+            <!-- ==========================
+                 PART 2: CONSCIENTIOUSNESS 
+            =========================== -->
+            <div class="quiz-step" id="step-2" style="display:none;">
+                <div class="step-header">
+                    <h2>Part 2: Conscientiousness</h2>
+                    <p>Organization, reliability, and habits.</p>
+                </div>
 
-                <div class="question-card" data-qid="c1" data-weight="2.0" style="border-left: 4px solid #4A90E2;">
+                <!-- Q9 (Critical) -->
+                <div class="question-card critical-card">
+                    <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
+                    <span class="q-num">9</span>
                     <label class="q-label">I always follow a cleaning schedule, even if others slack.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="c1" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="c1" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="c1" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="c1" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="c1" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="c1" value="1" id="c1-1"><label for="c1-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c1" value="2" id="c1-2"><label for="c1-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c1" value="3" id="c1-3"><label for="c1-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="c1" value="4" id="c1-4"><label for="c1-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c1" value="5" id="c1-5"><label for="c1-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="c2" data-weight="1.5">
-                    <label class="q-label" for="c2-range">I plan my tasks carefully to avoid last-minute rushes.</label>
-                    <div class="range-container">
-                        <span class="range-label">Spontaneous</span>
-                        <input type="range" id="c2-range" name="c2" min="1" max="10" value="5" oninput="updateOutput('c2-out', this.value)">
-                        <span class="range-label">Highly Planned</span>
+                <!-- Q10 Slider -->
+                <div class="question-card">
+                    <span class="q-num">10</span>
+                    <label class="q-label">I plan my tasks carefully to avoid last-minute rushes.</label>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Spontaneous</span>
+                        <input type="range" class="styled-slider" name="c2" min="1" max="10" value="5" oninput="updateOutput('c2-out', this.value)">
+                        <span class="slider-label right">Highly Planned</span>
                     </div>
-                    <output id="c2-out">5</output>
+                    <div class="slider-value">Selected: <span id="c2-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="c3" data-reverse="true" data-weight="1.5">
+                <!-- Q11 -->
+                <div class="question-card">
+                    <span class="q-num">11</span>
                     <label class="q-label">I feel uneasy if I forget to complete something I promised.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="c3" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="c3" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="c3" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="c3" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="c3" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="c3" value="1" id="c3-1"><label for="c3-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c3" value="2" id="c3-2"><label for="c3-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c3" value="3" id="c3-3"><label for="c3-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="c3" value="4" id="c3-4"><label for="c3-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c3" value="5" id="c3-5"><label for="c3-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="c4" data-weight="2.0">
+                <!-- Q12 (Critical Visual) -->
+                <div class="question-card critical-card">
+                     <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
+                    <span class="q-num">12</span>
                     <label class="q-label">Which image best represents your ideal living space?</label>
-                    <div class="image-select-group">
-                        <label class="img-option">
-                            <input type="radio" name="c4" value="5"> <div class="img-box">🛏️</div>
-                            <span>Minimalist & Spotless</span>
-                        </label>
-                        <label class="img-option">
-                            <input type="radio" name="c4" value="3">
-                            <div class="img-box">🛋️</div>
-                            <span>Lived-in & Cozy</span>
-                        </label>
-                        <label class="img-option">
-                            <input type="radio" name="c4" value="1"> <div class="img-box">📚</div>
-                            <span>Clutter doesn't bother me</span>
-                        </label>
+                    <!-- Reusing Likert container logic but with visual styling if needed, or custom layout -->
+                     <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="c4" value="5" id="c4-5"><label for="c4-5">🛏️ Minimalist & Spotless</label></div>
+                        <div class="likert-opt"><input type="radio" name="c4" value="3" id="c4-3"><label for="c4-3">🛋️ Lived-in & Cozy</label></div>
+                        <div class="likert-opt"><input type="radio" name="c4" value="1" id="c4-1"><label for="c4-1">📚 Clutter doesn't bother me</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="c5" data-weight="1.2">
+                <!-- Q13 -->
+                <div class="question-card">
+                    <span class="q-num">13</span>
                     <label class="q-label">I prioritize long-term goals over immediate pleasures.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="c5" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="c5" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="c5" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="c5" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="c5" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="c5" value="1" id="c5-1"><label for="c5-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c5" value="2" id="c5-2"><label for="c5-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c5" value="3" id="c5-3"><label for="c5-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="c5" value="4" id="c5-4"><label for="c5-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c5" value="5" id="c5-5"><label for="c5-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="c6" data-weight="1.3">
+                <!-- Q14 Slider -->
+                <div class="question-card">
+                    <span class="q-num">14</span>
                     <label class="q-label">I double-check my work to ensure it's error-free.</label>
-                    <div class="range-container">
-                        <span class="range-label">Careless</span>
-                        <input type="range" name="c6" min="1" max="10" value="5" oninput="updateOutput('c6-out', this.value)">
-                        <span class="range-label">Meticulous</span>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Careless</span>
+                        <input type="range" class="styled-slider" name="c6" min="1" max="10" value="5" oninput="updateOutput('c6-out', this.value)">
+                        <span class="slider-label right">Meticulous</span>
                     </div>
-                    <output id="c6-out">5</output>
+                    <div class="slider-value">Selected: <span id="c6-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="c7" data-weight="1.2">
+                <!-- Q15 -->
+                <div class="question-card">
+                    <span class="q-num">15</span>
                     <label class="q-label">I set specific goals for myself and stick to them.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="c7" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="c7" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="c7" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="c7" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="c7" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="c7" value="1" id="c7-1"><label for="c7-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c7" value="2" id="c7-2"><label for="c7-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c7" value="3" id="c7-3"><label for="c7-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="c7" value="4" id="c7-4"><label for="c7-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="c7" value="5" id="c7-5"><label for="c7-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="c8" data-reverse="true" data-weight="1.5">
+                <!-- Q16 Toggle -->
+                <div class="question-card">
+                    <span class="q-num">16</span>
                     <label class="q-label">How do you handle deadlines?</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="c8-proc" name="c8" value="5">
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="c8" value="5" id="c8-proc">
                         <label for="c8-proc" class="toggle-btn">I Procrastinate</label>
                         
-                        <input type="radio" id="c8-prom" name="c8" value="1">
+                        <input type="radio" name="c8" value="1" id="c8-prom">
                         <label for="c8-prom" class="toggle-btn">I'm Prompt</label>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="quiz-section" aria-labelledby="extra-heading">
-                <h2 id="extra-heading">Part 3: Extraversion</h2>
-                <p class="section-desc">Social energy and interaction style.</p>
+            <!-- ==========================
+                 PART 3: EXTRAVERSION 
+            =========================== -->
+            <div class="quiz-step" id="step-3" style="display:none;">
+                <div class="step-header">
+                    <h2>Part 3: Extraversion</h2>
+                    <p>Social energy and interaction style.</p>
+                </div>
 
-                <div class="question-card" data-qid="e1" data-weight="2.0">
+                <!-- Q17 (Critical) -->
+                <div class="question-card critical-card">
+                     <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
+                    <span class="q-num">17</span>
                     <label class="q-label">I enjoy hosting game nights or movie marathons with roommates.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="e1" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="e1" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="e1" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="e1" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="e1" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="e1" value="1" id="e1-1"><label for="e1-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e1" value="2" id="e1-2"><label for="e1-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e1" value="3" id="e1-3"><label for="e1-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="e1" value="4" id="e1-4"><label for="e1-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e1" value="5" id="e1-5"><label for="e1-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="e2" data-weight="1.8">
+                <!-- Q18 Slider -->
+                <div class="question-card">
+                    <span class="q-num">18</span>
                     <label class="q-label">How often do you prefer solo downtime vs. group hangs?</label>
-                    <div class="range-container">
-                        <span class="range-label">Always Solo</span>
-                        <input type="range" name="e2" min="1" max="10" value="5" oninput="updateOutput('e2-out', this.value)">
-                        <span class="range-label">Always Group</span>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Always Solo</span>
+                        <input type="range" class="styled-slider" name="e2" min="1" max="10" value="5" oninput="updateOutput('e2-out', this.value)">
+                        <span class="slider-label right">Always Group</span>
                     </div>
-                    <output id="e2-out">5</output>
+                    <div class="slider-value">Selected: <span id="e2-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="e3" data-weight="1.2">
+                <!-- Q19 -->
+                <div class="question-card">
+                    <span class="q-num">19</span>
                     <label class="q-label">I feel energized after social events with new people.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="e3" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="e3" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="e3" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="e3" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="e3" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="e3" value="1" id="e3-1"><label for="e3-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e3" value="2" id="e3-2"><label for="e3-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e3" value="3" id="e3-3"><label for="e3-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="e3" value="4" id="e3-4"><label for="e3-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e3" value="5" id="e3-5"><label for="e3-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="e4" data-reverse="true" data-weight="1.5">
+                <!-- Q20 Toggle -->
+                <div class="question-card">
+                    <span class="q-num">20</span>
                     <label class="q-label">What is your gathering preference?</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="e4-small" name="e4" value="5">
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="e4" value="5" id="e4-small">
                         <label for="e4-small" class="toggle-btn">Small & Intimate</label>
                         
-                        <input type="radio" id="e4-large" name="e4" value="1">
+                        <input type="radio" name="e4" value="1" id="e4-large">
                         <label for="e4-large" class="toggle-btn">Large Parties</label>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="e5" data-weight="1.0">
+                <!-- Q21 -->
+                <div class="question-card">
+                    <span class="q-num">21</span>
                     <label class="q-label">I often initiate conversations with strangers in social settings.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="e5" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="e5" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="e5" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="e5" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="e5" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="e5" value="1" id="e5-1"><label for="e5-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e5" value="2" id="e5-2"><label for="e5-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e5" value="3" id="e5-3"><label for="e5-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="e5" value="4" id="e5-4"><label for="e5-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e5" value="5" id="e5-5"><label for="e5-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="e6" data-weight="1.5">
+                <!-- Q22 Slider -->
+                <div class="question-card">
+                    <span class="q-num">22</span>
                     <label class="q-label">I thrive in environments with lots of social interaction.</label>
-                    <div class="range-container">
-                        <span class="range-label">Introverted</span>
-                        <input type="range" name="e6" min="1" max="10" value="5" oninput="updateOutput('e6-out', this.value)">
-                        <span class="range-label">Extroverted</span>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Introverted</span>
+                        <input type="range" class="styled-slider" name="e6" min="1" max="10" value="5" oninput="updateOutput('e6-out', this.value)">
+                        <span class="slider-label right">Extroverted</span>
                     </div>
-                    <output id="e6-out">5</output>
+                    <div class="slider-value">Selected: <span id="e6-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="e7" data-weight="1.0">
+                <!-- Q23 -->
+                <div class="question-card">
+                    <span class="q-num">23</span>
                     <label class="q-label">Being the center of attention energizes me.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="e7" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="e7" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="e7" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="e7" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="e7" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="e7" value="1" id="e7-1"><label for="e7-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e7" value="2" id="e7-2"><label for="e7-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e7" value="3" id="e7-3"><label for="e7-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="e7" value="4" id="e7-4"><label for="e7-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="e7" value="5" id="e7-5"><label for="e7-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="e8" data-weight="1.0">
+                <!-- Q24 Toggle -->
+                <div class="question-card">
+                    <span class="q-num">24</span>
                     <label class="q-label">Working Preference</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="e8-solo" name="e8" value="1">
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="e8" value="1" id="e8-solo">
                         <label for="e8-solo" class="toggle-btn">Work Alone</label>
                         
-                        <input type="radio" id="e8-team" name="e8" value="5">
+                        <input type="radio" name="e8" value="5" id="e8-team">
                         <label for="e8-team" class="toggle-btn">Work in Teams</label>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="quiz-section" aria-labelledby="agree-heading">
-                <h2 id="agree-heading">Part 4: Agreeableness</h2>
-                <p class="section-desc">Cooperation, empathy, and conflict style.</p>
+            <!-- ==========================
+                 PART 4: AGREEABLENESS 
+            =========================== -->
+            <div class="quiz-step" id="step-4" style="display:none;">
+                 <div class="step-header">
+                    <h2>Part 4: Agreeableness</h2>
+                    <p>Cooperation, empathy, and conflict style.</p>
+                </div>
 
-                <div class="question-card" data-qid="a1" data-weight="2.0">
+                <!-- Q25 (Critical) -->
+                <div class="question-card critical-card">
+                    <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
+                    <span class="q-num">25</span>
                     <label class="q-label">I'd rather compromise on thermostat settings than argue.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="a1" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="a1" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="a1" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="a1" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="a1" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="a1" value="1" id="a1-1"><label for="a1-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a1" value="2" id="a1-2"><label for="a1-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a1" value="3" id="a1-3"><label for="a1-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="a1" value="4" id="a1-4"><label for="a1-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a1" value="5" id="a1-5"><label for="a1-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="a2" data-weight="1.5">
+                <!-- Q26 Slider -->
+                <div class="question-card">
+                    <span class="q-num">26</span>
                     <label class="q-label">I go out of my way to help others, even if it's inconvenient.</label>
-                    <div class="range-container">
-                        <span class="range-label">Independent</span>
-                        <input type="range" name="a2" min="1" max="10" value="5" oninput="updateOutput('a2-out', this.value)">
-                        <span class="range-label">Highly Helpful</span>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Independent</span>
+                        <input type="range" class="styled-slider" name="a2" min="1" max="10" value="5" oninput="updateOutput('a2-out', this.value)">
+                        <span class="slider-label right">Highly Helpful</span>
                     </div>
-                    <output id="a2-out">5</output>
+                    <div class="slider-value">Selected: <span id="a2-out">5</span>/10</div>
                 </div>
 
-                 <div class="question-card" data-qid="a3" data-weight="1.5">
+                <!-- Q27 -->
+                <div class="question-card">
+                    <span class="q-num">27</span>
                     <label class="q-label">I find it easy to forgive people who have wronged me.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="a3" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="a3" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="a3" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="a3" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="a3" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="a3" value="1" id="a3-1"><label for="a3-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a3" value="2" id="a3-2"><label for="a3-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a3" value="3" id="a3-3"><label for="a3-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="a3" value="4" id="a3-4"><label for="a3-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a3" value="5" id="a3-5"><label for="a3-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="a4" data-weight="1.2">
+                <!-- Q28 Toggle -->
+                <div class="question-card">
+                    <span class="q-num">28</span>
                     <label class="q-label">Conflict Style</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="a4-conf" name="a4" value="1">
-                        <label for="a4-conf" class="toggle-btn">Direct/Confrontational</label>
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="a4" value="1" id="a4-conf">
+                        <label for="a4-conf" class="toggle-btn">Direct</label>
                         
-                        <input type="radio" id="a4-avoid" name="a4" value="5">
-                        <label for="a4-avoid" class="toggle-btn">Avoidant/Peaceful</label>
+                        <input type="radio" name="a4" value="5" id="a4-avoid">
+                        <label for="a4-avoid" class="toggle-btn">Peaceful</label>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="a5" data-weight="1.5">
+                <!-- Q29 -->
+                <div class="question-card">
+                    <span class="q-num">29</span>
                     <label class="q-label">I make an effort to get along with people I disagree with.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="a5" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="a5" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="a5" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="a5" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="a5" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="a5" value="1" id="a5-1"><label for="a5-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a5" value="2" id="a5-2"><label for="a5-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a5" value="3" id="a5-3"><label for="a5-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="a5" value="4" id="a5-4"><label for="a5-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a5" value="5" id="a5-5"><label for="a5-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="a6" data-weight="1.2">
+                <!-- Q30 Slider -->
+                <div class="question-card">
+                    <span class="q-num">30</span>
                     <label class="q-label">I feel compassion for those who are suffering.</label>
-                    <div class="range-container">
-                        <span class="range-label">Detached</span>
-                        <input type="range" name="a6" min="1" max="10" value="5" oninput="updateOutput('a6-out', this.value)">
-                        <span class="range-label">Empathetic</span>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Detached</span>
+                        <input type="range" class="styled-slider" name="a6" min="1" max="10" value="5" oninput="updateOutput('a6-out', this.value)">
+                        <span class="slider-label right">Empathetic</span>
                     </div>
-                    <output id="a6-out">5</output>
+                    <div class="slider-value">Selected: <span id="a6-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="a7" data-weight="1.0">
+                <!-- Q31 Toggle -->
+                <div class="question-card">
+                    <span class="q-num">31</span>
                     <label class="q-label">Expectations of others</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="a7-recip" name="a7" value="1">
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="a7" value="1" id="a7-recip">
                         <label for="a7-recip" class="toggle-btn">Transactional</label>
                         
-                        <input type="radio" id="a7-uncon" name="a7" value="5">
+                        <input type="radio" name="a7" value="5" id="a7-uncon">
                         <label for="a7-uncon" class="toggle-btn">Unconditional</label>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="a8" data-weight="1.3">
+                <!-- Q32 -->
+                <div class="question-card">
+                    <span class="q-num">32</span>
                     <label class="q-label">I sympathize with others' feelings, even if I don't agree.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="a8" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="a8" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="a8" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="a8" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="a8" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="a8" value="1" id="a8-1"><label for="a8-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a8" value="2" id="a8-2"><label for="a8-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a8" value="3" id="a8-3"><label for="a8-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="a8" value="4" id="a8-4"><label for="a8-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="a8" value="5" id="a8-5"><label for="a8-5">Strongly Agree</label></div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="quiz-section" aria-labelledby="neuro-heading">
-                <h2 id="neuro-heading">Part 5: Emotional Stability</h2>
-                <p class="section-desc">Handling stress, anxiety, and pressure.</p>
+             <!-- ==========================
+                 PART 5: NEUROTICISM 
+            =========================== -->
+            <div class="quiz-step" id="step-5" style="display:none;">
+                 <div class="step-header">
+                    <h2>Part 5: Emotional Stability</h2>
+                    <p>Handling stress, anxiety, and pressure.</p>
+                </div>
 
-                <div class="question-card" data-qid="n1" data-reverse="true" data-weight="2.0" style="border-left: 4px solid #d9534f;">
+                <!-- Q33 (Critical) -->
+                <div class="question-card critical-card">
+                     <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
+                    <span class="q-num">33</span>
                     <label class="q-label">Unexpected guests don't faze me.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="n1" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="n1" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="n1" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="n1" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="n1" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="n1" value="1" id="n1-1"><label for="n1-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n1" value="2" id="n1-2"><label for="n1-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n1" value="3" id="n1-3"><label for="n1-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="n1" value="4" id="n1-4"><label for="n1-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n1" value="5" id="n1-5"><label for="n1-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="n2" data-weight="1.5">
+                <!-- Q34 Slider -->
+                <div class="question-card">
+                    <span class="q-num">34</span>
                     <label class="q-label">I worry about small things more than I should.</label>
-                    <div class="range-container">
-                        <span class="range-label">Calm</span>
-                        <input type="range" name="n2" min="1" max="10" value="5" oninput="updateOutput('n2-out', this.value)">
-                        <span class="range-label">Highly Worried</span>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Calm</span>
+                        <input type="range" class="styled-slider" name="n2" min="1" max="10" value="5" oninput="updateOutput('n2-out', this.value)">
+                        <span class="slider-label right">Highly Worried</span>
                     </div>
-                    <output id="n2-out">5</output>
+                    <div class="slider-value">Selected: <span id="n2-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="n3" data-reverse="true" data-weight="1.8">
+                <!-- Q35 -->
+                <div class="question-card">
+                    <span class="q-num">35</span>
                     <label class="q-label">I remain calm under pressure during conflicts.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="n3" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="n3" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="n3" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="n3" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="n3" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="n3" value="1" id="n3-1"><label for="n3-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n3" value="2" id="n3-2"><label for="n3-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n3" value="3" id="n3-3"><label for="n3-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="n3" value="4" id="n3-4"><label for="n3-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n3" value="5" id="n3-5"><label for="n3-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="n4" data-weight="1.2">
+                <!-- Q36 -->
+                <div class="question-card">
+                    <span class="q-num">36</span>
                     <label class="q-label">I get stressed easily in unfamiliar social situations.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="n4" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="n4" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="n4" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="n4" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="n4" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="n4" value="1" id="n4-1"><label for="n4-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n4" value="2" id="n4-2"><label for="n4-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n4" value="3" id="n4-3"><label for="n4-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="n4" value="4" id="n4-4"><label for="n4-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n4" value="5" id="n4-5"><label for="n4-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="n5" data-reverse="true" data-weight="1.5">
+                <!-- Q37 Toggle -->
+                <div class="question-card">
+                    <span class="q-num">37</span>
                     <label class="q-label">Reaction to New Situations</label>
-                    <div class="toggle-group">
-                        <input type="radio" id="n5-anx" name="n5" value="5">
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="n5" value="5" id="n5-anx">
                         <label for="n5-anx" class="toggle-btn">Anxious</label>
                         
-                        <input type="radio" id="n5-calm" name="n5" value="1">
+                        <input type="radio" name="n5" value="1" id="n5-calm">
                         <label for="n5-calm" class="toggle-btn">Calm</label>
                     </div>
                 </div>
 
-                <div class="question-card" data-qid="n6" data-weight="1.2">
+                <!-- Q38 Slider -->
+                <div class="question-card">
+                    <span class="q-num">38</span>
                     <label class="q-label">Negative events affect me more deeply than positive ones.</label>
-                    <div class="range-container">
-                        <span class="range-label">Resilient</span>
-                        <input type="range" name="n6" min="1" max="10" value="5" oninput="updateOutput('n6-out', this.value)">
-                        <span class="range-label">Sensitive</span>
+                    <div class="slider-wrapper">
+                        <span class="slider-label left">Resilient</span>
+                        <input type="range" class="styled-slider" name="n6" min="1" max="10" value="5" oninput="updateOutput('n6-out', this.value)">
+                        <span class="slider-label right">Sensitive</span>
                     </div>
-                    <output id="n6-out">5</output>
+                    <div class="slider-value">Selected: <span id="n6-out">5</span>/10</div>
                 </div>
 
-                <div class="question-card" data-qid="n7" data-weight="1.0">
+                <!-- Q39 -->
+                <div class="question-card">
+                    <span class="q-num">39</span>
                     <label class="q-label">I tend to ruminate on past mistakes.</label>
-                    <div class="likert-scale">
-                         <label><input type="radio" name="n7" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="n7" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="n7" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="n7" value="4"><span>Agree</span></label>
-                        <label><input type="radio" name="n7" value="5"><span>Strongly Agree</span></label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="n7" value="1" id="n7-1"><label for="n7-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n7" value="2" id="n7-2"><label for="n7-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n7" value="3" id="n7-3"><label for="n7-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="n7" value="4" id="n7-4"><label for="n7-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n7" value="5" id="n7-5"><label for="n7-5">Strongly Agree</label></div>
                     </div>
                 </div>
 
-                 <div class="question-card" data-qid="n8" data-reverse="true" data-weight="1.8">
+                 <!-- Q40 -->
+                <div class="question-card">
+                    <span class="q-num">40</span>
                     <label class="q-label">I handle criticism well without getting defensive.</label>
-                    <div class="likert-scale">
-                        <label><input type="radio" name="n8" value="1" required><span>Strongly Disagree</span></label>
-                        <label><input type="radio" name="n8" value="2"><span>Disagree</span></label>
-                        <label><input type="radio" name="n8" value="3"><span>Neutral</span></label>
-                        <label><input type="radio" name="n8" value="4"><span>Agree</span></label>
-                        <label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="n8" value="1" id="n8-1"><label for="n8-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n8" value="2" id="n8-2"><label for="n8-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n8" value="3" id="n8-3"><label for="n8-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="n8" value="4" id="n8-4"><label for="n8-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n8" value="5" id="n8-5"><label for="n8-5">Strongly Agree</label></div>
+                    </div>
+                </div>
+                
+                <!-- Q41 Bonus (Likert) -->
+                <div class="question-card">
+                    <span class="q-num">41</span>
+                    <label class="q-label">I notice small messes immediately (like crumbs or a crooked rug).</label>
+                    <div class="likert-container">
+                        <div class="likert-opt"><input type="radio" name="n9" value="1" id="n9-1"><label for="n9-1">Strongly Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n9" value="2" id="n9-2"><label for="n9-2">Disagree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n9" value="3" id="n9-3"><label for="n9-3">Neutral</label></div>
+                        <div class="likert-opt"><input type="radio" name="n9" value="4" id="n9-4"><label for="n9-4">Agree</label></div>
+                        <div class="likert-opt"><input type="radio" name="n9" value="5" id="n9-5"><label for="n9-5">Strongly Agree</label></div>
+                    </div>
+                </div>
+                
+                 <!-- Q42 Bonus (Toggle) -->
+                <div class="question-card">
+                    <span class="q-num">42</span>
+                    <label class="q-label">Preferred Communication Style</label>
+                    <div class="toggle-wrapper">
+                        <input type="radio" name="n10" value="1" id="n10-txt">
+                        <label for="n10-txt" class="toggle-btn">Text/Message</label>
+                        
+                        <input type="radio" name="n10" value="5" id="n10-face">
+                        <label for="n10-face" class="toggle-btn">Face-to-Face</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAVIGATION BUTTONS -->
+            <div class="quiz-nav">
+                <button type="button" id="prevBtn" class="btn-secondary" onclick="changeStep(-1)" style="display:none">Back</button>
+                <button type="button" id="nextBtn" class="btn-primary" onclick="changeStep(1)">Next Section</button>
+                <button type="submit" id="submitBtn" class="btn-success" style="display:none">Complete Quiz</button>
+            </div>
+            
+            <p id="error-msg" class="error-text" style="display:none;">Please answer all questions in this section to proceed.</p>
+
+        </form>
+    </main>
+
+    <script src="/js/quiz.js"></script>
+</body>
+</html>
