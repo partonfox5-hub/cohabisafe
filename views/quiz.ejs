@@ -11,7 +11,8 @@
     
     <nav class="navbar">
         <div class="nav-content">
-            <img src="/images/logo.png" alt="CohabiSafe Logo" class="logo">
+            <!-- UPDATED: Changed to .jpg based on your note -->
+            <img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo">
             <div class="progress-wrapper">
                 <div class="progress-label">
                     <span id="step-indicator">Part 1 of 5</span>
@@ -52,7 +53,7 @@
                     </div>
                 </div>
 
-                <!-- Q2 (Reverse) -->
+                <!-- Q2 -->
                 <div class="question-card">
                     <span class="q-num">2</span>
                     <label class="q-label">I prefer routine tasks over trying something new and different.</label>
@@ -65,13 +66,12 @@
                     </div>
                 </div>
 
-                <!-- Q3 Slider (Updated with data attributes) -->
+                <!-- Q3 -->
                 <div class="question-card">
                     <span class="q-num">3</span>
                     <label class="q-label">I have a vivid imagination and often daydream about possibilities.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Unimaginative</span>
-                        <!-- data-low and data-high define the adjectives -->
                         <input type="range" class="styled-slider" name="o3" min="1" max="10" value="5" 
                                data-low="Unimaginative" data-high="Imaginative"> 
                         <span class="slider-label right">Imaginative</span>
@@ -81,19 +81,19 @@
                     </div>
                 </div>
 
-                <!-- Q4 Toggle (Updated Structure) -->
+                <!-- Q4 Toggle -->
                 <div class="question-card">
                     <span class="q-num">4</span>
                     <label class="q-label">Art and aesthetics matter a lot to me; I seek beauty in my surroundings.</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="o4" value="1" id="o4-no" onclick="toggleText('o4-text', false)">
+                        <input type="radio" name="o4" value="1" id="o4-no" onclick="toggleText('o4-notes')">
                         <label for="o4-no" class="toggle-btn">No</label>
                         
-                        <input type="radio" name="o4" value="5" id="o4-yes" onclick="toggleText('o4-text', true)">
+                        <input type="radio" name="o4" value="5" id="o4-yes" onclick="toggleText('o4-notes')">
                         <label for="o4-yes" class="toggle-btn">Yes</label>
-                        <div class="toggle-bg"></div> <!-- New sliding background -->
+                        <div class="toggle-bg"></div>
                     </div>
-                    <textarea id="o4-text" name="o4_notes" class="conditional-text" placeholder="Tell us why aesthetics matter to you..." style="display:none"></textarea>
+                    <textarea id="o4-notes" name="o4_notes" class="conditional-text" placeholder="Tell us why aesthetics matter to you..." style="display:none"></textarea>
                 </div>
 
                 <!-- Q5 -->
@@ -122,7 +122,7 @@
                     </div>
                 </div>
 
-                <!-- Q7 Slider -->
+                <!-- Q7 -->
                 <div class="question-card">
                     <span class="q-num">7</span>
                     <label class="q-label">I find it exciting to learn about cultures different from my own.</label>
@@ -142,13 +142,14 @@
                     <span class="q-num">8</span>
                     <label class="q-label">Which approach do you prefer?</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="o8" value="5" id="o8-prac">
+                        <input type="radio" name="o8" value="5" id="o8-prac" onclick="toggleText('o8-notes')">
                         <label for="o8-prac" class="toggle-btn">Practical</label>
                         
-                        <input type="radio" name="o8" value="1" id="o8-theo">
+                        <input type="radio" name="o8" value="1" id="o8-theo" onclick="toggleText('o8-notes')">
                         <label for="o8-theo" class="toggle-btn">Theoretical</label>
                         <div class="toggle-bg"></div>
                     </div>
+                    <textarea id="o8-notes" name="o8_notes" class="conditional-text" placeholder="Context helps us match you better..." style="display:none"></textarea>
                 </div>
             </div>
 
@@ -164,7 +165,7 @@
                     <div class="section-counter" id="count-2">Answered: 0 / 8</div>
                 </div>
 
-                <!-- Q9 (Critical) -->
+                <!-- Q9 -->
                 <div class="question-card critical-card">
                     <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
                     <span class="q-num">9</span>
@@ -178,7 +179,7 @@
                     </div>
                 </div>
 
-                <!-- Q10 Slider -->
+                <!-- Q10 -->
                 <div class="question-card">
                     <span class="q-num">10</span>
                     <label class="q-label">I plan my tasks carefully to avoid last-minute rushes.</label>
@@ -206,7 +207,7 @@
                     </div>
                 </div>
 
-                <!-- Q12 (Critical Visual) -->
+                <!-- Q12 -->
                 <div class="question-card critical-card">
                      <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
                     <span class="q-num">12</span>
@@ -231,7 +232,7 @@
                     </div>
                 </div>
 
-                <!-- Q14 Slider -->
+                <!-- Q14 -->
                 <div class="question-card">
                     <span class="q-num">14</span>
                     <label class="q-label">I double-check my work to ensure it's error-free.</label>
@@ -264,13 +265,14 @@
                     <span class="q-num">16</span>
                     <label class="q-label">How do you handle deadlines?</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="c8" value="5" id="c8-proc">
+                        <input type="radio" name="c8" value="5" id="c8-proc" onclick="toggleText('c8-notes')">
                         <label for="c8-proc" class="toggle-btn">Procrastinate</label>
                         
-                        <input type="radio" name="c8" value="1" id="c8-prom">
+                        <input type="radio" name="c8" value="1" id="c8-prom" onclick="toggleText('c8-notes')">
                         <label for="c8-prom" class="toggle-btn">Prompt</label>
                         <div class="toggle-bg"></div>
                     </div>
+                    <textarea id="c8-notes" name="c8_notes" class="conditional-text" placeholder="Is it specific to work, chores, or everything?" style="display:none"></textarea>
                 </div>
             </div>
 
@@ -286,7 +288,7 @@
                     <div class="section-counter" id="count-3">Answered: 0 / 8</div>
                 </div>
 
-                <!-- Q17 (Critical) -->
+                <!-- Q17 -->
                 <div class="question-card critical-card">
                      <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
                     <span class="q-num">17</span>
@@ -300,7 +302,7 @@
                     </div>
                 </div>
 
-                <!-- Q18 Slider -->
+                <!-- Q18 -->
                 <div class="question-card">
                     <span class="q-num">18</span>
                     <label class="q-label">How often do you prefer solo downtime vs. group hangs?</label>
@@ -333,13 +335,14 @@
                     <span class="q-num">20</span>
                     <label class="q-label">What is your gathering preference?</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="e4" value="5" id="e4-small">
+                        <input type="radio" name="e4" value="5" id="e4-small" onclick="toggleText('e4-notes')">
                         <label for="e4-small" class="toggle-btn">Small</label>
                         
-                        <input type="radio" name="e4" value="1" id="e4-large">
+                        <input type="radio" name="e4" value="1" id="e4-large" onclick="toggleText('e4-notes')">
                         <label for="e4-large" class="toggle-btn">Large</label>
                         <div class="toggle-bg"></div>
                     </div>
+                    <textarea id="e4-notes" name="e4_notes" class="conditional-text" placeholder="Add details (e.g. 'OK with parties if I know about them')" style="display:none"></textarea>
                 </div>
 
                 <!-- Q21 -->
@@ -355,7 +358,7 @@
                     </div>
                 </div>
 
-                <!-- Q22 Slider -->
+                <!-- Q22 -->
                 <div class="question-card">
                     <span class="q-num">22</span>
                     <label class="q-label">I thrive in environments with lots of social interaction.</label>
@@ -388,13 +391,14 @@
                     <span class="q-num">24</span>
                     <label class="q-label">Working Preference</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="e8" value="1" id="e8-solo">
+                        <input type="radio" name="e8" value="1" id="e8-solo" onclick="toggleText('e8-notes')">
                         <label for="e8-solo" class="toggle-btn">Solo</label>
                         
-                        <input type="radio" name="e8" value="5" id="e8-team">
+                        <input type="radio" name="e8" value="5" id="e8-team" onclick="toggleText('e8-notes')">
                         <label for="e8-team" class="toggle-btn">Team</label>
                         <div class="toggle-bg"></div>
                     </div>
+                     <textarea id="e8-notes" name="e8_notes" class="conditional-text" placeholder="Any specific work-from-home needs?" style="display:none"></textarea>
                 </div>
             </div>
 
@@ -424,7 +428,7 @@
                     </div>
                 </div>
 
-                <!-- Q26 Slider -->
+                <!-- Q26 -->
                 <div class="question-card">
                     <span class="q-num">26</span>
                     <label class="q-label">I go out of my way to help others, even if it's inconvenient.</label>
@@ -457,13 +461,14 @@
                     <span class="q-num">28</span>
                     <label class="q-label">Conflict Style</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="a4" value="1" id="a4-conf">
+                        <input type="radio" name="a4" value="1" id="a4-conf" onclick="toggleText('a4-notes')">
                         <label for="a4-conf" class="toggle-btn">Direct</label>
                         
-                        <input type="radio" name="a4" value="5" id="a4-avoid">
+                        <input type="radio" name="a4" value="5" id="a4-avoid" onclick="toggleText('a4-notes')">
                         <label for="a4-avoid" class="toggle-btn">Peaceful</label>
                         <div class="toggle-bg"></div>
                     </div>
+                     <textarea id="a4-notes" name="a4_notes" class="conditional-text" placeholder="Example: 'I prefer to cool off before talking'" style="display:none"></textarea>
                 </div>
 
                 <!-- Q29 -->
@@ -479,7 +484,7 @@
                     </div>
                 </div>
 
-                <!-- Q30 Slider -->
+                <!-- Q30 -->
                 <div class="question-card">
                     <span class="q-num">30</span>
                     <label class="q-label">I feel compassion for those who are suffering.</label>
@@ -499,13 +504,14 @@
                     <span class="q-num">31</span>
                     <label class="q-label">Expectations of others</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="a7" value="1" id="a7-recip">
+                        <input type="radio" name="a7" value="1" id="a7-recip" onclick="toggleText('a7-notes')">
                         <label for="a7-recip" class="toggle-btn">Transact</label>
                         
-                        <input type="radio" name="a7" value="5" id="a7-uncon">
+                        <input type="radio" name="a7" value="5" id="a7-uncon" onclick="toggleText('a7-notes')">
                         <label for="a7-uncon" class="toggle-btn">Kind</label>
                         <div class="toggle-bg"></div>
                     </div>
+                     <textarea id="a7-notes" name="a7_notes" class="conditional-text" placeholder="Add context..." style="display:none"></textarea>
                 </div>
 
                 <!-- Q32 -->
@@ -594,13 +600,14 @@
                     <span class="q-num">37</span>
                     <label class="q-label">Reaction to New Situations</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="n5" value="5" id="n5-anx">
+                        <input type="radio" name="n5" value="5" id="n5-anx" onclick="toggleText('n5-notes')">
                         <label for="n5-anx" class="toggle-btn">Anxious</label>
                         
-                        <input type="radio" name="n5" value="1" id="n5-calm">
+                        <input type="radio" name="n5" value="1" id="n5-calm" onclick="toggleText('n5-notes')">
                         <label for="n5-calm" class="toggle-btn">Calm</label>
                         <div class="toggle-bg"></div>
                     </div>
+                     <textarea id="n5-notes" name="n5_notes" class="conditional-text" placeholder="Tell us more..." style="display:none"></textarea>
                 </div>
 
                 <!-- Q38 Slider -->
@@ -644,7 +651,7 @@
                     </div>
                 </div>
                 
-                <!-- Q41 Bonus (Likert) -->
+                <!-- Q41 -->
                 <div class="question-card">
                     <span class="q-num">41</span>
                     <label class="q-label">I notice small messes immediately (like crumbs or a crooked rug).</label>
@@ -657,18 +664,19 @@
                     </div>
                 </div>
                 
-                 <!-- Q42 Bonus (Toggle) -->
+                 <!-- Q42 Toggle -->
                 <div class="question-card">
                     <span class="q-num">42</span>
                     <label class="q-label">Preferred Communication Style</label>
                     <div class="toggle-wrapper">
-                        <input type="radio" name="n10" value="1" id="n10-txt">
+                        <input type="radio" name="n10" value="1" id="n10-txt" onclick="toggleText('n10-notes')">
                         <label for="n10-txt" class="toggle-btn">Message</label>
                         
-                        <input type="radio" name="n10" value="5" id="n10-face">
+                        <input type="radio" name="n10" value="5" id="n10-face" onclick="toggleText('n10-notes')">
                         <label for="n10-face" class="toggle-btn">In Person</label>
                         <div class="toggle-bg"></div>
                     </div>
+                     <textarea id="n10-notes" name="n10_notes" class="conditional-text" placeholder="Notes on communication..." style="display:none"></textarea>
                 </div>
             </div>
 
