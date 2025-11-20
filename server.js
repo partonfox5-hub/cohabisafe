@@ -151,3 +151,28 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`CohabiSafe running on port ${port}`);
 });
+
+app.post('/save-progress', async (req, res) => {
+    const { step, answers } = req.body;
+    if (req.session.userId) {
+        console.log(`Saving progress for User ${req.session.userId}, Step ${step}`);
+        // TODO: Update specific columns in DB based on step, or merge into a JSONB column 'quiz_answers'
+        // await pool.query('UPDATE users SET quiz_answers = quiz_answers || $1 WHERE id = $2', [answers, req.session.userId]);
+    }
+    res.json({ success: true });
+});
+
+// 1. Preferences Landing Page
+app.get('/preferences-start', (req, res) => {
+    res.render('preferences-start', { step: 4, totalSteps: 6 });
+});
+
+// 2. Amenities Form
+app.get('/preferences/amenities', (req, res) => {
+    res.render('preferences-amenities', { step: 4, totalSteps: 6 });
+});
+
+// 3. Daily Routine Widget
+app.get('/preferences/routine', (req, res) => {
+    res.render('preferences-routine', { step: 4, totalSteps: 6 });
+});

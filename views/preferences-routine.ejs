@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Routine - CohabiSafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .routine-card { background: white; padding: 25px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
+        .time-slider-container { margin-top: 20px; }
+        .time-label { display: flex; justify-content: space-between; font-weight: bold; color: var(--primary-blue); margin-bottom: 10px; }
+        /* Dual Handle Slider styling requires a library usually, using two inputs for skeleton */
+        .slider-group { position: relative; height: 40px; }
+        .slider-group input { 
+            position: absolute; width: 100%; pointer-events: none; 
+            -webkit-appearance: none; background: none; 
+        }
+        .slider-group input::-webkit-slider-thumb { 
+            pointer-events: auto; -webkit-appearance: none; 
+            height: 20px; width: 20px; border-radius: 50%; background: var(--primary-green); cursor: pointer; margin-top: -8px; 
+        }
+        .slider-track { width: 100%; height: 4px; background: #ddd; position: absolute; top: 50%; z-index: -1; border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content"><img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo"></div>
+    </nav>
+
+    <main class="container">
+        <h1>Your Typical Routine</h1>
+        <p>Help us match you with early birds or night owls.</p>
+
+        <form action="/background-gather" method="GET">
+            
+            <!-- Wake Up Time Widget -->
+            <div class="routine-card">
+                <h3>☀️ Typical Wake Up Time</h3>
+                <div class="time-slider-container">
+                    <div class="time-label">
+                        <span>Earliest: <span id="wake-min-val">6:00 AM</span></span>
+                        <span>Latest: <span id="wake-max-val">8:00 AM</span></span>
+                    </div>
+                    <input type="range" class="styled-slider" min="4" max="12" step="0.5" value="7" oninput="updateTime('wake', this.value)">
+                    <p class="slider-value" style="margin-top:10px">Target: <span id="wake-display">7:00 AM</span></p>
+                </div>
+            </div>
+
+            <!-- Bed Time Widget -->
+            <div class="routine-card">
+                <h3>🌙 Typical Bed Time</h3>
+                <div class="time-slider-container">
+                    <input type="range" class="styled-slider" min="20" max="28" step="0.5" value="23" oninput="updateTime('bed', this.value)">
+                    <p class="slider-value" style="margin-top:10px">Target: <span id="bed-display">11:00 PM</span></p>
+                </div>
+            </div>
+
+            <div class="quiz-nav">
+                <button type="submit" class="btn-primary">Finish Preferences</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        function updateTime(type, val) {
+            let hours = Math.floor(val);
+            const minutes = (val % 1) === 0.5 ? '30' : '00';
+            
+            // Normalize 24h to 12h
+            let suffix = 'AM';
+            if (hours >= 12) { suffix = 'PM'; if (hours > 12) hours -= 12; }
+            if (hours >= 24) { hours -= 24; suffix = 'AM'; } // For late night owls (25, 26 etc)
+            
+            document.getElementById(type + '-display').innerText = `${hours}:${minutes} ${suffix}`;
+        }
+    </script>
+</body>
+</html>

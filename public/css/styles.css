@@ -622,46 +622,58 @@ body {
 .conditional-text { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; margin-top: 10px; }
 
 /* --- Logo Fix --- */
-.logo { height: 60px; } /* Bigger logo */
+.logo { height: 100px; } /* Made bigger per request */
 
 /* --- Tooltip Styling --- */
 .q-header { display: flex; align-items: center; margin-bottom: 20px; }
-.q-label { margin-bottom: 0; flex-grow: 1; margin-right: 10px; }
-.tooltip-container { position: relative; display: inline-block; cursor: pointer; }
-.tooltip-icon { color: #4A90E2; font-size: 1.1rem; }
+.q-label { margin-bottom: 0; flex-grow: 1; margin-right: 10px; font-size: 1.2rem; }
+.tooltip-container { position: relative; display: inline-block; cursor: pointer; margin-left: 8px; }
+.tooltip-icon { color: #4A90E2; font-size: 1.3rem; }
 .tooltip-text {
     visibility: hidden;
-    width: 200px;
+    width: 220px;
     background-color: #333;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px;
+    padding: 8px;
     position: absolute;
     z-index: 10;
-    bottom: 125%; /* Position above icon */
+    bottom: 140%; /* Position above icon */
     left: 50%;
-    margin-left: -100px;
+    margin-left: -110px;
     opacity: 0;
     transition: opacity 0.3s;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: normal;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
 }
 .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
 
-/* --- WRAPPER 35 TOGGLE (Your Custom Style) --- */
+/* --- WRAPPER 35 TOGGLE (Bigger & Bolder) --- */
 .checkbox-wrapper-35 .switch { display: none; }
 
 .checkbox-wrapper-35 .switch + label {
   align-items: center;
-  color: #78768d;
+  color: #333 !important; /* Forced Black Text */
   cursor: pointer;
   display: flex;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 16px; /* Increased Font Size */
+  line-height: 1.5;
   position: relative;
   user-select: none;
+  font-weight: 600;
 }
 
 .checkbox-wrapper-35 .switch + label::before,
@@ -670,39 +682,43 @@ body {
   display: block;
 }
 
+/* The Track */
 .checkbox-wrapper-35 .switch + label::before {
   background-color: #7fffd4; /* Light Aquamarine (Off state) */
   border-radius: 500px;
-  height: 15px;
-  margin-right: 8px;
+  height: 30px; /* Doubled Height */
+  margin-right: 12px;
   transition: background-color 0.125s ease-out;
-  width: 25px;
+  width: 50px; /* Doubled Width */
 }
 
+/* The Thumb (Circle) */
 .checkbox-wrapper-35 .switch + label::after {
   background-color: #fff;
-  border-radius: 13px;
-  box-shadow: 0 3px 1px 0 rgba(37, 34, 71, 0.05), 0 2px 2px 0 rgba(37, 34, 71, 0.1), 0 3px 3px 0 rgba(37, 34, 71, 0.05);
-  height: 13px;
-  left: 1px;
+  border-radius: 50%;
+  box-shadow: 0 3px 1px 0 rgba(37, 34, 71, 0.05), 0 2px 2px 0 rgba(37, 34, 71, 0.1);
+  height: 26px; /* Matches Track Height - 4px */
+  left: 2px;
   position: absolute;
-  top: 1px;
+  top: 2px; /* Centered vertically */
   transition: transform 0.125s ease-out;
-  width: 13px;
+  width: 26px;
 }
 
 .checkbox-wrapper-35 .switch + label .switch-x-text {
   display: block;
-  margin-right: .3em;
+  margin-right: .5em;
+  font-size: 1.1rem;
 }
 
 .checkbox-wrapper-35 .switch + label .switch-x-toggletext {
   display: block;
   font-weight: bold;
-  height: 15px;
+  height: 24px; /* Height to fit text */
   overflow: hidden;
   position: relative;
-  width: 60px; /* Widened to fit labels */
+  width: 100px; /* Much wider to fit text */
+  text-align: left;
 }
 
 .checkbox-wrapper-35 .switch + label .switch-x-unchecked,
@@ -711,6 +727,7 @@ body {
   position: absolute;
   top: 0;
   transition: transform 0.125s ease-out, opacity 0.125s ease-out;
+  color: #333 !important; /* Ensure text stays black */
 }
 
 .checkbox-wrapper-35 .switch + label .switch-x-unchecked { opacity: 1; transform: none; }
@@ -724,7 +741,7 @@ body {
 }
 
 .checkbox-wrapper-35 .switch:checked + label::after {
-  transform: translate3d(10px, 0, 0);
+  transform: translate3d(20px, 0, 0); /* Move thumb to the right */
 }
 
 .checkbox-wrapper-35 .switch:checked + label .switch-x-unchecked {
@@ -820,12 +837,13 @@ body {
     background: var(--primary-blue); color: white;
     width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
     border-radius: 50%; font-size: 0.9rem; font-weight: bold; margin-right: 10px;
+    flex-shrink: 0; /* Prevent shrinking */
 }
 @media (max-width: 600px) { .q-num { display: none; } } 
 .q-label { display: block; font-size: 1.1rem; font-weight: 600; margin-bottom: 0; line-height: 1.5; }
 
 /* --- Likert --- */
-.likert-container { display: flex; justify-content: space-between; gap: 5px; }
+.likert-container { display: flex; justify-content: space-between; gap: 5px; margin-top: 15px; }
 .likert-opt { flex: 1; text-align: center; position: relative; }
 .likert-opt input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
 .likert-opt label {
@@ -845,7 +863,7 @@ body {
 /* --- Sliders --- */
 .slider-wrapper {
     display: flex; align-items: center; gap: 15px;
-    background: #f8f9fa; padding: 15px; border-radius: 8px;
+    background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px;
 }
 .styled-slider { flex-grow: 1; cursor: pointer; accent-color: var(--primary-green); }
 .slider-label { font-size: 0.85rem; font-weight: bold; color: var(--primary-blue); width: 100px; }
@@ -862,4 +880,4 @@ body {
 .btn-success { background: var(--primary-green); color: white; }
 .btn-primary:hover, .btn-success:hover { opacity: 0.9; transform: scale(1.02); }
 .error-text { color: #e74c3c; text-align: center; margin-top: 15px; font-weight: bold; }
-.conditional-text { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; margin-top: 10px; }
+.conditional-text { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; margin-top: 15px; }

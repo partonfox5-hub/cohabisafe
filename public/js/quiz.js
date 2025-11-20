@@ -32,7 +32,7 @@ function showStep(step) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// NEW: Save progress to DB before moving
+// Save progress to DB before moving
 async function saveAndNext(n) {
     const currentStepDiv = document.getElementById(`step-${currentStep}`);
     const errorMsg = document.getElementById('error-msg');
@@ -57,22 +57,20 @@ async function saveAndNext(n) {
         });
     } catch (err) {
         console.error("Failed to save progress", err);
-        // Proceed anyway so user isn't stuck
     }
 
     // Move Step
     currentStep += n;
     
-    // Check if quiz is done (Move to Amenities)
+    // Check if quiz is done (Move to Amenities Start)
     if (currentStep > totalSteps) {
-        window.location.href = "/preferences"; // Redirect to Amenities page
+        window.location.href = "/preferences-start"; // Redirect to new start page
     } else {
         showStep(currentStep);
     }
 }
 
 function changeStep(n) {
-    // Legacy wrapper for back button or simple changes
     if(n === 1) {
         saveAndNext(1);
     } else {
@@ -81,19 +79,19 @@ function changeStep(n) {
     }
 }
 
+// ... (Keep existing validateStep, updateSliderLabel, toggleText, event listeners from previous version) ...
+
 // Validates that all cards in the current step have an answer
 function validateStep(stepDiv) {
     const questions = stepDiv.querySelectorAll('.question-card');
     let isValid = true;
 
     questions.forEach(card => {
-        // Check Radios
         const radios = card.querySelectorAll('input[type="radio"]');
         if (radios.length > 0) {
             const checked = Array.from(radios).some(r => r.checked);
             if (!checked) isValid = false;
         }
-        // Sliders and Toggles generally have a default value or use hidden inputs
     });
     return isValid;
 }
@@ -109,7 +107,6 @@ function updateSliderLabel(slider) {
 
     if(scoreDisplay) scoreDisplay.innerText = val;
     
-    // Generate qualitative text based on 1-10
     let text = "Balanced";
     if (val <= 2) text = `Very ${lowLabel}`;
     else if (val <= 4) text = `Somewhat ${lowLabel}`;
@@ -122,17 +119,15 @@ function updateSliderLabel(slider) {
 }
 
 function updateToggleValue(checkbox, hiddenInputId, notesId) {
-    // Update hidden input value: 5 if checked, 1 if unchecked
     const hiddenInput = document.getElementById(hiddenInputId);
     if (hiddenInput) {
         hiddenInput.value = checkbox.checked ? 5 : 1;
     }
     
-    // Show notes if checked (or based on your logic for "Yes")
     const notes = document.getElementById(notesId);
     if (notes) {
         notes.style.display = checkbox.checked ? 'block' : 'none';
-        if (!checkbox.checked) notes.value = ""; // Clear if hidden
+        if (!checkbox.checked) notes.value = ""; 
     }
 
     updateProgress();
@@ -165,16 +160,13 @@ function updateSectionProgress(step) {
     questions.forEach(card => {
         const radios = card.querySelectorAll('input[type="radio"]');
         const sliders = card.querySelectorAll('input[type="range"]');
-        const toggles = card.querySelectorAll('input.switch'); // New toggle class
+        const toggles = card.querySelectorAll('input.switch'); 
         
         if (radios.length > 0) {
             if (Array.from(radios).some(r => r.checked)) answeredCount++;
         } else if (sliders.length > 0) {
-            answeredCount++; // Sliders always count
+            answeredCount++; 
         } else if (toggles.length > 0) {
-            // Toggles are binary but count as answered if interactive, 
-            // or strictly if they changed from default? 
-            // For this UI, let's assume they are always "answered" as they have a default state.
             answeredCount++;
         }
     });
@@ -186,16 +178,10 @@ function updateSectionProgress(step) {
 function updateProgress() {
     const form = document.getElementById('quizForm');
     const totalQuestions = 42;
-    
-    // Count unique names checked
     const data = new FormData(form);
-    let count = 0;
-    // Fix: count maps directly to unique questions if inputs are named correctly
-    // Since FormData might include multiple values for checkboxes, we use a Set
     const uniqueQuestions = new Set();
     
     for(let pair of data.entries()) {
-        // exclude textareas or extra fields, count unique keys (questions)
         if(!pair[0].includes('_notes') && !pair[0].includes('-val')) {
              uniqueQuestions.add(pair[0]);
         }
