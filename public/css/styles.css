@@ -620,3 +620,119 @@ body {
 .btn-primary:hover, .btn-success:hover { opacity: 0.9; transform: scale(1.02); }
 .error-text { color: #e74c3c; text-align: center; margin-top: 15px; font-weight: bold; }
 .conditional-text { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; margin-top: 10px; }
+
+/* --- Logo Fix --- */
+.logo { height: 60px; } /* Bigger logo */
+
+/* --- Tooltip Styling --- */
+.q-header { display: flex; align-items: center; margin-bottom: 20px; }
+.q-label { margin-bottom: 0; flex-grow: 1; margin-right: 10px; }
+.tooltip-container { position: relative; display: inline-block; cursor: pointer; }
+.tooltip-icon { color: #4A90E2; font-size: 1.1rem; }
+.tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* Position above icon */
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+.tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+/* --- WRAPPER 35 TOGGLE (Your Custom Style) --- */
+.checkbox-wrapper-35 .switch { display: none; }
+
+.checkbox-wrapper-35 .switch + label {
+  align-items: center;
+  color: #78768d;
+  cursor: pointer;
+  display: flex;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 15px;
+  position: relative;
+  user-select: none;
+}
+
+.checkbox-wrapper-35 .switch + label::before,
+.checkbox-wrapper-35 .switch + label::after {
+  content: '';
+  display: block;
+}
+
+.checkbox-wrapper-35 .switch + label::before {
+  background-color: #7fffd4; /* Light Aquamarine (Off state) */
+  border-radius: 500px;
+  height: 15px;
+  margin-right: 8px;
+  transition: background-color 0.125s ease-out;
+  width: 25px;
+}
+
+.checkbox-wrapper-35 .switch + label::after {
+  background-color: #fff;
+  border-radius: 13px;
+  box-shadow: 0 3px 1px 0 rgba(37, 34, 71, 0.05), 0 2px 2px 0 rgba(37, 34, 71, 0.1), 0 3px 3px 0 rgba(37, 34, 71, 0.05);
+  height: 13px;
+  left: 1px;
+  position: absolute;
+  top: 1px;
+  transition: transform 0.125s ease-out;
+  width: 13px;
+}
+
+.checkbox-wrapper-35 .switch + label .switch-x-text {
+  display: block;
+  margin-right: .3em;
+}
+
+.checkbox-wrapper-35 .switch + label .switch-x-toggletext {
+  display: block;
+  font-weight: bold;
+  height: 15px;
+  overflow: hidden;
+  position: relative;
+  width: 60px; /* Widened to fit labels */
+}
+
+.checkbox-wrapper-35 .switch + label .switch-x-unchecked,
+.checkbox-wrapper-35 .switch + label .switch-x-checked {
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: transform 0.125s ease-out, opacity 0.125s ease-out;
+}
+
+.checkbox-wrapper-35 .switch + label .switch-x-unchecked { opacity: 1; transform: none; }
+.checkbox-wrapper-35 .switch + label .switch-x-checked { opacity: 0; transform: translate3d(0, 100%, 0); }
+
+.checkbox-wrapper-35 .switch + label .switch-x-hiddenlabel { position: absolute; visibility: hidden; }
+
+/* ON STATE COLORS */
+.checkbox-wrapper-35 .switch:checked + label::before {
+  background-color: #228B22; /* Forest Green (On state) */
+}
+
+.checkbox-wrapper-35 .switch:checked + label::after {
+  transform: translate3d(10px, 0, 0);
+}
+
+.checkbox-wrapper-35 .switch:checked + label .switch-x-unchecked {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+}
+
+.checkbox-wrapper-35 .switch:checked + label .switch-x-checked {
+  opacity: 1;
+  transform: none;
+}

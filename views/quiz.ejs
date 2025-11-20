@@ -11,7 +11,7 @@
     
     <nav class="navbar">
         <div class="nav-content">
-            <!-- UPDATED: Changed to .jpg based on your note -->
+            <!-- Updated to .jpg per your request -->
             <img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo">
             <div class="progress-wrapper">
                 <div class="progress-label">
@@ -42,8 +42,14 @@
 
                 <!-- Q1 -->
                 <div class="question-card">
-                    <span class="q-num">1</span>
-                    <label class="q-label">I enjoy exploring new ideas and concepts, even if they're unconventional.</label>
+                    <div class="q-header">
+                        <span class="q-num">1</span>
+                        <label class="q-label">I enjoy exploring new ideas and concepts, even if they're unconventional.</label>
+                        <div class="tooltip-container">
+                            <i class="fas fa-question-circle tooltip-icon"></i>
+                            <div class="tooltip-text">This helps match you with roommates who share your curiosity or prefer stability.</div>
+                        </div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="o1" value="1" id="o1-1"><label for="o1-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="o1" value="2" id="o1-2"><label for="o1-2">Disagree</label></div>
@@ -55,8 +61,14 @@
 
                 <!-- Q2 -->
                 <div class="question-card">
-                    <span class="q-num">2</span>
-                    <label class="q-label">I prefer routine tasks over trying something new and different.</label>
+                    <div class="q-header">
+                        <span class="q-num">2</span>
+                        <label class="q-label">I prefer routine tasks over trying something new and different.</label>
+                         <div class="tooltip-container">
+                            <i class="fas fa-question-circle tooltip-icon"></i>
+                            <div class="tooltip-text">Important for lifestyle compatibility - e.g., weekend plans vs. chill nights.</div>
+                        </div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="o2" value="1" id="o2-1"><label for="o2-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="o2" value="2" id="o2-2"><label for="o2-2">Disagree</label></div>
@@ -66,10 +78,16 @@
                     </div>
                 </div>
 
-                <!-- Q3 -->
+                <!-- Q3 Slider -->
                 <div class="question-card">
-                    <span class="q-num">3</span>
-                    <label class="q-label">I have a vivid imagination and often daydream about possibilities.</label>
+                    <div class="q-header">
+                        <span class="q-num">3</span>
+                        <label class="q-label">I have a vivid imagination and often daydream about possibilities.</label>
+                         <div class="tooltip-container">
+                            <i class="fas fa-question-circle tooltip-icon"></i>
+                            <div class="tooltip-text">Assesses abstract thinking vs. practical focus.</div>
+                        </div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Unimaginative</span>
                         <input type="range" class="styled-slider" name="o3" min="1" max="10" value="5" 
@@ -83,23 +101,37 @@
 
                 <!-- Q4 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">4</span>
-                    <label class="q-label">Art and aesthetics matter a lot to me; I seek beauty in my surroundings.</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="o4" value="1" id="o4-no" onclick="toggleText('o4-notes')">
-                        <label for="o4-no" class="toggle-btn">No</label>
-                        
-                        <input type="radio" name="o4" value="5" id="o4-yes" onclick="toggleText('o4-notes')">
-                        <label for="o4-yes" class="toggle-btn">Yes</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">4</span>
+                        <label class="q-label">Art and aesthetics matter a lot to me; I seek beauty in my surroundings.</label>
+                        <div class="tooltip-container">
+                            <i class="fas fa-question-circle tooltip-icon"></i>
+                            <div class="tooltip-text">Helps determine decor compatibility in shared spaces.</div>
+                        </div>
                     </div>
+                    
+                    <!-- Updated Switch Structure -->
+                    <div class="checkbox-wrapper-35">
+                        <input value="yes" name="o4" id="switch-o4" type="checkbox" class="switch" onchange="toggleText('o4-notes', this.checked)">
+                        <label for="switch-o4">
+                            <span class="switch-x-text">This is </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>False</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>True</span>
+                            </span>
+                        </label>
+                    </div>
+                    
                     <textarea id="o4-notes" name="o4_notes" class="conditional-text" placeholder="Tell us why aesthetics matter to you..." style="display:none"></textarea>
                 </div>
 
                 <!-- Q5 -->
                 <div class="question-card">
-                    <span class="q-num">5</span>
-                    <label class="q-label">I'm comfortable with ambiguity and change in my daily life.</label>
+                    <div class="q-header">
+                        <span class="q-num">5</span>
+                        <label class="q-label">I'm comfortable with ambiguity and change in my daily life.</label>
+                         <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Flexibility is key in shared living situations.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="o5" value="1" id="o5-1"><label for="o5-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="o5" value="2" id="o5-2"><label for="o5-2">Disagree</label></div>
@@ -111,8 +143,11 @@
 
                 <!-- Q6 -->
                 <div class="question-card">
-                    <span class="q-num">6</span>
-                    <label class="q-label">I like to explore abstract ideas that challenge my beliefs.</label>
+                    <div class="q-header">
+                        <span class="q-num">6</span>
+                        <label class="q-label">I like to explore abstract ideas that challenge my beliefs.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Indicates openness to deep conversations and different viewpoints.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="o6" value="1" id="o6-1"><label for="o6-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="o6" value="2" id="o6-2"><label for="o6-2">Disagree</label></div>
@@ -124,8 +159,11 @@
 
                 <!-- Q7 -->
                 <div class="question-card">
-                    <span class="q-num">7</span>
-                    <label class="q-label">I find it exciting to learn about cultures different from my own.</label>
+                    <div class="q-header">
+                        <span class="q-num">7</span>
+                        <label class="q-label">I find it exciting to learn about cultures different from my own.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Crucial for respectful and enriching cohabitation.</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Uninterested</span>
                         <input type="range" class="styled-slider" name="o7" min="1" max="10" value="5"
@@ -139,24 +177,32 @@
 
                 <!-- Q8 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">8</span>
-                    <label class="q-label">Which approach do you prefer?</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="o8" value="5" id="o8-prac" onclick="toggleText('o8-notes')">
-                        <label for="o8-prac" class="toggle-btn">Practical</label>
-                        
-                        <input type="radio" name="o8" value="1" id="o8-theo" onclick="toggleText('o8-notes')">
-                        <label for="o8-theo" class="toggle-btn">Theoretical</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">8</span>
+                        <label class="q-label">Do you prefer Practical Solutions or Theoretical Discussions?</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Do you like to fix things immediately or discuss the 'why' first?</div></div>
                     </div>
+                    
+                    <div class="checkbox-wrapper-35">
+                        <input value="theoretical" name="o8" id="switch-o8" type="checkbox" class="switch" onchange="toggleText('o8-notes', this.checked)">
+                        <label for="switch-o8">
+                            <span class="switch-x-text">I prefer </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Practical</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Theory</span>
+                            </span>
+                        </label>
+                    </div>
+                    
                     <textarea id="o8-notes" name="o8_notes" class="conditional-text" placeholder="Context helps us match you better..." style="display:none"></textarea>
                 </div>
             </div>
 
-            <!-- ==========================
+             <!-- ==========================
                  PART 2: CONSCIENTIOUSNESS 
             =========================== -->
-            <div class="quiz-step" id="step-2" style="display:none;">
+            
+             <div class="quiz-step" id="step-2" style="display:none;">
                 <div class="step-header">
                     <div>
                         <h2>Part 2: Conscientiousness</h2>
@@ -164,12 +210,15 @@
                     </div>
                     <div class="section-counter" id="count-2">Answered: 0 / 8</div>
                 </div>
-
-                <!-- Q9 -->
+                
+                 <!-- Q9 -->
                 <div class="question-card critical-card">
-                    <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
-                    <span class="q-num">9</span>
-                    <label class="q-label">I always follow a cleaning schedule, even if others slack.</label>
+                     <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
+                     <div class="q-header">
+                        <span class="q-num">9</span>
+                        <label class="q-label">I always follow a cleaning schedule, even if others slack.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Cleaning habits are the #1 cause of roommate conflicts.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="c1" value="1" id="c1-1"><label for="c1-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="c1" value="2" id="c1-2"><label for="c1-2">Disagree</label></div>
@@ -181,8 +230,11 @@
 
                 <!-- Q10 -->
                 <div class="question-card">
-                    <span class="q-num">10</span>
-                    <label class="q-label">I plan my tasks carefully to avoid last-minute rushes.</label>
+                    <div class="q-header">
+                        <span class="q-num">10</span>
+                        <label class="q-label">I plan my tasks carefully to avoid last-minute rushes.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Helps predict reliability with bills and chores.</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Spontaneous</span>
                         <input type="range" class="styled-slider" name="c2" min="1" max="10" value="5"
@@ -196,8 +248,11 @@
 
                 <!-- Q11 -->
                 <div class="question-card">
-                    <span class="q-num">11</span>
-                    <label class="q-label">I feel uneasy if I forget to complete something I promised.</label>
+                    <div class="q-header">
+                        <span class="q-num">11</span>
+                        <label class="q-label">I feel uneasy if I forget to complete something I promised.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Indicates how seriously you take verbal commitments.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="c3" value="1" id="c3-1"><label for="c3-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="c3" value="2" id="c3-2"><label for="c3-2">Disagree</label></div>
@@ -210,8 +265,11 @@
                 <!-- Q12 -->
                 <div class="question-card critical-card">
                      <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
-                    <span class="q-num">12</span>
-                    <label class="q-label">Which image best represents your ideal living space?</label>
+                     <div class="q-header">
+                        <span class="q-num">12</span>
+                        <label class="q-label">Which image best represents your ideal living space?</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Visual confirmation of your clutter tolerance.</div></div>
+                    </div>
                      <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="c4" value="5" id="c4-5"><label for="c4-5">🛏️ Minimalist & Spotless</label></div>
                         <div class="likert-opt"><input type="radio" name="c4" value="3" id="c4-3"><label for="c4-3">🛋️ Lived-in & Cozy</label></div>
@@ -221,8 +279,11 @@
 
                 <!-- Q13 -->
                 <div class="question-card">
-                    <span class="q-num">13</span>
-                    <label class="q-label">I prioritize long-term goals over immediate pleasures.</label>
+                    <div class="q-header">
+                        <span class="q-num">13</span>
+                        <label class="q-label">I prioritize long-term goals over immediate pleasures.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Correlates with financial stability and responsibility.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="c5" value="1" id="c5-1"><label for="c5-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="c5" value="2" id="c5-2"><label for="c5-2">Disagree</label></div>
@@ -234,8 +295,11 @@
 
                 <!-- Q14 -->
                 <div class="question-card">
-                    <span class="q-num">14</span>
-                    <label class="q-label">I double-check my work to ensure it's error-free.</label>
+                    <div class="q-header">
+                        <span class="q-num">14</span>
+                        <label class="q-label">I double-check my work to ensure it's error-free.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Shows attention to detail (e.g., locking doors, turning off stove).</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Careless</span>
                         <input type="range" class="styled-slider" name="c6" min="1" max="10" value="5"
@@ -249,8 +313,11 @@
 
                 <!-- Q15 -->
                 <div class="question-card">
-                    <span class="q-num">15</span>
-                    <label class="q-label">I set specific goals for myself and stick to them.</label>
+                    <div class="q-header">
+                        <span class="q-num">15</span>
+                        <label class="q-label">I set specific goals for myself and stick to them.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Indicates drive and personal accountability.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="c7" value="1" id="c7-1"><label for="c7-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="c7" value="2" id="c7-2"><label for="c7-2">Disagree</label></div>
@@ -262,20 +329,25 @@
 
                 <!-- Q16 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">16</span>
-                    <label class="q-label">How do you handle deadlines?</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="c8" value="5" id="c8-proc" onclick="toggleText('c8-notes')">
-                        <label for="c8-proc" class="toggle-btn">Procrastinate</label>
-                        
-                        <input type="radio" name="c8" value="1" id="c8-prom" onclick="toggleText('c8-notes')">
-                        <label for="c8-prom" class="toggle-btn">Prompt</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">16</span>
+                        <label class="q-label">How do you handle deadlines?</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Are you a 'last minute' person or a 'done early' person?</div></div>
+                    </div>
+                    <div class="checkbox-wrapper-35">
+                        <input value="procrastinate" name="c8" id="switch-c8" type="checkbox" class="switch" onchange="toggleText('c8-notes', this.checked)">
+                        <label for="switch-c8">
+                            <span class="switch-x-text">I tend to </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Wait</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Start</span>
+                            </span>
+                        </label>
                     </div>
                     <textarea id="c8-notes" name="c8_notes" class="conditional-text" placeholder="Is it specific to work, chores, or everything?" style="display:none"></textarea>
                 </div>
             </div>
-
+            
             <!-- ==========================
                  PART 3: EXTRAVERSION 
             =========================== -->
@@ -291,8 +363,11 @@
                 <!-- Q17 -->
                 <div class="question-card critical-card">
                      <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
-                    <span class="q-num">17</span>
-                    <label class="q-label">I enjoy hosting game nights or movie marathons with roommates.</label>
+                     <div class="q-header">
+                        <span class="q-num">17</span>
+                        <label class="q-label">I enjoy hosting game nights or movie marathons with roommates.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Defines the social atmosphere of the home (Party house vs. Quiet sanctuary).</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="e1" value="1" id="e1-1"><label for="e1-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="e1" value="2" id="e1-2"><label for="e1-2">Disagree</label></div>
@@ -304,8 +379,11 @@
 
                 <!-- Q18 -->
                 <div class="question-card">
-                    <span class="q-num">18</span>
-                    <label class="q-label">How often do you prefer solo downtime vs. group hangs?</label>
+                    <div class="q-header">
+                        <span class="q-num">18</span>
+                        <label class="q-label">How often do you prefer solo downtime vs. group hangs?</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Helps match social batteries so no one feels ignored or overwhelmed.</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Solo</span>
                         <input type="range" class="styled-slider" name="e2" min="1" max="10" value="5"
@@ -319,8 +397,11 @@
 
                 <!-- Q19 -->
                 <div class="question-card">
-                    <span class="q-num">19</span>
-                    <label class="q-label">I feel energized after social events with new people.</label>
+                    <div class="q-header">
+                        <span class="q-num">19</span>
+                        <label class="q-label">I feel energized after social events with new people.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Classic indicator of Extraversion vs. Introversion.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="e3" value="1" id="e3-1"><label for="e3-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="e3" value="2" id="e3-2"><label for="e3-2">Disagree</label></div>
@@ -332,23 +413,31 @@
 
                 <!-- Q20 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">20</span>
-                    <label class="q-label">What is your gathering preference?</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="e4" value="5" id="e4-small" onclick="toggleText('e4-notes')">
-                        <label for="e4-small" class="toggle-btn">Small</label>
-                        
-                        <input type="radio" name="e4" value="1" id="e4-large" onclick="toggleText('e4-notes')">
-                        <label for="e4-large" class="toggle-btn">Large</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">20</span>
+                        <label class="q-label">What is your gathering preference?</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Helps prevent conflicts about guest lists and noise levels.</div></div>
+                    </div>
+                    <div class="checkbox-wrapper-35">
+                        <input value="large" name="e4" id="switch-e4" type="checkbox" class="switch" onchange="toggleText('e4-notes', this.checked)">
+                        <label for="switch-e4">
+                            <span class="switch-x-text">I prefer </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Small</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Large</span>
+                            </span>
+                        </label>
                     </div>
                     <textarea id="e4-notes" name="e4_notes" class="conditional-text" placeholder="Add details (e.g. 'OK with parties if I know about them')" style="display:none"></textarea>
                 </div>
 
                 <!-- Q21 -->
                 <div class="question-card">
-                    <span class="q-num">21</span>
-                    <label class="q-label">I often initiate conversations with strangers in social settings.</label>
+                    <div class="q-header">
+                        <span class="q-num">21</span>
+                        <label class="q-label">I often initiate conversations with strangers in social settings.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Indicates social confidence and outgoingness.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="e5" value="1" id="e5-1"><label for="e5-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="e5" value="2" id="e5-2"><label for="e5-2">Disagree</label></div>
@@ -360,8 +449,11 @@
 
                 <!-- Q22 -->
                 <div class="question-card">
-                    <span class="q-num">22</span>
-                    <label class="q-label">I thrive in environments with lots of social interaction.</label>
+                    <div class="q-header">
+                        <span class="q-num">22</span>
+                        <label class="q-label">I thrive in environments with lots of social interaction.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Will you want a busy home or a quiet retreat?</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Introverted</span>
                         <input type="range" class="styled-slider" name="e6" min="1" max="10" value="5"
@@ -375,8 +467,11 @@
 
                 <!-- Q23 -->
                 <div class="question-card">
-                    <span class="q-num">23</span>
-                    <label class="q-label">Being the center of attention energizes me.</label>
+                    <div class="q-header">
+                        <span class="q-num">23</span>
+                        <label class="q-label">Being the center of attention energizes me.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Measures social dominance and need for validation.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="e7" value="1" id="e7-1"><label for="e7-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="e7" value="2" id="e7-2"><label for="e7-2">Disagree</label></div>
@@ -388,15 +483,20 @@
 
                 <!-- Q24 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">24</span>
-                    <label class="q-label">Working Preference</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="e8" value="1" id="e8-solo" onclick="toggleText('e8-notes')">
-                        <label for="e8-solo" class="toggle-btn">Solo</label>
-                        
-                        <input type="radio" name="e8" value="5" id="e8-team" onclick="toggleText('e8-notes')">
-                        <label for="e8-team" class="toggle-btn">Team</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">24</span>
+                        <label class="q-label">Working Preference</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Relevant for WFH arrangements and shared workspace.</div></div>
+                    </div>
+                    <div class="checkbox-wrapper-35">
+                        <input value="team" name="e8" id="switch-e8" type="checkbox" class="switch" onchange="toggleText('e8-notes', this.checked)">
+                        <label for="switch-e8">
+                            <span class="switch-x-text">I prefer </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Solo</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Team</span>
+                            </span>
+                        </label>
                     </div>
                      <textarea id="e8-notes" name="e8_notes" class="conditional-text" placeholder="Any specific work-from-home needs?" style="display:none"></textarea>
                 </div>
@@ -417,8 +517,11 @@
                 <!-- Q25 (Critical) -->
                 <div class="question-card critical-card">
                     <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
-                    <span class="q-num">25</span>
-                    <label class="q-label">I'd rather compromise on thermostat settings than argue.</label>
+                    <div class="q-header">
+                        <span class="q-num">25</span>
+                        <label class="q-label">I'd rather compromise on thermostat settings than argue.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Thermostat wars are real. This checks willingness to sacrifice for harmony.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="a1" value="1" id="a1-1"><label for="a1-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="a1" value="2" id="a1-2"><label for="a1-2">Disagree</label></div>
@@ -430,8 +533,11 @@
 
                 <!-- Q26 -->
                 <div class="question-card">
-                    <span class="q-num">26</span>
-                    <label class="q-label">I go out of my way to help others, even if it's inconvenient.</label>
+                    <div class="q-header">
+                        <span class="q-num">26</span>
+                        <label class="q-label">I go out of my way to help others, even if it's inconvenient.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Indicates helpfulness and altruism in shared tasks.</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Independent</span>
                         <input type="range" class="styled-slider" name="a2" min="1" max="10" value="5"
@@ -445,8 +551,11 @@
 
                 <!-- Q27 -->
                 <div class="question-card">
-                    <span class="q-num">27</span>
-                    <label class="q-label">I find it easy to forgive people who have wronged me.</label>
+                    <div class="q-header">
+                        <span class="q-num">27</span>
+                        <label class="q-label">I find it easy to forgive people who have wronged me.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Important for resolving inevitable household conflicts without holding grudges.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="a3" value="1" id="a3-1"><label for="a3-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="a3" value="2" id="a3-2"><label for="a3-2">Disagree</label></div>
@@ -458,23 +567,31 @@
 
                 <!-- Q28 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">28</span>
-                    <label class="q-label">Conflict Style</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="a4" value="1" id="a4-conf" onclick="toggleText('a4-notes')">
-                        <label for="a4-conf" class="toggle-btn">Direct</label>
-                        
-                        <input type="radio" name="a4" value="5" id="a4-avoid" onclick="toggleText('a4-notes')">
-                        <label for="a4-avoid" class="toggle-btn">Peaceful</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">28</span>
+                        <label class="q-label">Conflict Style</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Do you address issues head-on or prefer to keep the peace?</div></div>
+                    </div>
+                    <div class="checkbox-wrapper-35">
+                        <input value="peaceful" name="a4" id="switch-a4" type="checkbox" class="switch" onchange="toggleText('a4-notes', this.checked)">
+                        <label for="switch-a4">
+                            <span class="switch-x-text">I am </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Direct</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Peaceful</span>
+                            </span>
+                        </label>
                     </div>
                      <textarea id="a4-notes" name="a4_notes" class="conditional-text" placeholder="Example: 'I prefer to cool off before talking'" style="display:none"></textarea>
                 </div>
 
                 <!-- Q29 -->
                 <div class="question-card">
-                    <span class="q-num">29</span>
-                    <label class="q-label">I make an effort to get along with people I disagree with.</label>
+                    <div class="q-header">
+                        <span class="q-num">29</span>
+                        <label class="q-label">I make an effort to get along with people I disagree with.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Key for living with people of different backgrounds/views.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="a5" value="1" id="a5-1"><label for="a5-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="a5" value="2" id="a5-2"><label for="a5-2">Disagree</label></div>
@@ -486,8 +603,11 @@
 
                 <!-- Q30 -->
                 <div class="question-card">
-                    <span class="q-num">30</span>
-                    <label class="q-label">I feel compassion for those who are suffering.</label>
+                    <div class="q-header">
+                        <span class="q-num">30</span>
+                        <label class="q-label">I feel compassion for those who are suffering.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Measures empathy levels, useful for emotional support expectations.</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Detached</span>
                         <input type="range" class="styled-slider" name="a6" min="1" max="10" value="5"
@@ -501,23 +621,31 @@
 
                 <!-- Q31 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">31</span>
-                    <label class="q-label">Expectations of others</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="a7" value="1" id="a7-recip" onclick="toggleText('a7-notes')">
-                        <label for="a7-recip" class="toggle-btn">Transact</label>
-                        
-                        <input type="radio" name="a7" value="5" id="a7-uncon" onclick="toggleText('a7-notes')">
-                        <label for="a7-uncon" class="toggle-btn">Kind</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">31</span>
+                        <label class="q-label">Expectations of others</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Do you expect favors returned immediately (transactional) or do you give freely?</div></div>
+                    </div>
+                    <div class="checkbox-wrapper-35">
+                        <input value="kind" name="a7" id="switch-a7" type="checkbox" class="switch" onchange="toggleText('a7-notes', this.checked)">
+                        <label for="switch-a7">
+                            <span class="switch-x-text">I am </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Transact</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Kind</span>
+                            </span>
+                        </label>
                     </div>
                      <textarea id="a7-notes" name="a7_notes" class="conditional-text" placeholder="Add context..." style="display:none"></textarea>
                 </div>
 
                 <!-- Q32 -->
                 <div class="question-card">
-                    <span class="q-num">32</span>
-                    <label class="q-label">I sympathize with others' feelings, even if I don't agree.</label>
+                    <div class="q-header">
+                        <span class="q-num">32</span>
+                        <label class="q-label">I sympathize with others' feelings, even if I don't agree.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Essential for understanding roommates' perspectives during disagreements.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="a8" value="1" id="a8-1"><label for="a8-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="a8" value="2" id="a8-2"><label for="a8-2">Disagree</label></div>
@@ -543,8 +671,11 @@
                 <!-- Q33 (Critical) -->
                 <div class="question-card critical-card">
                      <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
-                    <span class="q-num">33</span>
-                    <label class="q-label">Unexpected guests don't faze me.</label>
+                     <div class="q-header">
+                        <span class="q-num">33</span>
+                        <label class="q-label">Unexpected guests don't faze me.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Measures adaptability and need for privacy boundaries.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="n1" value="1" id="n1-1"><label for="n1-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="n1" value="2" id="n1-2"><label for="n1-2">Disagree</label></div>
@@ -556,8 +687,11 @@
 
                 <!-- Q34 Slider -->
                 <div class="question-card">
-                    <span class="q-num">34</span>
-                    <label class="q-label">I worry about small things more than I should.</label>
+                    <div class="q-header">
+                        <span class="q-num">34</span>
+                        <label class="q-label">I worry about small things more than I should.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Indicates general anxiety levels.</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Calm</span>
                         <input type="range" class="styled-slider" name="n2" min="1" max="10" value="5"
@@ -571,8 +705,11 @@
 
                 <!-- Q35 -->
                 <div class="question-card">
-                    <span class="q-num">35</span>
-                    <label class="q-label">I remain calm under pressure during conflicts.</label>
+                    <div class="q-header">
+                        <span class="q-num">35</span>
+                        <label class="q-label">I remain calm under pressure during conflicts.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Determines if conflicts will escalate or de-escalate.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="n3" value="1" id="n3-1"><label for="n3-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="n3" value="2" id="n3-2"><label for="n3-2">Disagree</label></div>
@@ -584,8 +721,11 @@
 
                 <!-- Q36 -->
                 <div class="question-card">
-                    <span class="q-num">36</span>
-                    <label class="q-label">I get stressed easily in unfamiliar social situations.</label>
+                    <div class="q-header">
+                        <span class="q-num">36</span>
+                        <label class="q-label">I get stressed easily in unfamiliar social situations.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Affects comfort level with guests and new roommate additions.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="n4" value="1" id="n4-1"><label for="n4-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="n4" value="2" id="n4-2"><label for="n4-2">Disagree</label></div>
@@ -597,23 +737,31 @@
 
                 <!-- Q37 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">37</span>
-                    <label class="q-label">Reaction to New Situations</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="n5" value="5" id="n5-anx" onclick="toggleText('n5-notes')">
-                        <label for="n5-anx" class="toggle-btn">Anxious</label>
-                        
-                        <input type="radio" name="n5" value="1" id="n5-calm" onclick="toggleText('n5-notes')">
-                        <label for="n5-calm" class="toggle-btn">Calm</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">37</span>
+                        <label class="q-label">Reaction to New Situations</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">How you handle change in the living environment.</div></div>
+                    </div>
+                    <div class="checkbox-wrapper-35">
+                        <input value="calm" name="n5" id="switch-n5" type="checkbox" class="switch" onchange="toggleText('n5-notes', this.checked)">
+                        <label for="switch-n5">
+                            <span class="switch-x-text">I am </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Anxious</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Calm</span>
+                            </span>
+                        </label>
                     </div>
                      <textarea id="n5-notes" name="n5_notes" class="conditional-text" placeholder="Tell us more..." style="display:none"></textarea>
                 </div>
 
                 <!-- Q38 Slider -->
                 <div class="question-card">
-                    <span class="q-num">38</span>
-                    <label class="q-label">Negative events affect me more deeply than positive ones.</label>
+                    <div class="q-header">
+                        <span class="q-num">38</span>
+                        <label class="q-label">Negative events affect me more deeply than positive ones.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Indicates emotional resilience and overall mood stability.</div></div>
+                    </div>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Resilient</span>
                         <input type="range" class="styled-slider" name="n6" min="1" max="10" value="5"
@@ -627,8 +775,11 @@
 
                 <!-- Q39 -->
                 <div class="question-card">
-                    <span class="q-num">39</span>
-                    <label class="q-label">I tend to ruminate on past mistakes.</label>
+                    <div class="q-header">
+                        <span class="q-num">39</span>
+                        <label class="q-label">I tend to ruminate on past mistakes.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Can lead to prolonged tension after household disagreements.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="n7" value="1" id="n7-1"><label for="n7-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="n7" value="2" id="n7-2"><label for="n7-2">Disagree</label></div>
@@ -640,8 +791,11 @@
 
                  <!-- Q40 -->
                 <div class="question-card">
-                    <span class="q-num">40</span>
-                    <label class="q-label">I handle criticism well without getting defensive.</label>
+                    <div class="q-header">
+                        <span class="q-num">40</span>
+                        <label class="q-label">I handle criticism well without getting defensive.</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Crucial for constructively resolving chore or noise complaints.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="n8" value="1" id="n8-1"><label for="n8-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="n8" value="2" id="n8-2"><label for="n8-2">Disagree</label></div>
@@ -653,8 +807,11 @@
                 
                 <!-- Q41 -->
                 <div class="question-card">
-                    <span class="q-num">41</span>
-                    <label class="q-label">I notice small messes immediately (like crumbs or a crooked rug).</label>
+                    <div class="q-header">
+                        <span class="q-num">41</span>
+                        <label class="q-label">I notice small messes immediately (like crumbs or a crooked rug).</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">Sensitivity to disorder. High scores may clash with low conscientiousness.</div></div>
+                    </div>
                     <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="n9" value="1" id="n9-1"><label for="n9-1">Strongly Disagree</label></div>
                         <div class="likert-opt"><input type="radio" name="n9" value="2" id="n9-2"><label for="n9-2">Disagree</label></div>
@@ -666,15 +823,20 @@
                 
                  <!-- Q42 Toggle -->
                 <div class="question-card">
-                    <span class="q-num">42</span>
-                    <label class="q-label">Preferred Communication Style</label>
-                    <div class="toggle-wrapper">
-                        <input type="radio" name="n10" value="1" id="n10-txt" onclick="toggleText('n10-notes')">
-                        <label for="n10-txt" class="toggle-btn">Message</label>
-                        
-                        <input type="radio" name="n10" value="5" id="n10-face" onclick="toggleText('n10-notes')">
-                        <label for="n10-face" class="toggle-btn">In Person</label>
-                        <div class="toggle-bg"></div>
+                    <div class="q-header">
+                        <span class="q-num">42</span>
+                        <label class="q-label">Preferred Communication Style</label>
+                        <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><div class="tooltip-text">How should roommates approach you with issues?</div></div>
+                    </div>
+                    <div class="checkbox-wrapper-35">
+                        <input value="in_person" name="n10" id="switch-n10" type="checkbox" class="switch" onchange="toggleText('n10-notes', this.checked)">
+                        <label for="switch-n10">
+                            <span class="switch-x-text">I prefer </span>
+                            <span class="switch-x-toggletext">
+                                <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Message</span>
+                                <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>In Person</span>
+                            </span>
+                        </label>
                     </div>
                      <textarea id="n10-notes" name="n10_notes" class="conditional-text" placeholder="Notes on communication..." style="display:none"></textarea>
                 </div>
@@ -683,7 +845,7 @@
             <!-- NAVIGATION BUTTONS -->
             <div class="quiz-nav">
                 <button type="button" id="prevBtn" class="btn-secondary" onclick="changeStep(-1)" style="display:none">Back</button>
-                <button type="button" id="nextBtn" class="btn-primary" onclick="changeStep(1)">Next Section</button>
+                <button type="button" id="nextBtn" class="btn-primary" onclick="saveAndNext(1)">Next Section</button>
                 <button type="submit" id="submitBtn" class="btn-success" style="display:none">Complete Quiz</button>
             </div>
             

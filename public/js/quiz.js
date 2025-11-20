@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSectionProgress(currentStep);
     showStep(currentStep);
     
-    // Initialize slider labels
     document.querySelectorAll('.styled-slider').forEach(slider => {
         updateSliderLabel(slider);
         slider.addEventListener('input', () => updateSliderLabel(slider));
@@ -18,6 +17,8 @@ function showStep(step) {
     document.getElementById(`step-${step}`).style.display = 'block';
     
     document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'inline-block';
+    
+    // Logic: If last step, show 'Complete Quiz', else 'Next Section'
     if (step === totalSteps) {
         document.getElementById('nextBtn').style.display = 'none';
         document.getElementById('submitBtn').style.display = 'inline-block';
@@ -31,59 +32,56 @@ function showStep(step) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function changeStep(n) {
+// NEW: Save progress to DB before moving
+async function saveAndNext(n) {
     const currentStepDiv = document.getElementById(`step-${currentStep}`);
     const errorMsg = document.getElementById('error-msg');
 
+    // Validation
     if (n === 1 && !validateStep(currentStepDiv)) {
         errorMsg.style.display = 'block';
         return; 
     }
-    
     errorMsg.style.display = 'none';
+
+    // Collect Data for this section
+    const formData = new FormData(document.getElementById('quizForm'));
+    const data = Object.fromEntries(formData.entries());
+
+    // Send to server (Background Save)
+    try {
+        await fetch('/save-progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ step: currentStep, answers: data })
+        });
+    } catch (err) {
+        console.error("Failed to save progress", err);
+        // Proceed anyway so user isn't stuck
+    }
+
+    // Move Step
     currentStep += n;
-    showStep(currentStep);
+    
+    // Check if quiz is done (Move to Amenities)
+    if (currentStep > totalSteps) {
+        window.location.href = "/preferences"; // Redirect to Amenities page
+    } else {
+        showStep(currentStep);
+    }
 }
 
-// Validates that all cards in the current step have an answer
-function validateStep(stepDiv) {
-    const questions = stepDiv.querySelectorAll('.question-card');
-    let isValid = true;
-
-    questions.forEach(card => {
-        // Check Radios
-        const radios = card.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
-            const checked = Array.from(radios).some(r => r.checked);
-            if (!checked) isValid = false;
-        }
-        // Sliders default to 5, so they are strictly always "answered" unless we force movement
-    });
-    return isValid;
+function changeStep(n) {
+    // Legacy wrapper for back button or simple changes
+    if(n === 1) {
+        saveAndNext(1);
+    } else {
+        currentStep += n;
+        showStep(currentStep);
+    }
 }
 
-function updateSliderLabel(slider) {
-    const val = parseInt(slider.value);
-    const parent = slider.closest('.question-card');
-    const scoreDisplay = parent.querySelector('.slider-score');
-    const qualitativeDisplay = parent.querySelector('.slider-qualitative');
-    
-    const lowLabel = slider.getAttribute('data-low') || "Low";
-    const highLabel = slider.getAttribute('data-high') || "High";
-
-    if(scoreDisplay) scoreDisplay.innerText = val;
-    
-    // Generate qualitative text based on 1-10
-    let text = "Balanced";
-    if (val <= 2) text = `Very ${lowLabel}`;
-    else if (val <= 4) text = `Somewhat ${lowLabel}`;
-    else if (val >= 9) text = `Very ${highLabel}`;
-    else if (val >= 7) text = `Somewhat ${highLabel}`;
-    
-    if(qualitativeDisplay) qualitativeDisplay.innerText = text;
-    
-    updateProgress();
-}
+// ... (Keep existing validateStep, updateSliderLabel, toggleText, event listeners) ...
 
 function toggleText(elementId, show) {
     const el = document.getElementById(elementId);
@@ -92,57 +90,4 @@ function toggleText(elementId, show) {
         if (!show) el.value = "";
     }
     updateProgress();
-}
-
-document.addEventListener('change', (e) => {
-    if (e.target.type === 'radio' || e.target.type === 'range') {
-        updateProgress();
-        updateSectionProgress(currentStep);
-    }
-});
-
-function updateSectionProgress(step) {
-    const stepDiv = document.getElementById(`step-${step}`);
-    if (!stepDiv) return;
-
-    const questions = stepDiv.querySelectorAll('.question-card');
-    let answeredCount = 0;
-
-    questions.forEach(card => {
-        const radios = card.querySelectorAll('input[type="radio"]');
-        const sliders = card.querySelectorAll('input[type="range"]');
-        
-        if (radios.length > 0) {
-            if (Array.from(radios).some(r => r.checked)) answeredCount++;
-        } else if (sliders.length > 0) {
-            answeredCount++; // Sliders always count
-        }
-    });
-
-    const counterEl = document.getElementById(`count-${step}`);
-    if(counterEl) counterEl.innerText = `Answered: ${answeredCount} / ${questions.length}`;
-}
-
-function updateProgress() {
-    const form = document.getElementById('quizForm');
-    const totalQuestions = 42;
-    
-    // Count unique names checked
-    const data = new FormData(form);
-    let count = 0;
-    for(let pair of data.entries()) {
-        // exclude textareas or extra fields, count unique keys (questions)
-        if(!pair[0].includes('_notes')) count++; 
-    }
-    
-    // Fix: count maps directly to unique questions if inputs are named correctly
-    // Since FormData might include multiple values for checkboxes, we use a Set
-    const uniqueQuestions = new Set(data.keys());
-    // Remove non-question keys if any
-    uniqueQuestions.delete('o4_notes'); 
-    
-    const percent = Math.min(100, Math.round((uniqueQuestions.size / totalQuestions) * 100));
-    
-    document.getElementById('progressBar').style.width = percent + '%';
-    document.getElementById('percent-indicator').innerText = percent + '% Complete';
 }
