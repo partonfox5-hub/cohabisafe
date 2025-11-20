@@ -81,7 +81,63 @@ function changeStep(n) {
     }
 }
 
-// ... (Keep existing validateStep, updateSliderLabel, toggleText, event listeners) ...
+// Validates that all cards in the current step have an answer
+function validateStep(stepDiv) {
+    const questions = stepDiv.querySelectorAll('.question-card');
+    let isValid = true;
+
+    questions.forEach(card => {
+        // Check Radios
+        const radios = card.querySelectorAll('input[type="radio"]');
+        if (radios.length > 0) {
+            const checked = Array.from(radios).some(r => r.checked);
+            if (!checked) isValid = false;
+        }
+        // Sliders and Toggles generally have a default value or use hidden inputs
+    });
+    return isValid;
+}
+
+function updateSliderLabel(slider) {
+    const val = parseInt(slider.value);
+    const parent = slider.closest('.question-card');
+    const scoreDisplay = parent.querySelector('.slider-score');
+    const qualitativeDisplay = parent.querySelector('.slider-qualitative');
+    
+    const lowLabel = slider.getAttribute('data-low') || "Low";
+    const highLabel = slider.getAttribute('data-high') || "High";
+
+    if(scoreDisplay) scoreDisplay.innerText = val;
+    
+    // Generate qualitative text based on 1-10
+    let text = "Balanced";
+    if (val <= 2) text = `Very ${lowLabel}`;
+    else if (val <= 4) text = `Somewhat ${lowLabel}`;
+    else if (val >= 9) text = `Very ${highLabel}`;
+    else if (val >= 7) text = `Somewhat ${highLabel}`;
+    
+    if(qualitativeDisplay) qualitativeDisplay.innerText = text;
+    
+    updateProgress();
+}
+
+function updateToggleValue(checkbox, hiddenInputId, notesId) {
+    // Update hidden input value: 5 if checked, 1 if unchecked
+    const hiddenInput = document.getElementById(hiddenInputId);
+    if (hiddenInput) {
+        hiddenInput.value = checkbox.checked ? 5 : 1;
+    }
+    
+    // Show notes if checked (or based on your logic for "Yes")
+    const notes = document.getElementById(notesId);
+    if (notes) {
+        notes.style.display = checkbox.checked ? 'block' : 'none';
+        if (!checkbox.checked) notes.value = ""; // Clear if hidden
+    }
+
+    updateProgress();
+    updateSectionProgress(currentStep);
+}
 
 function toggleText(elementId, show) {
     const el = document.getElementById(elementId);
@@ -90,4 +146,63 @@ function toggleText(elementId, show) {
         if (!show) el.value = "";
     }
     updateProgress();
+}
+
+document.addEventListener('change', (e) => {
+    if (e.target.type === 'radio' || e.target.type === 'range') {
+        updateProgress();
+        updateSectionProgress(currentStep);
+    }
+});
+
+function updateSectionProgress(step) {
+    const stepDiv = document.getElementById(`step-${step}`);
+    if (!stepDiv) return;
+
+    const questions = stepDiv.querySelectorAll('.question-card');
+    let answeredCount = 0;
+
+    questions.forEach(card => {
+        const radios = card.querySelectorAll('input[type="radio"]');
+        const sliders = card.querySelectorAll('input[type="range"]');
+        const toggles = card.querySelectorAll('input.switch'); // New toggle class
+        
+        if (radios.length > 0) {
+            if (Array.from(radios).some(r => r.checked)) answeredCount++;
+        } else if (sliders.length > 0) {
+            answeredCount++; // Sliders always count
+        } else if (toggles.length > 0) {
+            // Toggles are binary but count as answered if interactive, 
+            // or strictly if they changed from default? 
+            // For this UI, let's assume they are always "answered" as they have a default state.
+            answeredCount++;
+        }
+    });
+
+    const counterEl = document.getElementById(`count-${step}`);
+    if(counterEl) counterEl.innerText = `Answered: ${answeredCount} / ${questions.length}`;
+}
+
+function updateProgress() {
+    const form = document.getElementById('quizForm');
+    const totalQuestions = 42;
+    
+    // Count unique names checked
+    const data = new FormData(form);
+    let count = 0;
+    // Fix: count maps directly to unique questions if inputs are named correctly
+    // Since FormData might include multiple values for checkboxes, we use a Set
+    const uniqueQuestions = new Set();
+    
+    for(let pair of data.entries()) {
+        // exclude textareas or extra fields, count unique keys (questions)
+        if(!pair[0].includes('_notes') && !pair[0].includes('-val')) {
+             uniqueQuestions.add(pair[0]);
+        }
+    }
+
+    const percent = Math.min(100, Math.round((uniqueQuestions.size / totalQuestions) * 100));
+    
+    document.getElementById('progressBar').style.width = percent + '%';
+    document.getElementById('percent-indicator').innerText = percent + '% Complete';
 }
