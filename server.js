@@ -4,6 +4,7 @@ const session = require('express-session');
 const path = require('path');
 const dotenv = require('dotenv');
 const { body, validationResult } = require('express-validator');
+const { Pool } = require('pg');
 
 dotenv.config();
 
@@ -15,31 +16,35 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(session({
-  secret: 'cohabisafe_secret_key', // In prod, use process.env.SESSION_SECRET
+  secret: process.env.SESSION_SECRET || 'cohabisafe_secret_key',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using https in production
 }));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// --- MOCK DATABASE WRAPPER ---
-// This prevents the app from crashing if you haven't set up Postgres yet.
-const { Pool } = require('pg');
+// --- DATABASE CONNECTION ---
 let pool;
 if (process.env.DATABASE_URL) {
-    pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    console.log("Connected to Postgres DB");
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        // specific SSL settings for Google Cloud SQL if needed
+        ssl: { rejectUnauthorized: false } 
+    });
+    console.log("Attempting connection to Postgres DB...");
 } else {
-    console.log("No DATABASE_URL found. Using Mock DB mode for testing flow.");
+    console.log("WARNING: No DATABASE_URL found. Data will NOT be saved.");
     pool = {
-        query: async () => ({ rows: [{ id: 1, email: 'test@test.com' }] }) // Always returns a dummy success
+        query: async () => ({ rows: [] }) // Dummy pool to prevent crashes
     };
 }
 
 // --- ROUTES ---
 
 // 1. Marketing Page
+app.get('/', (req, res) => res.redirect('/renter-start'));
 app.get('/renter-start', (req, res) => {
   res.render('marketing'); 
 });
@@ -68,111 +73,118 @@ app.post('/account-setup', [
         });
     }
 
-    // Mock DB Save
-    req.session.userId = 1; 
-    req.session.userEmail = req.body.email;
-    console.log(`Saving User: ${req.body.email}`);
-    
-    res.redirect('/quiz/personality');
+    const { email, fullName, phone } = req.body;
+
+    try {
+        // Check if user exists
+        const userCheck = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+        let userId;
+
+        if (userCheck.rows.length > 0) {
+            // Update existing user
+            userId = userCheck.rows[0].id;
+            await pool.query(
+                'UPDATE users SET full_name = $1, phone = $2 WHERE id = $3',
+                [fullName, phone, userId]
+            );
+            console.log(`Updated existing user: ${userId}`);
+        } else {
+            // Insert new user
+            const result = await pool.query(
+                'INSERT INTO users (email, full_name, phone, role, status) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+                [email, fullName, phone, 'renter', 'setup']
+            );
+            userId = result.rows[0].id;
+            console.log(`Created new user: ${userId}`);
+        }
+
+        // Save real ID to session
+        req.session.userId = userId;
+        req.session.email = email;
+        
+        res.redirect('/quiz/personality');
+
+    } catch (err) {
+        console.error('Database Error on Account Setup:', err);
+        res.status(500).send("Database error. Please try again.");
+    }
 });
 
 // 3. Personality Quiz
 app.get('/quiz/personality', (req, res) => {
-    // Ensure we use your complex quiz.ejs structure
-    res.render('quiz', { 
-        section: 'personality', 
-        questions: 35, 
-        answered: 0, 
-        step: 3, 
-        totalSteps: 6 
-    });
+    if (!req.session.userId) return res.redirect('/account-setup');
+    res.render('quiz', { section: 'personality' });
 });
 
-// Handle Quiz Submission
+// API: Save Quiz Progress (Called by JS between steps)
+app.post('/save-progress', async (req, res) => {
+    const { step, answers } = req.body;
+    
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Session expired' });
+    }
+
+    try {
+        console.log(`Saving progress for User ${req.session.userId} (Step ${step})`);
+        
+        // Merge new answers into the existing JSONB column
+        // The '||' operator in Postgres merges JSON objects
+        await pool.query(
+            `UPDATE users 
+             SET quiz_answers = COALESCE(quiz_answers, '{}'::jsonb) || $1 
+             WHERE id = $2`,
+            [answers, req.session.userId]
+        );
+        
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Error saving progress:', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+// 4. Final Quiz Submit (Redirects to Preferences)
 app.post('/quiz-submit', async (req, res) => {
-    console.log("Quiz answers received");
-    // Here you would calculate the OCEAN score
-    res.redirect('/preferences'); 
+    // This route acts as a fallback/finalizer if needed
+    res.redirect('/preferences-start'); 
 });
 
-// 4. Preferences (New Step for Environment/Building)
-app.get('/preferences', (req, res) => {
-    res.render('quiz', { 
-        section: 'environment', // Reusing your quiz template for the next section
-        questions: 22, 
-        answered: 0, 
-        step: 4, 
-        totalSteps: 6 
-    });
+// 5. Preferences Flow
+app.get('/preferences-start', (req, res) => {
+    if (!req.session.userId) return res.redirect('/account-setup');
+    res.render('preferences-start');
 });
 
-app.post('/preferences-submit', (req, res) => {
-    console.log("Preferences saved");
-    res.redirect('/background-gather');
+app.get('/preferences/amenities', (req, res) => {
+    if (!req.session.userId) return res.redirect('/account-setup');
+    res.render('preferences-amenities');
 });
 
-// 5. Background Information Gathering
+app.get('/preferences/routine', (req, res) => {
+    if (!req.session.userId) return res.redirect('/account-setup');
+    res.render('preferences-routine');
+});
+
+// 6. Background & Payment
 app.get('/background-gather', (req, res) => {
+    if (!req.session.userId) return res.redirect('/account-setup');
     res.render('background-gather', { step: 5, totalSteps: 6, errors: [] });
 });
 
-app.post('/background-gather', [
-    body('ssn').isLength({ min: 9 }).withMessage('SSN required for background check'),
-    body('consent').equals('true').withMessage('You must consent to the background check')
-], (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.render('background-gather', { step: 5, totalSteps: 6, errors: errors.array() });
-    }
+app.post('/background-gather', async (req, res) => {
+    // Save background info logic here...
     res.redirect('/payment');
 });
 
-// 6. Payment Processing
 app.get('/payment', (req, res) => {
     res.render('payment', { step: 6, totalSteps: 6 });
 });
 
-// Mock Stripe Checkout
-app.post('/create-checkout-session', (req, res) => {
-    console.log("Initiating Stripe Checkout...");
-    // In a real app, this redirects to Stripe. For skeleton, we go to success.
-    res.redirect('/success');
-});
-
-app.get('/success', (req, res) => {
-    res.render('success');
-});
-
-// Catch-all for broken links
-app.use((req, res) => {
-    res.status(404).send("Page not found");
+app.get('/dashboard', async (req, res) => {
+    if (!req.session.userId) return res.redirect('/account-setup');
+    res.send("Dashboard Placeholder - You made it!");
 });
 
 app.listen(port, () => {
   console.log(`CohabiSafe running on port ${port}`);
-});
-
-app.post('/save-progress', async (req, res) => {
-    const { step, answers } = req.body;
-    if (req.session.userId) {
-        console.log(`Saving progress for User ${req.session.userId}, Step ${step}`);
-        // TODO: Update specific columns in DB based on step, or merge into a JSONB column 'quiz_answers'
-        // await pool.query('UPDATE users SET quiz_answers = quiz_answers || $1 WHERE id = $2', [answers, req.session.userId]);
-    }
-    res.json({ success: true });
-});
-
-// 1. Preferences Landing Page
-app.get('/preferences-start', (req, res) => {
-    res.render('preferences-start', { step: 4, totalSteps: 6 });
-});
-
-// 2. Amenities Form
-app.get('/preferences/amenities', (req, res) => {
-    res.render('preferences-amenities', { step: 4, totalSteps: 6 });
-});
-
-// 3. Daily Routine Widget
-app.get('/preferences/routine', (req, res) => {
-    res.render('preferences-routine', { step: 4, totalSteps: 6 });
 });
