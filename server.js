@@ -27,15 +27,26 @@ app.set('views', path.join(__dirname, 'views'));
 
 // --- DATABASE CONNECTION ---
 let pool;
-if (process.env.DATABASE_URL) {
-    pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        // specific SSL settings for Google Cloud SQL if needed
-        ssl: { rejectUnauthorized: false } 
-    });
+
+const dbConfig = {
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD, // Ensure this is set in Cloud Run vars
+    database: process.env.DB_NAME || 'cohabisafe-db',
+};
+
+// If running in Cloud Run, use the socket path
+if (process.env.INSTANCE_CONNECTION_NAME) {
+  dbConfig.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+} else {
+  // For local testing / TCP connections
+  dbConfig.connectionString = process.env.DATABASE_URL; 
+}
+
+if (process.env.INSTANCE_CONNECTION_NAME || process.env.DATABASE_URL) {
+    pool = new Pool(dbConfig);
     console.log("Attempting connection to Postgres DB...");
 } else {
-    console.log("WARNING: No DATABASE_URL found. Data will NOT be saved.");
+    console.log("WARNING: No DB Config found. Data will NOT be saved.");
     pool = {
         query: async () => ({ rows: [] }) // Dummy pool to prevent crashes
     };
