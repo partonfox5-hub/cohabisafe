@@ -3,241 +3,476 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personality Quiz - Cohabisafe</title>
+    <title>Personality Assessment - CohabiSafe</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header role="banner">
-        <h1><%= section === 'personality' ? 'Personality Test' : section === 'environment' ? 'Preferred Environment Test' : 'Building Preferences' %></h1>
-        <p class="progress">Step 3 of 6: <%= section.charAt(0).toUpperCase() + section.slice(1) %> Section</p>
-        <div class="progress-bar" role="progressbar" id="progressBar" aria-valuenow="<%= answered %>" aria-valuemin="0" aria-valuemax="<%= questions %>" aria-label="Quiz progress">
-            <div class="progress-fill" id="progressFill" style="width: <%= (answered / questions * 100) %>%"></div>
+        <h1>Personality Compatibility</h1>
+        <p class="progress-text">Step 3 of 6: Analyzing 5 Dimensions of Personality</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
         </div>
-        <p id="progressText" aria-live="polite">Answered: <%= answered %> of <%= questions %></p>
+        <p id="progress-count" aria-live="polite">0 of 42 Answered</p>
     </header>
 
     <main id="main-content" role="main">
-        <form id="quizForm" novalidate>
-            <fieldset id="questionsFieldset">
-                <legend>Answer the following questions</legend>
-                <% if (section === 'personality') { %>
-                    <!-- Openness to Experience (8 Qs) -->
-                    <section aria-labelledby="openness-heading">
-                        <h2 id="openness-heading">Openness to Experience</h2>
-                        <p aria-describedby="openness-tip">This measures creativity, curiosity, and adaptability.</p>
-                        <small id="openness-tip">Be honest for better matches.</small>
+        <form id="quizForm" action="/quiz-submit" method="POST">
+            
+            <section class="quiz-section" aria-labelledby="openness-heading">
+                <h2 id="openness-heading">Part 1: Openness</h2>
+                <p class="section-desc">How you approach new ideas and experiences.</p>
 
-                        <!-- Q1: Likert -->
-                        <div class="question" data-qid="1">
-                            <label for="q1">I enjoy exploring new ideas and concepts, even if they're unconventional.</label>
-                            <div class="radio-group likert" role="radiogroup" aria-labelledby="q1-label">
-                                <input type="radio" id="q1-1" name="q1" value="1" aria-required="true">
-                                <label for="q1-1">Strongly Disagree</label>
-                                <input type="radio" id="q1-2" name="q1" value="2">
-                                <label for="q1-2">Disagree</label>
-                                <input type="radio" id="q1-3" name="q1" value="3">
-                                <label for="q1-3">Neutral</label>
-                                <input type="radio" id="q1-4" name="q1" value="4">
-                                <label for="q1-4">Agree</label>
-                                <input type="radio" id="q1-5" name="q1" value="5">
-                                <label for="q1-5">Strongly Agree</label>
-                            </div>
-                        </div>
+                <div class="question-card" data-qid="o1" data-weight="1.0">
+                    <label class="q-label">I enjoy exploring new ideas and concepts, even if they're unconventional.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="o1" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="o1" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="o1" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="o1" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="o1" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                        <!-- Q2: Reverse Likert -->
-                        <div class="question" data-qid="2" id="q2-container" style="display: block;">
-                            <label for="q2">I prefer routine tasks over trying something new and different. (Reverse scored)</label>
-                            <div class="radio-group likert" role="radiogroup" aria-labelledby="q2-label">
-                                <input type="radio" id="q2-1" name="q2" value="1">
-                                <label for="q2-1">Strongly Disagree</label>
-                                <!-- ... similar for 2-5, value 1-5 but JS reverses to 5-1 -->
-                            </div>
-                        </div>
+                <div class="question-card" data-qid="o2" data-reverse="true" data-weight="1.2">
+                    <label class="q-label">I prefer routine tasks over trying something new and different.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="o2" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="o2" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="o2" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="o2" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="o2" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                        <!-- Q3: Slider -->
-                        <div class="question" data-qid="3">
-                            <label for="q3">I have a vivid imagination and often daydream about possibilities.</label>
-                            <input type="range" id="q3" name="q3" min="1" max="10" value="5" aria-valuemin="1" aria-valuemax="10" aria-valuenow="5" aria-valuetext="Neutral">
-                            <span id="q3-value">5</span> (Low imagination to High imagination)
-                        </div>
+                <div class="question-card" data-qid="o3" data-weight="1.0">
+                    <label class="q-label" for="o3-range">I have a vivid imagination and often daydream about possibilities.</label>
+                    <div class="range-container">
+                        <span class="range-label">Low Imagination</span>
+                        <input type="range" id="o3-range" name="o3" min="1" max="10" value="5" oninput="updateOutput('o3-out', this.value)">
+                        <span class="range-label">High Imagination</span>
+                    </div>
+                    <output id="o3-out">5</output>
+                </div>
 
-                        <!-- Q4: Toggle with textarea -->
-                        <div class="question" data-qid="4">
-                            <label>Art and aesthetics matter a lot to me; I seek beauty in my surroundings.</label>
-                            <div class="toggle-group" role="radiogroup">
-                                <button type="button" role="radio" aria-checked="false" tabindex="0" data-value="no">No</button>
-                                <button type="button" role="radio" aria-checked="false" tabindex="-1" data-value="yes">Yes</button>
-                            </div>
-                            <textarea id="q4-explain" name="q4-explain" placeholder="Explain why aesthetics matter to you..." style="display: none;" aria-describedby="q4-instructions"></textarea>
-                            <small id="q4-instructions">Optional explanation if Yes.</small>
-                        </div>
+                <div class="question-card" data-qid="o4" data-weight="1.0">
+                    <label class="q-label">Art and aesthetics matter a lot to me; I seek beauty in my surroundings.</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="o4-no" name="o4" value="1" onclick="toggleText('o4-text', false)">
+                        <label for="o4-no" class="toggle-btn">No</label>
+                        
+                        <input type="radio" id="o4-yes" name="o4" value="5" onclick="toggleText('o4-text', true)">
+                        <label for="o4-yes" class="toggle-btn">Yes</label>
+                    </div>
+                    <textarea id="o4-text" name="o4_notes" class="conditional-text" placeholder="Explain why aesthetics matter to you..." style="display:none"></textarea>
+                </div>
 
-                        <!-- Q5: Likert -->
-                        <div class="question" data-qid="5">
-                            <label for="q5">I'm comfortable with ambiguity and change in my daily life.</label>
-                            <div class="radio-group likert" role="radiogroup" aria-describedby="q5-desc">
-                                <!-- Similar radio inputs value 1-5 -->
-                            </div>
-                            <small id="q5-desc">This helps match adaptable roommates.</small>
-                        </div>
+                <div class="question-card" data-qid="o5" data-weight="1.5"> <label class="q-label">I'm comfortable with ambiguity and change in my daily life.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="o5" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="o5" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="o5" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="o5" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="o5" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                        <!-- Additional Openness Qs (6-8) -->
-                        <div class="question" data-qid="6">
-                            <label for="q6">I like to explore abstract ideas that challenge my beliefs.</label>
-                            <div class="radio-group likert"><!-- Radios 1-5 --></div>
-                            <small id="openness-tip-extra">This measures intellectual curiosity.</small>
-                        </div>
+                <div class="question-card" data-qid="o6" data-weight="1.0">
+                    <label class="q-label">I like to explore abstract ideas that challenge my beliefs.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="o6" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="o6" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="o6" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="o6" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="o6" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                        <div class="question" data-qid="7">
-                            <label for="q7">I find it exciting to learn about cultures different from my own.</label>
-                            <input type="range" id="q7" name="q7" min="1" max="10" value="5"><!-- Slider --></input>
-                            <span id="q7-value">5</span> (Uninterested to Highly Excited)
-                            <!-- Icon: <img src="/icons/globe.png" alt="Global cultures" aria-hidden="true"> -->
-                        </div>
+                <div class="question-card" data-qid="o7" data-weight="1.1">
+                    <label class="q-label" for="o7-range">I find it exciting to learn about cultures different from my own.</label>
+                    <div class="range-container">
+                        <span class="range-label">Uninterested</span>
+                        <input type="range" id="o7-range" name="o7" min="1" max="10" value="5" oninput="updateOutput('o7-out', this.value)">
+                        <span class="range-label">Highly Excited</span>
+                    </div>
+                    <output id="o7-out">5</output>
+                </div>
 
-                        <div class="question" data-qid="8" id="q8-container">
-                            <label>I prefer practical solutions over theoretical discussions. (Reverse)</label>
-                            <div class="toggle-group"><!-- Toggle Practical/Theoretical --></div>
-                        </div>
+                <div class="question-card" data-qid="o8" data-reverse="true" data-weight="1.0">
+                    <label class="q-label">Which approach do you prefer?</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="o8-prac" name="o8" value="5"> <label for="o8-prac" class="toggle-btn">Practical Solutions</label>
+                        
+                        <input type="radio" id="o8-theo" name="o8" value="1"> <label for="o8-theo" class="toggle-btn">Theoretical Discussions</label>
+                    </div>
+                </div>
+            </section>
 
-                    </section>
+            <section class="quiz-section" aria-labelledby="consc-heading">
+                <h2 id="consc-heading">Part 2: Conscientiousness</h2>
+                <p class="section-desc">Organization, reliability, and habits.</p>
 
-                    <!-- Conscientiousness (7 Qs: Q9-15) -->
-                    <section aria-labelledby="conscientious-heading">
-                        <h2 id="conscientious-heading">Conscientiousness</h2>
-                        <!-- Similar structure for Q9-15: Mix of Likert, Slider, Toggle with photos, etc. -->
-                        <!-- Example Q9: Likert "I always follow a cleaning schedule..." -->
-                        <!-- Q10: Slider "Planning preference" -->
-                        <!-- Q11: Reverse Likert -->
-                        <!-- Q12: Toggle with photos (Minimalist, Lived-In, Clutter OK) - use images with alt -->
-                        <!-- Q13: Likert -->
-                        <!-- Q14: Double-check work Likert -->
-                        <!-- Q15: Goal slider -->
-                    </section>
+                <div class="question-card" data-qid="c1" data-weight="2.0" style="border-left: 4px solid #4A90E2;">
+                    <label class="q-label">I always follow a cleaning schedule, even if others slack.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="c1" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="c1" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="c1" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="c1" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="c1" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                    <!-- Extraversion (8 Qs: Q16-23) -->
-                    <section aria-labelledby="extraversion-heading">
-                        <h2 id="extraversion-heading">Extraversion</h2>
-                        <!-- Q16: Likert hosting -->
-                        <!-- Q17: Slider solo vs group -->
-                        <!-- Q18: Likert energized -->
-                        <!-- Q19: Toggle small/large (reverse) -->
-                        <!-- Q20: Likert initiate -->
-                        <!-- Q21: Likert thrive social -->
-                        <!-- Q22: Toggle attention -->
-                        <!-- Q23: Slider team vs solo -->
-                    </section>
+                <div class="question-card" data-qid="c2" data-weight="1.5">
+                    <label class="q-label" for="c2-range">I plan my tasks carefully to avoid last-minute rushes.</label>
+                    <div class="range-container">
+                        <span class="range-label">Spontaneous</span>
+                        <input type="range" id="c2-range" name="c2" min="1" max="10" value="5" oninput="updateOutput('c2-out', this.value)">
+                        <span class="range-label">Highly Planned</span>
+                    </div>
+                    <output id="c2-out">5</output>
+                </div>
 
-                    <!-- Agreeableness (7 Qs: Q24-30) -->
-                    <section aria-labelledby="agreeableness-heading">
-                        <h2 id="agreeableness-heading">Agreeableness</h2>
-                        <!-- Q24: Likert compromise -->
-                        <!-- Q25: Slider helpful -->
-                        <!-- Q26: Likert forgive -->
-                        <!-- Q27: Toggle confrontational -->
-                        <!-- Q28: Likert get along -->
-                        <!-- Q29: Slider empathetic -->
-                        <!-- Q30: Toggle reciprocal -->
-                    </section>
+                <div class="question-card" data-qid="c3" data-reverse="true" data-weight="1.5">
+                    <label class="q-label">I feel uneasy if I forget to complete something I promised.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="c3" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="c3" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="c3" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="c3" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="c3" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                    <!-- Neuroticism (5 Qs: Q31-35) -->
-                    <section aria-labelledby="neuroticism-heading">
-                        <h2 id="neuroticism-heading">Neuroticism</h2>
-                        <p aria-live="polite" id="neuroticism-summary">Section summary will appear here.</p>
-                        <!-- Q31: Reverse Likert unexpected guests -->
-                        <!-- Q32: Slider worry -->
-                        <!-- Q33: Reverse Likert calm pressure -->
-                        <!-- Q34: Likert stressed social -->
-                        <!-- Q35: Reverse Likert anxious new -->
-                    </section>
-                <% } else if (section === 'environment') { %>
-                    <!-- Environment Test: 22 Questions on Habits (Inferred: Similar mix for cleanliness, noise, etc.) -->
-                    <section aria-labelledby="environment-heading">
-                        <h2 id="environment-heading">Preferred Environment</h2>
-                        <!-- Example Q1: Likert "I prefer a spotless kitchen..." -->
-                        <!-- Sliders for noise tolerance, cleanliness level -->
-                        <!-- Toggles for shared habits like cooking, guests -->
-                        <!-- Multi-select for daily routines (e.g., wake/sleep times) -->
-                        <!-- Total 22: Grouped into sub-sections like Cleanliness (5), Noise (5), Guests (4), Routines (4), etc. -->
-                        <!-- Placeholder for brevity: Implement similar to personality -->
-                        <div class="question" data-qid="env1">
-                            <label for="env1">How important is cleanliness in shared spaces?</label>
-                            <input type="range" id="env1" name="env1" min="1" max="10" value="5">
-                            <span id="env1-value">5</span> (Not important to Very important)
-                        </div>
-                        <!-- ... 21 more similar questions ... -->
-                    </section>
-                <% } else if (section === 'building') { %>
-                    <!-- Building Preferences: 10 Multi-Select Questions -->
-                    <section aria-labelledby="building-heading">
-                        <h2 id="building-heading">Building Preferences</h2>
-                        <p>Select up to 5-7 options per question.</p>
+                <div class="question-card" data-qid="c4" data-weight="2.0">
+                    <label class="q-label">Which image best represents your ideal living space?</label>
+                    <div class="image-select-group">
+                        <label class="img-option">
+                            <input type="radio" name="c4" value="5"> <div class="img-box">🛏️</div>
+                            <span>Minimalist & Spotless</span>
+                        </label>
+                        <label class="img-option">
+                            <input type="radio" name="c4" value="3">
+                            <div class="img-box">🛋️</div>
+                            <span>Lived-in & Cozy</span>
+                        </label>
+                        <label class="img-option">
+                            <input type="radio" name="c4" value="1"> <div class="img-box">📚</div>
+                            <span>Clutter doesn't bother me</span>
+                        </label>
+                    </div>
+                </div>
 
-                        <!-- Q1: Neighborhood Vibe Multi-Select -->
-                        <div class="question" data-qid="b1">
-                            <label for="b1-group">Preferred neighborhood vibe?</label>
-                            <fieldset class="checkbox-group" role="group" aria-labelledby="b1-heading" id="b1-group">
-                                <legend id="b1-heading">Choose multiple</legend>
-                                <div class="optgroup">
-                                    <label>High-Energy Urban</label>
-                                    <ul>
-                                        <li><label><input type="checkbox" name="b1[]" value="urban-bustling"> Urban Bustling</label></li>
-                                        <!-- ... other urban options ... -->
-                                    </ul>
-                                </div>
-                                <!-- Similar optgroups for Suburban, Rural -->
-                            </fieldset>
-                            <span id="b1-counter" aria-live="polite">Selected: 0 / 5</span>
-                        </div>
+                <div class="question-card" data-qid="c5" data-weight="1.2">
+                    <label class="q-label">I prioritize long-term goals over immediate pleasures.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="c5" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="c5" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="c5" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="c5" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="c5" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                        <!-- Q2: Rent Budget Slider + Checkboxes -->
-                        <div class="question" data-qid="b2">
-                            <label for="b2">Max monthly rent budget ($500–$2000)</label>
-                            <input type="range" id="b2" name="b2" min="500" max="2000" step="50" value="1000" aria-valuetext="$1000">
-                            <span id="b2-value">$1000</span>
-                            <fieldset class="checkbox-group">
-                                <!-- Flexible factors checkboxes -->
-                                <label><input type="checkbox" name="b2-flex[]" value="utilities"> Flexible with Utilities Included</label>
-                                <!-- ... 7 more ... -->
-                            </fieldset>
-                        </div>
+                <div class="question-card" data-qid="c6" data-weight="1.3">
+                    <label class="q-label">I double-check my work to ensure it's error-free.</label>
+                    <div class="range-container">
+                        <span class="range-label">Careless</span>
+                        <input type="range" name="c6" min="1" max="10" value="5" oninput="updateOutput('c6-out', this.value)">
+                        <span class="range-label">Meticulous</span>
+                    </div>
+                    <output id="c6-out">5</output>
+                </div>
 
-                        <!-- Q3-10: Similar multi-select for amenities, commute, pets, accessibility, shared spaces, noise, sustainability, proximity -->
-                        <!-- Example Q3 Amenities -->
-                        <div class="question" data-qid="b3">
-                            <label>Must-have amenities?</label>
-                            <fieldset class="checkbox-group">
-                                <div class="optgroup" label="Fitness/Health">
-                                    <label><input type="checkbox" name="b3[]" value="gym"> In-Building Gym</label>
-                                    <!-- ... -->
-                                </div>
-                                <!-- Other groups -->
-                            </fieldset>
-                            <span id="b3-counter">Selected: 0 / 7</span>
-                        </div>
-                        <!-- Repeat pattern for Q4-10 with specific options from prompt -->
-                    </section>
-                <% } %>
+                <div class="question-card" data-qid="c7" data-weight="1.2">
+                    <label class="q-label">I set specific goals for myself and stick to them.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="c7" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="c7" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="c7" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="c7" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="c7" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-                <div role="alert" id="validationAlert" style="display:none;" class="error">Please answer at least 80% of questions to continue.</div>
-            </fieldset>
+                <div class="question-card" data-qid="c8" data-reverse="true" data-weight="1.5">
+                    <label class="q-label">How do you handle deadlines?</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="c8-proc" name="c8" value="5">
+                        <label for="c8-proc" class="toggle-btn">I Procrastinate</label>
+                        
+                        <input type="radio" id="c8-prom" name="c8" value="1">
+                        <label for="c8-prom" class="toggle-btn">I'm Prompt</label>
+                    </div>
+                </div>
+            </section>
 
-            <button type="button" id="nextBtn" class="btn-primary" onclick="submitSection()">Complete <%= section %> Section</button>
-            <button type="button" class="btn-secondary" onclick="window.history.back()">Back</button>
-        </form>
-    </main>
+            <section class="quiz-section" aria-labelledby="extra-heading">
+                <h2 id="extra-heading">Part 3: Extraversion</h2>
+                <p class="section-desc">Social energy and interaction style.</p>
 
-    <footer role="contentinfo">
-        <p><a href="/terms">Terms</a> | <a href="/privacy">Privacy</a></p>
-    </footer>
+                <div class="question-card" data-qid="e1" data-weight="2.0">
+                    <label class="q-label">I enjoy hosting game nights or movie marathons with roommates.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="e1" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="e1" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="e1" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="e1" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="e1" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
 
-    <script src="/js/quiz.js"></script>
-    <script>
-        // Initialize quiz for current section
-        const section = '<%= section %>';
-        const totalQuestions = <%= questions %>;
-        initQuiz(section, totalQuestions, <%= answered %>);
-    </script>
-</body>
-</html>
+                <div class="question-card" data-qid="e2" data-weight="1.8">
+                    <label class="q-label">How often do you prefer solo downtime vs. group hangs?</label>
+                    <div class="range-container">
+                        <span class="range-label">Always Solo</span>
+                        <input type="range" name="e2" min="1" max="10" value="5" oninput="updateOutput('e2-out', this.value)">
+                        <span class="range-label">Always Group</span>
+                    </div>
+                    <output id="e2-out">5</output>
+                </div>
+
+                <div class="question-card" data-qid="e3" data-weight="1.2">
+                    <label class="q-label">I feel energized after social events with new people.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="e3" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="e3" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="e3" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="e3" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="e3" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="e4" data-reverse="true" data-weight="1.5">
+                    <label class="q-label">What is your gathering preference?</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="e4-small" name="e4" value="5">
+                        <label for="e4-small" class="toggle-btn">Small & Intimate</label>
+                        
+                        <input type="radio" id="e4-large" name="e4" value="1">
+                        <label for="e4-large" class="toggle-btn">Large Parties</label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="e5" data-weight="1.0">
+                    <label class="q-label">I often initiate conversations with strangers in social settings.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="e5" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="e5" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="e5" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="e5" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="e5" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="e6" data-weight="1.5">
+                    <label class="q-label">I thrive in environments with lots of social interaction.</label>
+                    <div class="range-container">
+                        <span class="range-label">Introverted</span>
+                        <input type="range" name="e6" min="1" max="10" value="5" oninput="updateOutput('e6-out', this.value)">
+                        <span class="range-label">Extroverted</span>
+                    </div>
+                    <output id="e6-out">5</output>
+                </div>
+
+                <div class="question-card" data-qid="e7" data-weight="1.0">
+                    <label class="q-label">Being the center of attention energizes me.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="e7" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="e7" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="e7" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="e7" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="e7" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="e8" data-weight="1.0">
+                    <label class="q-label">Working Preference</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="e8-solo" name="e8" value="1">
+                        <label for="e8-solo" class="toggle-btn">Work Alone</label>
+                        
+                        <input type="radio" id="e8-team" name="e8" value="5">
+                        <label for="e8-team" class="toggle-btn">Work in Teams</label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quiz-section" aria-labelledby="agree-heading">
+                <h2 id="agree-heading">Part 4: Agreeableness</h2>
+                <p class="section-desc">Cooperation, empathy, and conflict style.</p>
+
+                <div class="question-card" data-qid="a1" data-weight="2.0">
+                    <label class="q-label">I'd rather compromise on thermostat settings than argue.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="a1" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="a1" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="a1" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="a1" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="a1" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="a2" data-weight="1.5">
+                    <label class="q-label">I go out of my way to help others, even if it's inconvenient.</label>
+                    <div class="range-container">
+                        <span class="range-label">Independent</span>
+                        <input type="range" name="a2" min="1" max="10" value="5" oninput="updateOutput('a2-out', this.value)">
+                        <span class="range-label">Highly Helpful</span>
+                    </div>
+                    <output id="a2-out">5</output>
+                </div>
+
+                 <div class="question-card" data-qid="a3" data-weight="1.5">
+                    <label class="q-label">I find it easy to forgive people who have wronged me.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="a3" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="a3" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="a3" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="a3" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="a3" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="a4" data-weight="1.2">
+                    <label class="q-label">Conflict Style</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="a4-conf" name="a4" value="1">
+                        <label for="a4-conf" class="toggle-btn">Direct/Confrontational</label>
+                        
+                        <input type="radio" id="a4-avoid" name="a4" value="5">
+                        <label for="a4-avoid" class="toggle-btn">Avoidant/Peaceful</label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="a5" data-weight="1.5">
+                    <label class="q-label">I make an effort to get along with people I disagree with.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="a5" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="a5" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="a5" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="a5" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="a5" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="a6" data-weight="1.2">
+                    <label class="q-label">I feel compassion for those who are suffering.</label>
+                    <div class="range-container">
+                        <span class="range-label">Detached</span>
+                        <input type="range" name="a6" min="1" max="10" value="5" oninput="updateOutput('a6-out', this.value)">
+                        <span class="range-label">Empathetic</span>
+                    </div>
+                    <output id="a6-out">5</output>
+                </div>
+
+                <div class="question-card" data-qid="a7" data-weight="1.0">
+                    <label class="q-label">Expectations of others</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="a7-recip" name="a7" value="1">
+                        <label for="a7-recip" class="toggle-btn">Transactional</label>
+                        
+                        <input type="radio" id="a7-uncon" name="a7" value="5">
+                        <label for="a7-uncon" class="toggle-btn">Unconditional</label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="a8" data-weight="1.3">
+                    <label class="q-label">I sympathize with others' feelings, even if I don't agree.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="a8" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="a8" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="a8" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="a8" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="a8" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quiz-section" aria-labelledby="neuro-heading">
+                <h2 id="neuro-heading">Part 5: Emotional Stability</h2>
+                <p class="section-desc">Handling stress, anxiety, and pressure.</p>
+
+                <div class="question-card" data-qid="n1" data-reverse="true" data-weight="2.0" style="border-left: 4px solid #d9534f;">
+                    <label class="q-label">Unexpected guests don't faze me.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="n1" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="n1" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="n1" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="n1" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="n1" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="n2" data-weight="1.5">
+                    <label class="q-label">I worry about small things more than I should.</label>
+                    <div class="range-container">
+                        <span class="range-label">Calm</span>
+                        <input type="range" name="n2" min="1" max="10" value="5" oninput="updateOutput('n2-out', this.value)">
+                        <span class="range-label">Highly Worried</span>
+                    </div>
+                    <output id="n2-out">5</output>
+                </div>
+
+                <div class="question-card" data-qid="n3" data-reverse="true" data-weight="1.8">
+                    <label class="q-label">I remain calm under pressure during conflicts.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="n3" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="n3" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="n3" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="n3" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="n3" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="n4" data-weight="1.2">
+                    <label class="q-label">I get stressed easily in unfamiliar social situations.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="n4" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="n4" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="n4" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="n4" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="n4" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="n5" data-reverse="true" data-weight="1.5">
+                    <label class="q-label">Reaction to New Situations</label>
+                    <div class="toggle-group">
+                        <input type="radio" id="n5-anx" name="n5" value="5">
+                        <label for="n5-anx" class="toggle-btn">Anxious</label>
+                        
+                        <input type="radio" id="n5-calm" name="n5" value="1">
+                        <label for="n5-calm" class="toggle-btn">Calm</label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-qid="n6" data-weight="1.2">
+                    <label class="q-label">Negative events affect me more deeply than positive ones.</label>
+                    <div class="range-container">
+                        <span class="range-label">Resilient</span>
+                        <input type="range" name="n6" min="1" max="10" value="5" oninput="updateOutput('n6-out', this.value)">
+                        <span class="range-label">Sensitive</span>
+                    </div>
+                    <output id="n6-out">5</output>
+                </div>
+
+                <div class="question-card" data-qid="n7" data-weight="1.0">
+                    <label class="q-label">I tend to ruminate on past mistakes.</label>
+                    <div class="likert-scale">
+                         <label><input type="radio" name="n7" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="n7" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="n7" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="n7" value="4"><span>Agree</span></label>
+                        <label><input type="radio" name="n7" value="5"><span>Strongly Agree</span></label>
+                    </div>
+                </div>
+
+                 <div class="question-card" data-qid="n8" data-reverse="true" data-weight="1.8">
+                    <label class="q-label">I handle criticism well without getting defensive.</label>
+                    <div class="likert-scale">
+                        <label><input type="radio" name="n8" value="1" required><span>Strongly Disagree</span></label>
+                        <label><input type="radio" name="n8" value="2"><span>Disagree</span></label>
+                        <label><input type="radio" name="n8" value="3"><span>Neutral</span></label>
+                        <label><input type="radio" name="n8" value="4"><span>Agree</span></label>
+                        <label>
