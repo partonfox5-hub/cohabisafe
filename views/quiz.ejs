@@ -5,19 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personality Assessment - CohabiSafe</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     
-    <!-- Sticky Header -->
     <nav class="navbar">
         <div class="nav-content">
             <img src="/images/logo.png" alt="CohabiSafe Logo" class="logo">
             <div class="progress-wrapper">
                 <div class="progress-label">
                     <span id="step-indicator">Part 1 of 5</span>
-                    <span id="percent-indicator">0%</span>
+                    <span id="percent-indicator">0% Complete</span>
                 </div>
                 <div class="progress-track">
                     <div class="progress-fill" id="progressBar" style="width: 0%"></div>
@@ -34,8 +32,11 @@
             =========================== -->
             <div class="quiz-step active-step" id="step-1">
                 <div class="step-header">
-                    <h2>Part 1: Openness</h2>
-                    <p>How you approach new ideas and experiences.</p>
+                    <div>
+                        <h2>Part 1: Openness</h2>
+                        <p>How you approach new ideas and experiences.</p>
+                    </div>
+                    <div class="section-counter" id="count-1">Answered: 0 / 8</div>
                 </div>
 
                 <!-- Q1 -->
@@ -64,19 +65,23 @@
                     </div>
                 </div>
 
-                <!-- Q3 Slider -->
+                <!-- Q3 Slider (Updated with data attributes) -->
                 <div class="question-card">
                     <span class="q-num">3</span>
                     <label class="q-label">I have a vivid imagination and often daydream about possibilities.</label>
                     <div class="slider-wrapper">
-                        <span class="slider-label left">Low Imagination</span>
-                        <input type="range" class="styled-slider" name="o3" min="1" max="10" value="5" oninput="updateOutput('o3-out', this.value)">
-                        <span class="slider-label right">High Imagination</span>
+                        <span class="slider-label left">Unimaginative</span>
+                        <!-- data-low and data-high define the adjectives -->
+                        <input type="range" class="styled-slider" name="o3" min="1" max="10" value="5" 
+                               data-low="Unimaginative" data-high="Imaginative"> 
+                        <span class="slider-label right">Imaginative</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="o3-out">5</span>/10</div>
+                    <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
-                <!-- Q4 Toggle + Text -->
+                <!-- Q4 Toggle (Updated Structure) -->
                 <div class="question-card">
                     <span class="q-num">4</span>
                     <label class="q-label">Art and aesthetics matter a lot to me; I seek beauty in my surroundings.</label>
@@ -86,6 +91,7 @@
                         
                         <input type="radio" name="o4" value="5" id="o4-yes" onclick="toggleText('o4-text', true)">
                         <label for="o4-yes" class="toggle-btn">Yes</label>
+                        <div class="toggle-bg"></div> <!-- New sliding background -->
                     </div>
                     <textarea id="o4-text" name="o4_notes" class="conditional-text" placeholder="Tell us why aesthetics matter to you..." style="display:none"></textarea>
                 </div>
@@ -122,10 +128,13 @@
                     <label class="q-label">I find it exciting to learn about cultures different from my own.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Uninterested</span>
-                        <input type="range" class="styled-slider" name="o7" min="1" max="10" value="5" oninput="updateOutput('o7-out', this.value)">
+                        <input type="range" class="styled-slider" name="o7" min="1" max="10" value="5"
+                               data-low="Uninterested" data-high="Excited">
                         <span class="slider-label right">Highly Excited</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="o7-out">5</span>/10</div>
+                    <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q8 Toggle -->
@@ -134,10 +143,11 @@
                     <label class="q-label">Which approach do you prefer?</label>
                     <div class="toggle-wrapper">
                         <input type="radio" name="o8" value="5" id="o8-prac">
-                        <label for="o8-prac" class="toggle-btn">Practical Solutions</label>
+                        <label for="o8-prac" class="toggle-btn">Practical</label>
                         
                         <input type="radio" name="o8" value="1" id="o8-theo">
-                        <label for="o8-theo" class="toggle-btn">Theoretical Discussions</label>
+                        <label for="o8-theo" class="toggle-btn">Theoretical</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
             </div>
@@ -147,8 +157,11 @@
             =========================== -->
             <div class="quiz-step" id="step-2" style="display:none;">
                 <div class="step-header">
-                    <h2>Part 2: Conscientiousness</h2>
-                    <p>Organization, reliability, and habits.</p>
+                    <div>
+                        <h2>Part 2: Conscientiousness</h2>
+                        <p>Organization, reliability, and habits.</p>
+                    </div>
+                    <div class="section-counter" id="count-2">Answered: 0 / 8</div>
                 </div>
 
                 <!-- Q9 (Critical) -->
@@ -171,10 +184,13 @@
                     <label class="q-label">I plan my tasks carefully to avoid last-minute rushes.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Spontaneous</span>
-                        <input type="range" class="styled-slider" name="c2" min="1" max="10" value="5" oninput="updateOutput('c2-out', this.value)">
+                        <input type="range" class="styled-slider" name="c2" min="1" max="10" value="5"
+                               data-low="Spontaneous" data-high="Planned">
                         <span class="slider-label right">Highly Planned</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="c2-out">5</span>/10</div>
+                     <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q11 -->
@@ -195,7 +211,6 @@
                      <div class="badge-critical"><i class="fas fa-star"></i> Roommate Dealbreaker</div>
                     <span class="q-num">12</span>
                     <label class="q-label">Which image best represents your ideal living space?</label>
-                    <!-- Reusing Likert container logic but with visual styling if needed, or custom layout -->
                      <div class="likert-container">
                         <div class="likert-opt"><input type="radio" name="c4" value="5" id="c4-5"><label for="c4-5">🛏️ Minimalist & Spotless</label></div>
                         <div class="likert-opt"><input type="radio" name="c4" value="3" id="c4-3"><label for="c4-3">🛋️ Lived-in & Cozy</label></div>
@@ -222,10 +237,13 @@
                     <label class="q-label">I double-check my work to ensure it's error-free.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Careless</span>
-                        <input type="range" class="styled-slider" name="c6" min="1" max="10" value="5" oninput="updateOutput('c6-out', this.value)">
+                        <input type="range" class="styled-slider" name="c6" min="1" max="10" value="5"
+                               data-low="Careless" data-high="Meticulous">
                         <span class="slider-label right">Meticulous</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="c6-out">5</span>/10</div>
+                    <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q15 -->
@@ -247,10 +265,11 @@
                     <label class="q-label">How do you handle deadlines?</label>
                     <div class="toggle-wrapper">
                         <input type="radio" name="c8" value="5" id="c8-proc">
-                        <label for="c8-proc" class="toggle-btn">I Procrastinate</label>
+                        <label for="c8-proc" class="toggle-btn">Procrastinate</label>
                         
                         <input type="radio" name="c8" value="1" id="c8-prom">
-                        <label for="c8-prom" class="toggle-btn">I'm Prompt</label>
+                        <label for="c8-prom" class="toggle-btn">Prompt</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
             </div>
@@ -260,8 +279,11 @@
             =========================== -->
             <div class="quiz-step" id="step-3" style="display:none;">
                 <div class="step-header">
-                    <h2>Part 3: Extraversion</h2>
-                    <p>Social energy and interaction style.</p>
+                    <div>
+                        <h2>Part 3: Extraversion</h2>
+                        <p>Social energy and interaction style.</p>
+                    </div>
+                    <div class="section-counter" id="count-3">Answered: 0 / 8</div>
                 </div>
 
                 <!-- Q17 (Critical) -->
@@ -283,11 +305,14 @@
                     <span class="q-num">18</span>
                     <label class="q-label">How often do you prefer solo downtime vs. group hangs?</label>
                     <div class="slider-wrapper">
-                        <span class="slider-label left">Always Solo</span>
-                        <input type="range" class="styled-slider" name="e2" min="1" max="10" value="5" oninput="updateOutput('e2-out', this.value)">
-                        <span class="slider-label right">Always Group</span>
+                        <span class="slider-label left">Solo</span>
+                        <input type="range" class="styled-slider" name="e2" min="1" max="10" value="5"
+                               data-low="Solo Preference" data-high="Group Preference">
+                        <span class="slider-label right">Group</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="e2-out">5</span>/10</div>
+                     <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q19 -->
@@ -309,10 +334,11 @@
                     <label class="q-label">What is your gathering preference?</label>
                     <div class="toggle-wrapper">
                         <input type="radio" name="e4" value="5" id="e4-small">
-                        <label for="e4-small" class="toggle-btn">Small & Intimate</label>
+                        <label for="e4-small" class="toggle-btn">Small</label>
                         
                         <input type="radio" name="e4" value="1" id="e4-large">
-                        <label for="e4-large" class="toggle-btn">Large Parties</label>
+                        <label for="e4-large" class="toggle-btn">Large</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
 
@@ -335,10 +361,13 @@
                     <label class="q-label">I thrive in environments with lots of social interaction.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Introverted</span>
-                        <input type="range" class="styled-slider" name="e6" min="1" max="10" value="5" oninput="updateOutput('e6-out', this.value)">
+                        <input type="range" class="styled-slider" name="e6" min="1" max="10" value="5"
+                               data-low="Introverted" data-high="Extroverted">
                         <span class="slider-label right">Extroverted</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="e6-out">5</span>/10</div>
+                     <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q23 -->
@@ -360,10 +389,11 @@
                     <label class="q-label">Working Preference</label>
                     <div class="toggle-wrapper">
                         <input type="radio" name="e8" value="1" id="e8-solo">
-                        <label for="e8-solo" class="toggle-btn">Work Alone</label>
+                        <label for="e8-solo" class="toggle-btn">Solo</label>
                         
                         <input type="radio" name="e8" value="5" id="e8-team">
-                        <label for="e8-team" class="toggle-btn">Work in Teams</label>
+                        <label for="e8-team" class="toggle-btn">Team</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
             </div>
@@ -373,8 +403,11 @@
             =========================== -->
             <div class="quiz-step" id="step-4" style="display:none;">
                  <div class="step-header">
-                    <h2>Part 4: Agreeableness</h2>
-                    <p>Cooperation, empathy, and conflict style.</p>
+                    <div>
+                        <h2>Part 4: Agreeableness</h2>
+                        <p>Cooperation, empathy, and conflict style.</p>
+                    </div>
+                    <div class="section-counter" id="count-4">Answered: 0 / 8</div>
                 </div>
 
                 <!-- Q25 (Critical) -->
@@ -397,10 +430,13 @@
                     <label class="q-label">I go out of my way to help others, even if it's inconvenient.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Independent</span>
-                        <input type="range" class="styled-slider" name="a2" min="1" max="10" value="5" oninput="updateOutput('a2-out', this.value)">
-                        <span class="slider-label right">Highly Helpful</span>
+                        <input type="range" class="styled-slider" name="a2" min="1" max="10" value="5"
+                               data-low="Independent" data-high="Helpful">
+                        <span class="slider-label right">Helpful</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="a2-out">5</span>/10</div>
+                     <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q27 -->
@@ -426,6 +462,7 @@
                         
                         <input type="radio" name="a4" value="5" id="a4-avoid">
                         <label for="a4-avoid" class="toggle-btn">Peaceful</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
 
@@ -448,10 +485,13 @@
                     <label class="q-label">I feel compassion for those who are suffering.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Detached</span>
-                        <input type="range" class="styled-slider" name="a6" min="1" max="10" value="5" oninput="updateOutput('a6-out', this.value)">
+                        <input type="range" class="styled-slider" name="a6" min="1" max="10" value="5"
+                               data-low="Detached" data-high="Empathetic">
                         <span class="slider-label right">Empathetic</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="a6-out">5</span>/10</div>
+                     <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q31 Toggle -->
@@ -460,10 +500,11 @@
                     <label class="q-label">Expectations of others</label>
                     <div class="toggle-wrapper">
                         <input type="radio" name="a7" value="1" id="a7-recip">
-                        <label for="a7-recip" class="toggle-btn">Transactional</label>
+                        <label for="a7-recip" class="toggle-btn">Transact</label>
                         
                         <input type="radio" name="a7" value="5" id="a7-uncon">
-                        <label for="a7-uncon" class="toggle-btn">Unconditional</label>
+                        <label for="a7-uncon" class="toggle-btn">Kind</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
 
@@ -486,8 +527,11 @@
             =========================== -->
             <div class="quiz-step" id="step-5" style="display:none;">
                  <div class="step-header">
-                    <h2>Part 5: Emotional Stability</h2>
-                    <p>Handling stress, anxiety, and pressure.</p>
+                    <div>
+                        <h2>Part 5: Emotional Stability</h2>
+                        <p>Handling stress, anxiety, and pressure.</p>
+                    </div>
+                    <div class="section-counter" id="count-5">Answered: 0 / 10</div>
                 </div>
 
                 <!-- Q33 (Critical) -->
@@ -510,10 +554,13 @@
                     <label class="q-label">I worry about small things more than I should.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Calm</span>
-                        <input type="range" class="styled-slider" name="n2" min="1" max="10" value="5" oninput="updateOutput('n2-out', this.value)">
+                        <input type="range" class="styled-slider" name="n2" min="1" max="10" value="5"
+                               data-low="Calm" data-high="Worried">
                         <span class="slider-label right">Highly Worried</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="n2-out">5</span>/10</div>
+                     <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q35 -->
@@ -552,6 +599,7 @@
                         
                         <input type="radio" name="n5" value="1" id="n5-calm">
                         <label for="n5-calm" class="toggle-btn">Calm</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
 
@@ -561,10 +609,13 @@
                     <label class="q-label">Negative events affect me more deeply than positive ones.</label>
                     <div class="slider-wrapper">
                         <span class="slider-label left">Resilient</span>
-                        <input type="range" class="styled-slider" name="n6" min="1" max="10" value="5" oninput="updateOutput('n6-out', this.value)">
+                        <input type="range" class="styled-slider" name="n6" min="1" max="10" value="5"
+                               data-low="Resilient" data-high="Sensitive">
                         <span class="slider-label right">Sensitive</span>
                     </div>
-                    <div class="slider-value">Selected: <span id="n6-out">5</span>/10</div>
+                     <div class="slider-value">
+                        <span class="slider-score">5</span>/10 - <span class="slider-qualitative">Balanced</span>
+                    </div>
                 </div>
 
                 <!-- Q39 -->
@@ -612,10 +663,11 @@
                     <label class="q-label">Preferred Communication Style</label>
                     <div class="toggle-wrapper">
                         <input type="radio" name="n10" value="1" id="n10-txt">
-                        <label for="n10-txt" class="toggle-btn">Text/Message</label>
+                        <label for="n10-txt" class="toggle-btn">Message</label>
                         
                         <input type="radio" name="n10" value="5" id="n10-face">
-                        <label for="n10-face" class="toggle-btn">Face-to-Face</label>
+                        <label for="n10-face" class="toggle-btn">In Person</label>
+                        <div class="toggle-bg"></div>
                     </div>
                 </div>
             </div>
