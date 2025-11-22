@@ -3,32 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CohabiSafe - Verified Roommate & Landlord Matching</title>
+    <title>CohabiSafe - The #1 Cohabitation Network</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <!-- Font Awesome for Icons -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     
-    <!-- Modern Sticky Navbar -->
+    <!-- Navbar -->
     <header class="main-header">
         <div class="nav-container">
-            <!-- Logo -->
             <a href="/" class="logo-link">
                 <img src="/images/logo.jpg" alt="CohabiSafe Logo" class="nav-logo">
             </a>
 
-            <!-- Navigation Links -->
             <nav class="main-nav">
                 <ul class="nav-list">
                     <li><a href="#about-us">About</a></li>
-                    <li><a href="#how-it-works">How it Works</a></li>
+                    <li><a href="#process">Process</a></li>
                     <li><a href="/renter-start">Renters</a></li>
                     <li><a href="/landlord-start">Landlords</a></li>
                 </ul>
             </nav>
 
-            <!-- Account Action -->
             <div class="nav-actions">
                 <a href="/dashboard" class="btn-account">
                     <i class="fas fa-user-circle"></i> My Account
@@ -37,36 +36,60 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Video -->
     <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Find Your Safe Space</h1>
-            <p class="hero-sub">Match with verified roommates and landlords based on personality, lifestyle, and trust.</p>
+        <div class="hero-container">
             
-            <div class="cta-group">
-                <a href="/renter-start" class="cta-button primary">Start as Renter</a>
-                <a href="/landlord-start" class="cta-button secondary">List as Landlord</a>
+            <!-- Left Column: Text & CTA -->
+            <div class="hero-text">
+                <span class="hero-badge">🏆 The #1 Cohabitation Network</span>
+                <h1>Find Your Safe Space</h1>
+                <p class="hero-sub">Match with verified roommates and landlords based on personality, lifestyle, and trust. No more mismatched vibes.</p>
+                
+                <div class="cta-group">
+                    <a href="/renter-start" class="cta-button primary">Start as Renter</a>
+                    <a href="/landlord-start" class="cta-button secondary">List as Landlord</a>
+                </div>
             </div>
+
+            <!-- Right Column: Video -->
+            <div class="hero-video">
+                <div class="video-frame">
+                    <iframe 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=Placeholder" 
+                        title="CohabiSafe Presentation" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- Video Presentation Section -->
-    <section class="section video-section" id="how-it-works">
+    <!-- New Section: How It Works (Replaces old video section) -->
+    <section class="section process-section" id="process">
         <div class="section-header">
-            <h2>See How CohabiSafe Works</h2>
-            <p>Safe, simple, and scientifically matched.</p>
+            <h2>How CohabiSafe Works</h2>
+            <p>Three simple steps to your perfect living situation.</p>
         </div>
         
-        <div class="video-container">
-            <div class="video-wrapper">
-                <!-- Replace src with your actual video URL (YouTube embed or local file) -->
-                <iframe 
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=Placeholder" 
-                    title="CohabiSafe Presentation" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
+        <div class="process-grid">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Create Profile</h3>
+                <p>Take our scientifically backed personality quiz to define your living style.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>Get Verified</h3>
+                <p>Complete our secure ID check. We prioritize safety so you can trust every match.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Connect & Move</h3>
+                <p>Chat with highly compatible roommates or landlords and sign your lease.</p>
             </div>
         </div>
     </section>
@@ -81,36 +104,19 @@
             <div class="feature-card">
                 <div class="icon-circle"><i class="fas fa-user-friends"></i></div>
                 <h3>Save Money & Make Friends</h3>
-                <p>AI-powered personality matching speeds up your search for the perfect roommate, helping you split costs and build real connections.</p>
+                <p>AI-powered matching speeds up your search, helping you split costs and build real connections.</p>
             </div>
             
             <div class="feature-card">
                 <div class="icon-circle"><i class="fas fa-hand-holding-usd"></i></div>
                 <h3>Extra Income</h3>
-                <p>Cost-effective support for independent landlords. Safely monetize your spare room with verified matches.</p>
+                <p>Cost-effective support for independent landlords. Safely monetize your spare room.</p>
             </div>
             
             <div class="feature-card">
                 <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
                 <h3>Stay Safe</h3>
-                <p>Strict identity verification and background checks for all participants. We prioritize safety over speed.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="section testimonials">
-        <div class="section-header">
-            <h2>Success Stories</h2>
-        </div>
-        <div class="testimonial-slider">
-            <div class="testimonial-card">
-                <p class="quote">"I was tired of random Craigslist roommates. CohabiSafe matched me with someone who actually shares my cleaning habits!"</p>
-                <p class="author">- Alex, Student @ OU</p>
-            </div>
-            <div class="testimonial-card">
-                <p class="quote">"As a landlord, the pre-verified tenants save me hours of screening time."</p>
-                <p class="author">- Jordan, Property Manager</p>
+                <p>Strict identity verification and background checks. We prioritize safety over speed.</p>
             </div>
         </div>
     </section>
