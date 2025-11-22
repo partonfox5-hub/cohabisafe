@@ -4,52 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CohabiSafe - Benefits for Renters</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Use main styles for consistency -->
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
-        .benefit { margin: 20px 0; padding: 15px; border-left: 4px solid #4A90E2; background: #f9f9f9; }
-        .cta { background: #4A90E2; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
-        header { text-align: center; padding: 20px; background: #f0f8ff; }
+        /* Override/Specific styles for this landing page if needed, otherwise reuse main css */
+        body { background-color: var(--bg-color); }
+        .marketing-header { text-align: center; padding: 60px 20px; background: white; }
+        .marketing-header h1 { color: var(--primary-blue); font-size: 2.5rem; }
+        .marketing-grid { max-width: 900px; margin: 40px auto; display: grid; gap: 20px; padding: 0 20px; }
+        .benefit-card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            border-left: 6px solid var(--primary-green); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .benefit-card h2 { color: var(--text-dark); font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .benefit-card p { color: var(--text-light); font-size: 1.1rem; margin-top: 10px; }
+        .cta-container { text-align: center; margin: 60px 0; }
+        .btn-massive { 
+            background: var(--accent-orange); 
+            color: white; 
+            padding: 20px 50px; 
+            font-size: 1.5rem; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            text-decoration: none; 
+            box-shadow: 0 10px 25px rgba(255, 149, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        .btn-massive:hover { transform: scale(1.05); }
     </style>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to CohabiSafe - Your Safe Start as a Renter</h1>
-        <p>Discover how we make finding the perfect roommate and home effortless and secure.</p>
+    
+    <!-- Simple Nav for continuity -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/"><img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo"></a>
+        </div>
+    </nav>
+
+    <header class="marketing-header">
+        <h1>Your Safe Start as a Renter</h1>
+        <p style="font-size: 1.2rem; max-width: 600px; margin: 20px auto; color: #666;">
+            Discover how we make finding the perfect roommate and home effortless and secure.
+        </p>
     </header>
     
-    <section>
-        <div class="benefit">
-            <h2>🔒 Verified Matches</h2>
-            <p>Every user undergoes ID verification and background checks. No surprises—just trusted connections.</p>
+    <section class="marketing-grid">
+        <div class="benefit-card">
+            <h2><i class="fas fa-id-card-alt" style="color: var(--primary-blue);"></i> STAY SAFE</h2>
+            <p><strong>Only strict identity-verified, background, and credit-checked participants</strong> are allowed in our network. We provide full matching support so you never have to worry about who you're meeting.</p>
         </div>
         
-        <div class="benefit">
-            <h2>❤️ Personality Compatibility</h2>
-            <p>Our in-depth quiz matches you based on lifestyle, habits, and values for long-lasting harmony.</p>
+        <div class="benefit-card">
+            <h2><i class="fas fa-user-friends" style="color: var(--accent-orange);"></i> SAVE MONEY AND MAKE FRIENDS</h2>
+            <p>Our <strong>AI-powered personality matching</strong> connects you with roommates and landlords who truly click. Speed up your search with virtual room tours and find your people fast.</p>
         </div>
         
-        <div class="benefit">
-            <h2>🏠 Tailored Preferences</h2>
-            <p>Filter by location, pets, budget, and more. Update anytime for the best fits.</p>
+        <div class="benefit-card">
+            <h2><i class="fas fa-suitcase-rolling" style="color: var(--primary-green);"></i> TEMPORARY ARRANGEMENTS</h2>
+            <p>Looking for something short-term? Our <strong>relationship-driven cohabitation options</strong> let you experiment safely with flexible leases and verified hosts.</p>
         </div>
         
-        <div class="benefit">
-            <h2>💳 Transparent Pricing</h2>
-            <p>One-time fee for premium matching and background processing. No hidden costs.</p>
-        </div>
-        
-        <div class="benefit">
-            <h2>🛡️ Peace of Mind</h2>
-            <p>24/7 support, secure data handling, and community guidelines ensure a safe experience.</p>
+        <div class="benefit-card">
+            <h2><i class="fas fa-check-circle" style="color: var(--primary-blue);"></i> PEACE OF MIND</h2>
+            <p>With 24/7 support, secure data handling, and community guidelines, we ensure a safe experience from your first click to move-in day.</p>
         </div>
     </section>
     
-    <div style="text-align: center; margin: 40px 0;">
-        <a href="/account-setup" class="cta">Get Started - Create Account</a>
+    <div class="cta-container">
+        <a href="/account-setup" class="btn-massive">Create Free Account</a>
+        <p style="margin-top: 20px; color: #888;">Takes less than 2 minutes.</p>
     </div>
     
-    <footer style="text-align: center; margin-top: 40px; color: #666;">
-        <p>&copy; 2025 CohabiSafe. All rights reserved.</p>
+    <footer>
+        <div class="footer-bottom" style="background: #f4f7f9; color: #888; border: none;">
+            <p>&copy; 2025 CohabiSafe. All rights reserved.</p>
+        </div>
     </footer>
 </body>
 </html>

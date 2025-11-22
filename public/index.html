@@ -3,99 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CohabiSafe - Safe Roommate & Landlord Matching</title>
-    <style>
-        :root {
-            --trust-blue: #4A90E2;
-            --safety-green: #7ED321;
-            --neutral-gray: #F5F5F5;
-            --text-dark: #333;
-            --accent-orange: #FF9500;
-            --font-primary: 'Inter', sans-serif;
-        }
-        body { font-family: var(--font-primary); margin: 0; padding: 0; background: var(--neutral-gray); color: var(--text-dark); line-height: 1.6; }
-        header { background: white; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 10; }
-        nav ul { list-style: none; display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 0; }
-        nav li { margin: 0 1rem; }
-        nav a { text-decoration: none; color: var(--trust-blue); font-weight: 500; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--safety-green); } /* Placeholder for vector logo */
-        .hero { background: linear-gradient(to right, var(--trust-blue), var(--safety-green)); color: white; text-align: center; padding: 4rem 2rem; }
-        .hero h1 { font-size: 3rem; margin: 0; }
-        .hero p { font-size: 1.2rem; margin: 1rem 0; }
-        .cta { background: var(--accent-orange); color: white; padding: 1rem 2rem; border: none; border-radius: 5px; font-size: 1.1rem; margin: 0.5rem; cursor: pointer; text-decoration: none; display: inline-block; }
-        .section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-        .feature { text-align: center; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: white; }
-        .feature-icon { font-size: 3rem; color: var(--safety-green); } /* Use SVG icons here */
-        .testimonials { background: white; }
-        .testimonial { margin: 1rem 0; font-style: italic; }
-        footer { background: var(--text-dark); color: white; text-align: center; padding: 2rem; }
-        footer ul { list-style: none; display: flex; justify-content: center; gap: 2rem; padding: 0; }
-        footer a { color: white; text-decoration: none; }
-        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } nav ul { flex-direction: column; } }
-    </style>
+    <title>CohabiSafe - Verified Roommate & Landlord Matching</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li class="logo">CohabiSafe</li> <!-- Insert vector logo SVG here -->
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about-us">About Us</a></li>
-                <li><a href="#our-mission">Our Mission</a></li>
-                <li><a href="#why-cohabisafe">Why CohabiSafe?</a></li>
-                <li><a href="/renter-start">Renters Start Here</a></li>
-                <li><a href="/landlord-start">Landlords Start Here</a></li>
-                <li><a href="#contact-support">Contact Support</a></li>
-                <li><a href="#login" onclick="alert('Redirect to My Account')">My Account</a></li> <!-- Placeholder for auth -->
-            </ul>
-        </nav>
+    
+    <!-- Modern Sticky Navbar -->
+    <header class="main-header">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="/" class="logo-link">
+                <img src="/images/logo.jpg" alt="CohabiSafe Logo" class="nav-logo">
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="#about-us">About</a></li>
+                    <li><a href="#how-it-works">How it Works</a></li>
+                    <li><a href="/renter-start">Renters</a></li>
+                    <li><a href="/landlord-start">Landlords</a></li>
+                </ul>
+            </nav>
+
+            <!-- Account Action -->
+            <div class="nav-actions">
+                <a href="/dashboard" class="btn-account">
+                    <i class="fas fa-user-circle"></i> My Account
+                </a>
+            </div>
+        </div>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero" id="home">
-        <h1>Find Your Safe Space with CohabiSafe</h1>
-        <p>Match with verified roommates and landlords based on personality, preferences, and lifestyle. Trust starts here—no more mismatched vibes or hidden fees.</p>
-        <a href="/renter-start" class="cta">Start as Renter</a>
-        <a href="/landlord-start" class="cta">List as Landlord</a>
-    </section>
-
-    <section class="section features">
-        <h2 style="text-align: center; grid-column: 1/-1;">Why Choose CohabiSafe?</h2>
-        <div class="feature">
-            <div class="feature-icon">🔒</div> <!-- Vector key icon -->
-            <h3>Safety First</h3>
-            <p>Human-reviewed ID checks and badges ensure verified matches. 95% users feel secure from day one.</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon">❤️</div> <!-- Vector heart/handshake -->
-            <h3>Personality Matching</h3>
-            <p>Our quiz reveals compatibility beyond budgets—update results anytime for better fits.</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon">🏠</div> <!-- Vector house -->
-            <h3>Easy Preferences</h3>
-            <p>Filter by location, pets, habits. Seamless updates to your profile keep things fresh.</p>
+        <div class="hero-content">
+            <h1>Find Your Safe Space</h1>
+            <p class="hero-sub">Match with verified roommates and landlords based on personality, lifestyle, and trust.</p>
+            
+            <div class="cta-group">
+                <a href="/renter-start" class="cta-button primary">Start as Renter</a>
+                <a href="/landlord-start" class="cta-button secondary">List as Landlord</a>
+            </div>
         </div>
     </section>
 
+    <!-- Video Presentation Section -->
+    <section class="section video-section" id="how-it-works">
+        <div class="section-header">
+            <h2>See How CohabiSafe Works</h2>
+            <p>Safe, simple, and scientifically matched.</p>
+        </div>
+        
+        <div class="video-container">
+            <div class="video-wrapper">
+                <!-- Replace src with your actual video URL (YouTube embed or local file) -->
+                <iframe 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=Placeholder" 
+                    title="CohabiSafe Presentation" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="section features" id="why-cohabisafe">
+        <div class="section-header">
+            <h2>Why Choose CohabiSafe?</h2>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon-circle"><i class="fas fa-user-friends"></i></div>
+                <h3>Save Money & Make Friends</h3>
+                <p>AI-powered personality matching speeds up your search for the perfect roommate, helping you split costs and build real connections.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon-circle"><i class="fas fa-hand-holding-usd"></i></div>
+                <h3>Extra Income</h3>
+                <p>Cost-effective support for independent landlords. Safely monetize your spare room with verified matches.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
+                <h3>Stay Safe</h3>
+                <p>Strict identity verification and background checks for all participants. We prioritize safety over speed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
     <section class="section testimonials">
-        <h2>User Stories</h2>
-        <div class="testimonial">"CohabiSafe saved me from another bad roommate drama—real compatibility testing works!" – Alex, NYC</div>
-        <div class="testimonial">"As a landlord, verified renters mean peace of mind. Matches in days, not weeks." – Jordan, LA</div>
-        <!-- Add more from blog/success stories -->
-        <a href="#success-stories" class="cta" style="display: block; text-align: center; max-width: 200px; margin: 2rem auto;">Read More Stories</a>
+        <div class="section-header">
+            <h2>Success Stories</h2>
+        </div>
+        <div class="testimonial-slider">
+            <div class="testimonial-card">
+                <p class="quote">"I was tired of random Craigslist roommates. CohabiSafe matched me with someone who actually shares my cleaning habits!"</p>
+                <p class="author">- Alex, Student @ OU</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">"As a landlord, the pre-verified tenants save me hours of screening time."</p>
+                <p class="author">- Jordan, Property Manager</p>
+            </div>
+        </div>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <ul>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#blog">Blog</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#privacy-policy">Privacy Policy</a></li>
-            <li><a href="#terms">Terms of Service</a></li>
-            <li><a href="#community-guidelines">Community Guidelines</a></li>
-        </ul>
-        <p>&copy; 2025 CohabiSafe. All rights reserved. | Follow us: <a href="#social">X | Instagram</a></p>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>CohabiSafe</h4>
+                <p>Your safe start to shared living.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CohabiSafe. All rights reserved.</p>
+        </div>
     </footer>
+
 </body>
 </html>
