@@ -5,7 +5,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const { body, validationResult } = require('express-validator');
 const { Pool } = require('pg');
-const bcrypt = require('bcrypt'); // New requirement
+const bcrypt = require('bcrypt'); 
 
 dotenv.config();
 
@@ -19,10 +19,10 @@ app.use(express.static('public'));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'cohabisafe_secret_key',
   resave: false,
-  saveUninitialized: false, // Changed to false to only save if auth successful
+  saveUninitialized: false, 
   cookie: { 
-      secure: false, // True in production with HTTPS
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 1 Week Session
+      secure: false, 
+      maxAge: 1000 * 60 * 60 * 24 * 7 
   } 
 }));
 
@@ -53,15 +53,19 @@ if (process.env.INSTANCE_CONNECTION_NAME || process.env.DATABASE_URL) {
 // --- ROUTES ---
 
 // 1. Homepage
-app.get('/', (req, res) => res.render('index')); // Assuming you rename index.html to views/index.ejs, or serve static
+app.get('/', (req, res) => res.render('index')); 
 
-// 2. Unified Login/Signup Page
+// 2. Marketing Splash (Restored Route)
+app.get('/renter-start', (req, res) => {
+    res.render('marketing'); 
+});
+
+// 3. Account Setup
 app.get('/account-setup', (req, res) => {
     if (req.session.userId) return res.redirect('/dashboard');
     res.render('account-setup', { errors: [], formData: {} });
 });
 
-// SIGN UP Logic
 app.post('/account-setup', [
     body('email').isEmail().withMessage('Valid email required'),
     body('password').isLength({ min: 6 }).withMessage('Password must be 6+ chars')
@@ -74,7 +78,6 @@ app.post('/account-setup', [
     const { email, fullName, phone, password } = req.body;
 
     try {
-        // Check existing
         const userCheck = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
         if (userCheck.rows.length > 0) {
             return res.render('account-setup', { 
@@ -83,17 +86,14 @@ app.post('/account-setup', [
             });
         }
 
-        // Hash Password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Insert
         const result = await pool.query(
             `INSERT INTO users (email, full_name, phone, password_hash, role, status) 
              VALUES ($1, $2, $3, $4, 'renter', 'setup') RETURNING id`,
             [email, fullName, phone, hashedPassword]
         );
 
-        // Login Session
         req.session.userId = result.rows[0].id;
         req.session.userEmail = email;
         
@@ -105,45 +105,34 @@ app.post('/account-setup', [
     }
 });
 
-// LOGIN Logic
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    
     try {
         const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        
         if (result.rows.length > 0) {
             const user = result.rows[0];
             const match = await bcrypt.compare(password, user.password_hash || '');
-            
             if (match) {
                 req.session.userId = user.id;
                 req.session.userEmail = user.email;
                 return res.redirect('/dashboard');
             }
         }
-        // Login Failed
-        res.render('account-setup', { 
-            errors: [{ msg: 'Invalid email or password.' }], 
-            formData: { email } 
-        });
-
+        res.render('account-setup', { errors: [{ msg: 'Invalid email or password.' }], formData: { email } });
     } catch (err) {
         console.error(err);
         res.redirect('/account-setup');
     }
 });
 
-// LOGOUT
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 });
 
-// 3. Dashboard (Account Management)
+// 4. Dashboard
 app.get('/dashboard', async (req, res) => {
     if (!req.session.userId) return res.redirect('/account-setup');
-    
     try {
         const result = await pool.query('SELECT * FROM users WHERE id = $1', [req.session.userId]);
         const user = result.rows[0];
@@ -153,7 +142,7 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
-// 4. Quiz & Progress
+// 5. Quiz
 app.get('/quiz/personality', (req, res) => {
     if (!req.session.userId) return res.redirect('/account-setup');
     res.render('quiz', { section: 'personality' });
@@ -174,7 +163,7 @@ app.post('/save-progress', async (req, res) => {
     }
 });
 
-// 5. Preferences
+// 6. Preferences
 app.get('/preferences-start', (req, res) => {
     if (!req.session.userId) return res.redirect('/account-setup');
     res.render('preferences-start');
@@ -190,13 +179,14 @@ app.get('/preferences/routine', (req, res) => {
     res.render('preferences-routine');
 });
 
-// OAUTH Placeholders (Requires API Keys)
-app.get('/auth/google', (req, res) => {
-    res.send("Google Auth not configured yet. Requires GCP Credentials.");
+app.get('/background-gather', (req, res) => {
+    if (!req.session.userId) return res.redirect('/account-setup');
+    res.render('background-gather', { step: 5, totalSteps: 6, errors: [] });
 });
-app.get('/auth/facebook', (req, res) => {
-    res.send("Facebook Auth not configured yet. Requires Meta App ID.");
-});
+
+// Auth Stubs
+app.get('/auth/google', (req, res) => res.send("Google Auth Stub"));
+app.get('/auth/facebook', (req, res) => res.send("Facebook Auth Stub"));
 
 app.listen(port, () => {
   console.log(`CohabiSafe running on port ${port}`);
