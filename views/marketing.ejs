@@ -9,14 +9,13 @@
 </head>
 <body>
     
-    <!-- Navbar (Mobile Ready) -->
+    <!-- Navbar with Mobile Toggle -->
     <header class="main-header">
         <div class="nav-container">
             <a href="/" class="logo-link">
                 <img src="/images/logo.jpg" alt="CohabiSafe Logo" class="nav-logo">
             </a>
 
-            <!-- Desktop Nav -->
             <nav class="main-nav">
                 <ul class="nav-list">
                     <li><a href="/">Home</a></li>
@@ -29,7 +28,6 @@
                 <a href="/dashboard" class="btn-account">
                     <i class="fas fa-user-circle"></i> My Account
                 </a>
-                <!-- Hamburger Trigger -->
                 <button class="hamburger-btn" onclick="toggleMobileMenu()">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -43,9 +41,7 @@
         <button class="close-btn" onclick="toggleMobileMenu()">&times;</button>
         <ul class="mobile-nav-list">
             <li><a href="/">Home</a></li>
-            <li><a href="#benefits">Benefits</a></li>
-            <li><a href="#ui-preview">Platform</a></li>
-            <li><a href="/landlord-start">Landlords</a></li>
+            <li><a href="/account-setup">Create Account</a></li>
             <li><a href="/dashboard">My Account</a></li>
         </ul>
     </div>
@@ -58,7 +54,7 @@
         </p>
     </header>
     
-    <!-- Benefits Grid -->
+    <!-- Benefits Grid (Your Specific Points) -->
     <section class="marketing-grid" id="benefits">
         <div class="benefit-card">
             <h2><i class="fas fa-id-card-alt" style="color: var(--primary-blue);"></i> STAY SAFE</h2>
@@ -81,7 +77,7 @@
         </div>
     </section>
 
-    <!-- UI Preview Section -->
+    <!-- UI Preview Section (Placeholders for now) -->
     <section class="ui-showcase" id="ui-preview">
         <div class="container">
             <h2 style="text-align:center; margin-bottom:40px;">See Our Matching Engine</h2>
@@ -89,7 +85,6 @@
             <div class="ui-grid">
                 <div class="ui-card">
                     <div class="ui-placeholder">
-                        <!-- Replace with actual screenshot later -->
                         <i class="fas fa-chart-pie"></i>
                         <span>Personality Quiz UI</span>
                     </div>
@@ -98,7 +93,6 @@
                 
                 <div class="ui-card">
                     <div class="ui-placeholder">
-                        <!-- Replace with actual screenshot later -->
                         <i class="fas fa-user-shield"></i>
                         <span>Verification Badge</span>
                     </div>
@@ -107,7 +101,6 @@
 
                 <div class="ui-card">
                     <div class="ui-placeholder">
-                        <!-- Replace with actual screenshot later -->
                         <i class="fas fa-comments"></i>
                         <span>Secure Chat</span>
                     </div>
@@ -128,13 +121,10 @@
         </div>
     </footer>
 
-    <!-- Mobile Menu Script -->
     <script>
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const overlay = document.getElementById('mobileOverlay');
-            menu.classList.toggle('active');
-            overlay.classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+            document.getElementById('mobileOverlay').classList.toggle('active');
         }
     </script>
 </body>

@@ -3,83 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amenities - CohabiSafe</title>
+    <title>Living Preferences - CohabiSafe</title>
     <link rel="stylesheet" href="/css/styles.css">
     <style>
-        .amenity-grid { display: grid; gap: 15px; }
-        .amenity-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .preference-select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
-        .preference-select.must { border-color: #2ECC71; color: #2ECC71; font-weight: bold; }
-        .preference-select.no { border-color: #e74c3c; color: #e74c3c; font-weight: bold; }
+        .intro-card { text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .intro-icon { font-size: 4rem; color: var(--primary-green); margin-bottom: 20px; }
+        .btn-start { background: var(--primary-blue); color: white; padding: 15px 40px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem; display: inline-block; margin-top: 20px; }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-content"><img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo"></div>
+        <div class="nav-content">
+            <img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo">
+        </div>
     </nav>
 
     <main class="container">
-        <h1>What are your non-negotiables?</h1>
-        <p>Select your preference level for each amenity.</p>
-
-        <form action="/preferences/routine" method="GET"> <!-- Temporary GET for flow -->
-            <div class="amenity-grid">
-                <!-- Item 1 -->
-                <div class="amenity-card">
-                    <label>In-Unit Washer/Dryer</label>
-                    <select class="preference-select" name="washer">
-                        <option value="nice">Would Like</option>
-                        <option value="must">Must Have</option>
-                        <option value="no">Absolutely Not</option>
-                        <option value="dc">Don't Care</option>
-                    </select>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="amenity-card">
-                    <label>Private Bathroom</label>
-                    <select class="preference-select" name="bath">
-                        <option value="nice">Would Like</option>
-                        <option value="must">Must Have</option>
-                        <option value="no">Absolutely Not</option>
-                        <option value="dc">Don't Care</option>
-                    </select>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="amenity-card">
-                    <label>Pet Friendly</label>
-                    <select class="preference-select" name="pets">
-                        <option value="must">Must Have</option>
-                        <option value="no">Absolutely Not</option>
-                        <option value="nice">Would Like</option>
-                    </select>
-                </div>
-                
-                 <!-- Item 4 -->
-                <div class="amenity-card">
-                    <label>Parking Spot</label>
-                    <select class="preference-select" name="parking">
-                        <option value="nice">Would Like</option>
-                        <option value="must">Must Have</option>
-                        <option value="dc">Don't Care</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="quiz-nav">
-                <button type="submit" class="btn-primary">Next: Routine Widget</button>
-            </div>
-        </form>
+        <div class="intro-card">
+            <div class="intro-icon">🏠</div>
+            <h1>Phase 2: Living Preferences</h1>
+            <p>Great job on the personality quiz! Now let's find you a place that fits your lifestyle.</p>
+            <p>Next, we'll cover your Must-Haves for amenities, housing type, and your daily routine compatibility.</p>
+            
+            <a href="/preferences/amenities" class="btn-start">Start Preferences</a>
+        </div>
     </main>
-    
-    <script>
-        // Color coding for selects
-        document.querySelectorAll('select').forEach(sel => {
-            sel.addEventListener('change', (e) => {
-                e.target.className = 'preference-select ' + e.target.value;
-            });
-        });
-    </script>
 </body>
 </html>

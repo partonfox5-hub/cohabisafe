@@ -5,7 +5,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const { body, validationResult } = require('express-validator');
 const { Pool } = require('pg');
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
 
 dotenv.config();
 
@@ -19,11 +19,8 @@ app.use(express.static('public'));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'cohabisafe_secret_key',
   resave: false,
-  saveUninitialized: false, 
-  cookie: { 
-      secure: false, 
-      maxAge: 1000 * 60 * 60 * 24 * 7 
-  } 
+  saveUninitialized: false,
+  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 }
 }));
 
 app.set('view engine', 'ejs');
@@ -53,11 +50,11 @@ if (process.env.INSTANCE_CONNECTION_NAME || process.env.DATABASE_URL) {
 // --- ROUTES ---
 
 // 1. Homepage
-app.get('/', (req, res) => res.render('index')); 
+app.get('/', (req, res) => res.render('index'));
 
-// 2. Marketing Splash (Restored Route)
+// 2. Marketing Splash (RESTORED)
 app.get('/renter-start', (req, res) => {
-    res.render('marketing'); 
+    res.render('marketing');
 });
 
 // 3. Account Setup
@@ -135,7 +132,7 @@ app.get('/dashboard', async (req, res) => {
     if (!req.session.userId) return res.redirect('/account-setup');
     try {
         const result = await pool.query('SELECT * FROM users WHERE id = $1', [req.session.userId]);
-        const user = result.rows[0];
+        const user = result.rows[0] || { full_name: 'User' };
         res.render('dashboard', { user });
     } catch (err) {
         res.redirect('/account-setup');
@@ -163,7 +160,13 @@ app.post('/save-progress', async (req, res) => {
     }
 });
 
-// 6. Preferences
+// 6. Quiz Submit (FIXED)
+app.post('/quiz-submit', async (req, res) => {
+    // Redirect directly to amenities flow
+    res.redirect('/preferences/amenities'); 
+});
+
+// 7. Preferences
 app.get('/preferences-start', (req, res) => {
     if (!req.session.userId) return res.redirect('/account-setup');
     res.render('preferences-start');

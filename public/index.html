@@ -5,24 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CohabiSafe - The #1 Cohabitation Network</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
 <body>
     
-    <!-- Navbar -->
+    <!-- Navbar with Mobile Toggle -->
     <header class="main-header">
         <div class="nav-container">
             <a href="/" class="logo-link">
                 <img src="/images/logo.jpg" alt="CohabiSafe Logo" class="nav-logo">
             </a>
 
+            <!-- Desktop Nav -->
             <nav class="main-nav">
                 <ul class="nav-list">
-                    <li><a href="#about-us">About</a></li>
-                    <li><a href="#process">Process</a></li>
+                    <li><a href="#process">How it Works</a></li>
                     <li><a href="/renter-start">Renters</a></li>
                     <li><a href="/landlord-start">Landlords</a></li>
                 </ul>
@@ -32,11 +31,26 @@
                 <a href="/dashboard" class="btn-account">
                     <i class="fas fa-user-circle"></i> My Account
                 </a>
+                <button class="hamburger-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section with Video -->
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-btn" onclick="toggleMobileMenu()">&times;</button>
+        <ul class="mobile-nav-list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/renter-start">Renters Start Here</a></li>
+            <li><a href="/landlord-start">Landlords Start Here</a></li>
+            <li><a href="/dashboard">My Account</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section (Split Layout) -->
     <section class="hero" id="home">
         <div class="hero-container">
             
@@ -52,7 +66,7 @@
                 </div>
             </div>
 
-            <!-- Right Column: Video -->
+            <!-- Right Column: Video moved here -->
             <div class="hero-video">
                 <div class="video-frame">
                     <iframe 
@@ -68,7 +82,7 @@
         </div>
     </section>
 
-    <!-- New Section: How It Works (Replaces old video section) -->
+    <!-- New Section: How It Works -->
     <section class="section process-section" id="process">
         <div class="section-header">
             <h2>How CohabiSafe Works</h2>
@@ -94,33 +108,6 @@
         </div>
     </section>
 
-    <!-- Features Grid -->
-    <section class="section features" id="why-cohabisafe">
-        <div class="section-header">
-            <h2>Why Choose CohabiSafe?</h2>
-        </div>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="icon-circle"><i class="fas fa-user-friends"></i></div>
-                <h3>Save Money & Make Friends</h3>
-                <p>AI-powered matching speeds up your search, helping you split costs and build real connections.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="icon-circle"><i class="fas fa-hand-holding-usd"></i></div>
-                <h3>Extra Income</h3>
-                <p>Cost-effective support for independent landlords. Safely monetize your spare room.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
-                <h3>Stay Safe</h3>
-                <p>Strict identity verification and background checks. We prioritize safety over speed.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
         <div class="footer-content">
@@ -132,15 +119,7 @@
                 <h4>Links</h4>
                 <ul>
                     <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#blog">Blog</a></li>
-                    <li><a href="#contact">Support</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="/privacy">Privacy Policy</a></li>
-                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/dashboard">My Account</a></li>
                 </ul>
             </div>
         </div>
@@ -149,5 +128,11 @@
         </div>
     </footer>
 
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+            document.getElementById('mobileOverlay').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
