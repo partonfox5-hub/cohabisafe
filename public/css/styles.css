@@ -377,3 +377,45 @@ footer { background: #1a1a1a; color: #fff; padding: 4rem 1rem 1rem; }
 .quiz-nav { display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
 .error-text { color: #e74c3c; text-align: center; margin-top: 15px; font-weight: bold; }
 .conditional-text { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; margin-top: 15px; font-family: inherit; }
+
+.process-grid {
+  display: flex;
+  flex-direction: column;  /* Stack on mobile (default) */
+  gap: 2rem;  /* Space between steps on mobile */
+  align-items: center;  /* Center on mobile */
+}
+
+.process-step {
+  flex: 1;  /* Equal width on desktop */
+  text-align: center;
+  max-width: 300px;  /* Prevent overflow */
+}
+
+.step-number {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  background: #4a90e2;
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+h3, p {
+  margin: 0.5rem 0;
+}
+
+/* Desktop: Horizontal layout */
+@media (min-width: 768px) {
+  .process-grid {
+    flex-direction: row;  /* Horizontal */
+    justify-content: space-between;  /* Even spacing */
+    gap: 1rem;
+  }
+
+  .process-step {
+    flex: 1;  /* Equal flex grow */
+  }
+}

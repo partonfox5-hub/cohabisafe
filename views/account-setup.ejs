@@ -3,50 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - CohabiSafe</title>
-    <link rel="stylesheet" href="/css/styles.css"> <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-        .btn-primary { background-color: #4CAF50; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px;}
-        .error { color: red; font-size: 0.9em; }
-    </style>
+    <title>Account Management - CohabiSafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Create Your Profile</h1>
-        <p>Step <%= step %> of <%= totalSteps %>: Basic Information</p>
-    </header>
-
-    <% if (errors && errors.length > 0) { %>
-        <div class="error">
-            <ul><% errors.forEach(function(error) { %><li><%= error.msg %></li><% }); %></ul>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/"><img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo"></a>
         </div>
-    <% } %>
+    </nav>
 
-    <form action="/account-setup" method="POST">
-        <div class="form-group">
-            <label for="fullName">Full Legal Name</label>
-            <input type="text" id="fullName" name="fullName" value="<%= formData.fullName || '' %>" required>
+    <div class="auth-container">
+        
+        <!-- LOGIN COLUMN -->
+        <div class="auth-box">
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Manage your profile and matches.</p>
+            </div>
+
+            <a href="/auth/google" class="social-btn google-btn">
+                <i class="fab fa-google" style="margin-right:10px"></i> Sign in with Google
+            </a>
+            <a href="/auth/facebook" class="social-btn fb-btn">
+                <i class="fab fa-facebook-f" style="margin-right:10px"></i> Sign in with Facebook
+            </a>
+
+            <div class="divider"><span>OR</span></div>
+
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%">Sign In</button>
+            </form>
         </div>
 
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" value="<%= formData.email || '' %>" required>
+        <!-- SIGN UP COLUMN -->
+        <div class="auth-box" style="background: var(--section-grey);">
+            <div class="auth-header">
+                <h2>New Here?</h2>
+                <p>Create your profile to start matching.</p>
+            </div>
+
+            <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                <div class="error-text">
+                    <% errors.forEach(function(error) { %><%= error.msg %><br><% }); %>
+                </div>
+            <% } %>
+
+            <form action="/account-setup" method="POST">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="fullName" value="<%= typeof formData !== 'undefined' ? formData.fullName : '' %>" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" value="<%= typeof formData !== 'undefined' ? formData.email : '' %>" required>
+                </div>
+                <div class="form-group">
+                    <label>Create Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone (Optional)</label>
+                    <input type="tel" name="phone" value="<%= typeof formData !== 'undefined' ? formData.phone : '' %>">
+                </div>
+                <button type="submit" class="btn-success" style="width:100%">Create Account & Start Quiz</button>
+            </form>
         </div>
 
-        <div class="form-group">
-            <label for="phone">Phone Number (Optional)</label>
-            <input type="tel" id="phone" name="phone" value="<%= formData.phone || '' %>">
-        </div>
+    </div>
 
-        <div class="form-group">
-            <label for="password">Create Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-
-        <button type="submit" class="btn-primary">Continue to Personality Quiz &rarr;</button>
-    </form>
 </body>
 </html>

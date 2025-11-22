@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - CohabiSafe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/"><img src="/images/logo.jpg" alt="CohabiSafe Logo" class="logo"></a>
+            <div style="display:flex; align-items:center; gap:15px;">
+                <span>Welcome, <%= user.full_name %></span>
+                <a href="/logout" style="color:red; font-weight:bold;">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-header">
+        <h1>Your Matching Journey</h1>
+        <p>Complete these steps to get your Verified Badge.</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Checklist Column -->
+        <div class="checklist-card">
+            
+            <!-- Step 1: Profile -->
+            <div class="checklist-item">
+                <div class="status-icon status-done"><i class="fas fa-check"></i></div>
+                <div class="item-details">
+                    <h4>Account Created</h4>
+                    <p>Basic information secure.</p>
+                </div>
+                <span style="color:green; font-weight:bold;">Done</span>
+            </div>
+
+            <!-- Step 2: Personality Quiz -->
+            <div class="checklist-item">
+                <% if (user.quiz_answers && Object.keys(user.quiz_answers).length > 5) { %>
+                    <div class="status-icon status-done"><i class="fas fa-check"></i></div>
+                    <div class="item-details">
+                        <h4>Personality Quiz</h4>
+                        <p>OCEAN Profile Generated.</p>
+                    </div>
+                    <a href="/quiz/personality" class="btn-edit">Re-take Quiz</a>
+                <% } else { %>
+                    <div class="status-icon status-pending"><i class="fas fa-circle"></i></div>
+                    <div class="item-details">
+                        <h4>Personality Quiz</h4>
+                        <p>Define your living style.</p>
+                    </div>
+                    <a href="/quiz/personality" class="item-action btn-resume">Start Quiz</a>
+                <% } %>
+            </div>
+
+            <!-- Step 3: Preferences -->
+            <div class="checklist-item">
+                <!-- Logic checks if user has preferences saved (dummy check for now) -->
+                <% if (user.status === 'active') { %> 
+                    <div class="status-icon status-done"><i class="fas fa-check"></i></div>
+                    <div class="item-details">
+                        <h4>Living Preferences</h4>
+                        <p>Amenities and Routine set.</p>
+                    </div>
+                    <a href="/preferences-start" class="btn-edit">Edit</a>
+                <% } else { %>
+                    <div class="status-icon status-pending"><i class="fas fa-circle"></i></div>
+                    <div class="item-details">
+                        <h4>Living Preferences</h4>
+                        <p>Amenities, Routine, and Dealbreakers.</p>
+                    </div>
+                    <% if (user.quiz_answers) { %>
+                        <a href="/preferences-start" class="item-action btn-resume">Continue</a>
+                    <% } else { %>
+                        <span style="color:#ccc; font-size:0.9rem;">Locked</span>
+                    <% } %>
+                <% } %>
+            </div>
+
+            <!-- Step 4: Verification -->
+            <div class="checklist-item">
+                <div class="status-icon status-locked"><i class="fas fa-lock"></i></div>
+                <div class="item-details">
+                    <h4>ID Verification</h4>
+                    <p>Unlock matches by verifying ID.</p>
+                </div>
+                <a href="/background-gather" class="item-action btn-resume">Verify Now</a>
+            </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="question-card" style="text-align:center;">
+                <h3>Your Badge Status</h3>
+                <div style="font-size:3rem; margin:10px 0; color:#ccc;"><i class="fas fa-shield-alt"></i></div>
+                <p>Unverified</p>
+                <p style="font-size:0.9rem; color:#666;">Complete all steps to get verified.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
